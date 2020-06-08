@@ -1,0 +1,22 @@
+{
+  "email": "Email",
+  "password": "Password",
+  "login": "Login",
+  "home": "Home",
+  "message": "Message",
+  "notification": "Notification",
+  "profile": "Profile",
+  "signUp": "Sign Up",
+  "create_new_account": "Create New Account",
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "phone_number": "Phone Number",
+  "terms_of_service": "Terms of service",
+  "privacy_policy": "Privacy Policy",
+  "help": "Help",
+  "take_photo": "Take photo",
+  "choose_from_library": "Choose from library",
+  "field_is_require": "This field is required.",
+  "other": "Other",
+  "no_avatar": "Register your avatar"
+}
