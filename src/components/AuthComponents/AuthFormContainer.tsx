@@ -8,7 +8,7 @@ interface IAuthForm {
   children: React.ReactNode;
 }
 
-const AuthFormContainer: React.FC<IAuthForm> = ({ children }) => {
+const AuthFormContainer: React.FC<IAuthForm> = ({ children }: IAuthForm) => {
   return (
     <View style={styles.container}>
       <View style={styles.mainContent}>{children}</View>
