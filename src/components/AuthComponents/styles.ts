@@ -10,7 +10,7 @@ export default StyleSheet.create({
     backgroundColor: theme.colors.white,
     borderTopColor: theme.colors.brightOrange,
     borderTopWidth: getSize.h(4),
-    paddingHorizontal: getSize.h(16),
+    paddingHorizontal: getSize.w(16),
     paddingTop: getSize.h(64),
     paddingBottom: getSize.h(32),
   },
