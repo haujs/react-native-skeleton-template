@@ -1,4 +1,4 @@
-package c2c.techhub.youragent;
+package c2c.techhub.skeleton;
 
 import android.os.Bundle;
 
@@ -14,7 +14,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "YourAgent";
+        return "Skeleton";
     }
 
     @Override
