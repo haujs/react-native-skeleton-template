@@ -53,7 +53,7 @@ const DateTimePicker: React.FC<ITextInput> = ({
   maximumDate,
   minimumDate,
   ...props
-}) => {
+}: ITextInput) => {
   const { colors } = useCustomTheme();
   const [isShow, setIsShow] = useState(false);
   const dateValue = (formikProps.values as any)[formikKey];
