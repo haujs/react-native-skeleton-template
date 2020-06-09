@@ -9,7 +9,7 @@
 
 # Add any project specific keep options here:
 
--keep class c2c.techhub.your-agent.BuildConfig { *; }
+-keep class c2c.techhub.skeleton.BuildConfig { *; }
 
 # FastImage
 

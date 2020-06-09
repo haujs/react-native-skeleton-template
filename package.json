@@ -15,7 +15,7 @@
     "android:install": "cd android && ./gradlew assembleRelease && ./gradlew installRelease",
     "android:menu": "adb shell input keyevent 82",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
     "@react-native-community/async-storage": "1.11.0",
@@ -61,6 +61,7 @@
   "devDependencies": {
     "@babel/core": "7.10.2",
     "@babel/runtime": "7.10.2",
+    "babel-plugin-transform-remove-console": "6.9.4",
     "@react-native-community/eslint-config": "1.1.0",
     "@types/jest": "25.2.3",
     "@types/react-native": "0.62.13",
