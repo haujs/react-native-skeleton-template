@@ -79,6 +79,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
+    devDisabledInStaging: true,
 ]
 
 project.ext.envConfigFiles = [
@@ -90,6 +91,7 @@ project.ext.envConfigFiles = [
 apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -178,10 +180,12 @@ android {
 
         staging {
             initWith release
+            matchingFallbacks = ['release']
         }
 
         production {
             initWith release
+            matchingFallbacks = ['release']
         }
     }
 
