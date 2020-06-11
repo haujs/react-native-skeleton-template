@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef, isMountedRef } from './RootNavigation';
 import { useSelector, TypedUseSelectorHook } from 'react-redux';
-import _ from 'lodash';
-import theme from '@theme';
 
 import { AuthStack } from './AuthStack';
 import { View, StyleSheet } from 'react-native';
@@ -39,7 +37,7 @@ const MainContainer = () => {
   const { isAuth } = typedUseSelector((state) => state.auth);
 
   return (
-    <NavigationContainer ref={navigationRef} theme={theme}>
+    <NavigationContainer ref={navigationRef}>
       <View style={styles.container}>{!isAuth && <AuthStack />}</View>
     </NavigationContainer>
   );

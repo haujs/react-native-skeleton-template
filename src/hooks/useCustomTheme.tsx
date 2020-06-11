@@ -1,8 +1,6 @@
-import { useTheme } from '@react-navigation/native';
-import { ITheme } from '@theme/index';
+import theme from '@theme/index';
 
 const useCustomTheme = () => {
-  const theme = useTheme() as ITheme;
   return theme;
 };
 
