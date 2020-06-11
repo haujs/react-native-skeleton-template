@@ -1,4 +1,4 @@
-export interface ITheme {
+interface ITheme {
   colors: {
     primary: string;
     background: string;
