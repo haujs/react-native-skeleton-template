@@ -13,6 +13,35 @@ const Helper = {
     bottom: hitSlop,
     top: hitSlop,
   }),
+  /**
+   * Calculate Lighter or Darker Hex Colors
+   *
+   * ```
+   * Helper.colorLuminance("#69c", 0);		// returns "#6699cc"
+   * Helper.colorLuminance("6699CC", 0.2);	// "#7ab8f5" - 20% lighter
+   * Helper.colorLuminance("69C", -0.5);	// "#334d66" - 50% darker
+   * Helper.colorLuminance("000", 1);		// "#000000" - true black cannot be made lighter!
+   * ```
+   */
+  colorLuminance: (hex: string, lum: number): string => {
+    // validate hex string
+    hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    if (hex.length < 6) {
+      hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+    }
+    lum = lum || 0;
+    // convert to decimal and change luminosity
+    let rgb = '#',
+      c,
+      i;
+    for (i = 0; i < 3; i++) {
+      c = parseInt(hex.substr(i * 2, 2), 16);
+      c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
+      rgb += ('00' + c).substr(c.length);
+    }
+
+    return rgb;
+  },
 };
 
 export default Helper;

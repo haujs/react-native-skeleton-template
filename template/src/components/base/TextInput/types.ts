@@ -106,4 +106,11 @@ export interface InputProps extends TextInputProps {
    * Action when press right icon
    */
   onRightIconPress?: (e: GestureResponderEvent) => void;
+
+  /**
+   * Change input border color when focus
+   */
+  hideFocus?: boolean;
+
+  ref?: any;
 }
