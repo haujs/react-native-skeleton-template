@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Configs from './configs';
+import Configs from 'react-native-config';
 import {SESSION_TOKEN} from './constants';
 import AsyncStorage from '@react-native-community/async-storage';
 

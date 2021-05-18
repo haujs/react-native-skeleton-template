@@ -1,99 +1,97 @@
-import {getIconComponent} from '@assets/icons';
 import {useTheme} from '@theme';
 import React from 'react';
 import {
   ActivityIndicator,
+  Platform,
   StyleSheet,
-  TouchableOpacity,
-  ViewStyle,
+  TouchableHighlight,
+  TouchableNativeFeedback,
 } from 'react-native';
+import IconComponent from '../Icon';
 import Block from '../Block';
 import Text from '../Text';
-import {isIcon, isString} from '../utils';
+import {isIcon} from '../utils';
 import {ButtonProps} from './types';
 
 const Button: React.FC<ButtonProps> = props => {
   const {Colors} = useTheme();
+
   const {
+    type = 'primary',
     title,
+    ButtonComponent = Platform.select<typeof React.Component>({
+      android: TouchableNativeFeedback,
+      default: TouchableHighlight,
+    }),
+    containerStyle,
     style,
-    loading,
-    icon,
-    iconContainerStyle,
-    type,
     titleStyle,
-    disabled,
+    loading,
+    leftIcon,
+    leftIconContainerStyle,
+    rightIcon,
+    rightIconContainerStyle,
     ...rest
   } = props;
 
-  const initContainerStyle = StyleSheet.flatten([
-    {
-      backgroundColor: Colors.primary,
-      paddingVertical: 12,
-      paddingHorizontal: 16,
-      alignItems: 'center' as ViewStyle['alignItems'],
-    },
-    (loading || disabled) && {opacity: 0.5},
-    type === 'outline' && {
-      backgroundColor: 'transparent',
-      borderColor: Colors.primary,
-      borderWidth: StyleSheet.hairlineWidth,
-    },
-    type === 'ghost' && {
-      backgroundColor: 'transparent',
-    },
-    style,
-  ]);
+  const _renderIcon = (isRight?: boolean) => {
+    const [icon, iconStyle] = isRight
+      ? [rightIcon, rightIconContainerStyle]
+      : [leftIcon, leftIconContainerStyle];
 
-  const _renderIcon = () => {
     if (isIcon(icon)) {
-      const IconComponent = getIconComponent(icon.type);
       return (
-        <Block margin={{right: 6}} style={iconContainerStyle}>
-          <IconComponent
-            name={icon.name}
-            size={icon.size || 21}
-            color={
-              icon.color
-                ? icon.color
-                : type === 'outline' || type === 'ghost'
-                ? Colors.primary
-                : 'white'
-            }
-          />
-        </Block>
+        <IconComponent
+          style={StyleSheet.flatten([
+            {paddingRight: isRight ? 0 : 8, paddingLeft: isRight ? 8 : 0},
+            iconStyle,
+          ])}
+          name={icon.name}
+          size={icon.size || 24}
+          color={icon.color || (type === 'primary' ? 'white' : 'primary')}
+          type={icon.type}
+        />
       );
     }
+
     return icon;
   };
 
   return (
-    <TouchableOpacity
-      {...rest}
-      disabled={loading || disabled}
-      style={initContainerStyle}>
-      <Block row align="center">
-        {loading && (
-          <Block margin={{right: 10}}>
-            <ActivityIndicator color="white" />
-          </Block>
-        )}
-        {!loading && icon && _renderIcon()}
-        {isString(title) ? (
+    <Block style={containerStyle}>
+      <ButtonComponent {...rest} disabled={loading || props.disabled}>
+        <Block
+          row
+          backgroundColor={type === 'primary' ? 'primary' : 'white'}
+          border={{
+            width: 1,
+            color: type === 'text' ? 'transparent' : Colors.primary,
+          }}
+          opacity={loading || props.disabled ? 0.5 : 1}
+          padding={{horizontal: 16, vertical: 12}}
+          align="center"
+          justify="center"
+          style={style}>
+          {leftIcon && _renderIcon()}
+          {loading && (
+            <Block margin={{right: 8}}>
+              <ActivityIndicator
+                color={type === 'primary' ? 'white' : Colors.primary}
+                size="small"
+              />
+            </Block>
+          )}
           <Text
-            color={
-              type === 'outline' || type === 'ghost' ? Colors.primary : 'white'
-            }
-            size={16}
             fontType="bold"
+            color={type === 'primary' ? 'white' : 'primary'}
+            size={16}
             style={titleStyle}>
             {title}
           </Text>
-        ) : (
-          title
-        )}
-      </Block>
-    </TouchableOpacity>
+          {rightIcon && _renderIcon(true)}
+        </Block>
+      </ButtonComponent>
+    </Block>
   );
 };
 

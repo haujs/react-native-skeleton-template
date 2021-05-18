@@ -1,22 +1,24 @@
-import {getIconComponent} from '@assets/icons';
 import {useTheme} from '@theme';
-import React, {useState} from 'react';
+import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import {
   NativeSyntheticEvent,
   StyleSheet,
   TextInput as NativeInput,
   TextInputFocusEventData,
+  TouchableWithoutFeedback,
+  ViewStyle,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Block from '../Block';
+import IconComponent from '../Icon';
 import Text from '../Text';
 import {isIcon, isString} from '../utils';
-import Icon from './Icon';
 import {InputProps} from './types';
 
 const MIN_HEIGHT_INPUT = 36;
 
-const TextInput: React.FC<InputProps> = props => {
+const TextInput = forwardRef<any, InputProps>((props, ref) => {
+  const inputRef = useRef<NativeInput>(null);
   const {Colors, Fonts} = useTheme();
 
   const {
@@ -42,10 +44,17 @@ const TextInput: React.FC<InputProps> = props => {
     secureTextEntry,
     onFocus,
     onBlur,
+    hideFocus,
     ...rest
   } = props;
 
   const [isFocused, setIsFocused] = useState(false);
+
+  useEffect(() => {
+    if (ref) {
+      (ref as any).current = inputRef.current;
+    }
+  }, [ref]);
 
   const _renderLabel = () => {
     if (isString(label)) {
@@ -86,6 +95,8 @@ const TextInput: React.FC<InputProps> = props => {
       fontSize: size,
       minHeight: MIN_HEIGHT_INPUT,
       flex: 1,
+      paddingLeft: leftIcon ? 0 : 8,
+      paddingRight: rightIcon || props.secureTextEntry ? 0 : 8,
     },
     disabled && {opacity: 0.5},
     disabled && disabledInputStyle,
@@ -97,60 +108,49 @@ const TextInput: React.FC<InputProps> = props => {
   const _renderIcon = (isRight?: boolean) => {
     const defaultIconStyle = {
       height: MIN_HEIGHT_INPUT,
-      paddingRight: isRight ? 0 : 8,
-      paddingLeft: isRight ? 8 : 0,
+      paddingHorizontal: 8,
       opacity: disabled ? 0.5 : 1,
+      justifyContent: 'center' as ViewStyle['justifyContent'],
     };
 
     if (secureTextEntry && isRight && !rightIcon) {
-      const IconComponent = getIconComponent('materialCommunityIcons');
       return (
-        <Icon
+        <IconComponent
+          style={defaultIconStyle}
+          size={size}
+          color={Colors.secondaryText}
+          name={secureEye ? 'eye' : 'eye-off'}
+          type="materialCommunityIcons"
           onPress={() => setSecureEye(prev => !prev)}
-          containerStyle={defaultIconStyle}
-          IconComponent={
-            <IconComponent
-              name={secureEye ? 'eye' : 'eye-off'}
-              size={size}
-              color={Colors.secondaryText}
-            />
-          }
         />
       );
     }
+
     const [icon, iconStyle, onPressIcon] = isRight
       ? [rightIcon, rightIconContainerStyle, onRightIconPress]
       : [leftIcon, leftIconContainerStyle, onLeftIconPress];
 
     if (isIcon(icon)) {
-      const IconComponent = getIconComponent(icon.type);
       return (
-        <Icon
+        <IconComponent
           onPress={onPressIcon}
-          containerStyle={[defaultIconStyle, StyleSheet.flatten(iconStyle)]}
-          IconComponent={
-            <IconComponent
-              name={icon.name}
-              size={icon.size || size}
-              color={icon.color || Colors.secondaryText}
-            />
-          }
+          style={StyleSheet.flatten([defaultIconStyle, iconStyle])}
+          name={icon.name}
+          size={icon.size || size}
+          color={icon.color || Colors.secondaryText}
+          type={icon.type}
         />
       );
     }
 
-    return (
-      <Icon
-        containerStyle={[defaultIconStyle, StyleSheet.flatten(iconStyle)]}
-        IconComponent={icon}
-      />
-    );
+    return icon;
   };
 
   const _onFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
     setIsFocused(true);
     onFocus && onFocus(e);
   };
+
   const _onBlur = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
     setIsFocused(false);
     onBlur && onBlur(e);
@@ -159,33 +159,38 @@ const TextInput: React.FC<InputProps> = props => {
   return (
     <Block style={containerStyle}>
       {!!label && _renderLabel()}
-      <Block
-        row
-        align="center"
-        backgroundColor="inputBG"
-        padding={{horizontal: 8}}
-        border={{
-          width: StyleSheet.hairlineWidth,
-          color: isFocused ? Colors.primary : 'transparent',
-        }}
-        style={inputContainerStyle}>
-        {leftIcon && _renderIcon()}
-        <NativeInput
-          underlineColorAndroid="transparent"
-          style={inputInitStyle}
-          autoCorrect={false}
-          placeholderTextColor={Colors.secondaryText}
-          editable={!disabled}
-          {...rest}
-          onFocus={_onFocus}
-          onBlur={_onBlur}
-          secureTextEntry={props.secureTextEntry && secureEye}
-        />
-        {(rightIcon || props.secureTextEntry) && _renderIcon(true)}
-      </Block>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          inputRef.current?.focus();
+        }}>
+        <Block
+          row
+          align="center"
+          backgroundColor="inputBG"
+          border={{
+            width: StyleSheet.hairlineWidth,
+            color: !hideFocus && isFocused ? Colors.primary : 'transparent',
+          }}
+          style={inputContainerStyle}>
+          {leftIcon && _renderIcon()}
+          <NativeInput
+            underlineColorAndroid="transparent"
+            style={inputInitStyle}
+            autoCorrect={false}
+            placeholderTextColor={Colors.secondaryText}
+            editable={!disabled}
+            {...rest}
+            onFocus={_onFocus}
+            onBlur={_onBlur}
+            secureTextEntry={props.secureTextEntry && secureEye}
+            ref={inputRef}
+          />
+          {(rightIcon || props.secureTextEntry) && _renderIcon(true)}
+        </Block>
+      </TouchableWithoutFeedback>
       {showError && error && _renderError()}
     </Block>
   );
-};
+});
 
 export default TextInput;
