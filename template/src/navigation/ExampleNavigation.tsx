@@ -3,6 +3,7 @@ import {
   ExampleButton,
   ExampleIcon,
   ExampleInput,
+  ExampleRadio,
   ExampleScreen,
   ExampleText,
 } from '@screens/Example';
@@ -19,6 +20,7 @@ const ExampleNavigation = () => {
       <ExampleStack.Screen name="ExampleButton" component={ExampleButton} />
       <ExampleStack.Screen name="ExampleIcon" component={ExampleIcon} />
       <ExampleStack.Screen name="ExampleInput" component={ExampleInput} />
+      <ExampleStack.Screen name="ExampleRadio" component={ExampleRadio} />
     </ExampleStack.Navigator>
   );
 };

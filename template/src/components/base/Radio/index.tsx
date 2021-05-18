@@ -2,9 +2,10 @@ import {useTheme} from '@theme';
 import React, {Children} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import IconComponent from '../Icon';
 import Block from '../Block';
 import Text from '../Text';
-import {isString} from '../utils';
+import {isIcon, isString} from '../utils';
 import {RadioGroupProps, RadioProps} from './types';
 
 const Radio: React.FC<RadioProps> = props => {
@@ -14,10 +15,12 @@ const Radio: React.FC<RadioProps> = props => {
     onChange,
     disabled,
     children,
-    color,
+    color = 'primaryText',
     containerStyle,
     type,
-    position,
+    position = 'left',
+    radioIcon,
+    radioIconContainerStyle,
   } = props;
 
   const containerStyles = StyleSheet.flatten([
@@ -26,8 +29,38 @@ const Radio: React.FC<RadioProps> = props => {
     disabled && {opacity: 0.5},
   ]);
 
-  const radioIcon = checked ? 'radio-button-checked' : 'radio-button-unchecked';
-  const checkBoxIcon = checked ? 'check-box' : 'check-box-outline-blank';
+  const _renderIcon = () => {
+    if (!radioIcon) {
+      const defaultRadioIcon = checked
+        ? 'radio-button-checked'
+        : 'radio-button-unchecked';
+      const defaultcheckBoxIcon = checked
+        ? 'check-box'
+        : 'check-box-outline-blank';
+
+      return (
+        <MaterialIcons
+          name={type === 'checkbox' ? defaultcheckBoxIcon : defaultRadioIcon}
+          size={24}
+          color={Colors[color] || color}
+        />
+      );
+    }
+
+    if (isIcon(radioIcon)) {
+      return (
+        <IconComponent
+          style={StyleSheet.flatten(radioIconContainerStyle)}
+          name={radioIcon.name}
+          size={radioIcon.size || 24}
+          color={radioIcon.color ? radioIcon.color : Colors[color] || color}
+          type={radioIcon.type}
+        />
+      );
+    }
+
+    return radioIcon;
+  };
 
   return (
     <TouchableOpacity
@@ -35,14 +68,8 @@ const Radio: React.FC<RadioProps> = props => {
       disabled={disabled}
       onPress={() => onChange && onChange(!checked)}
       style={containerStyles}>
-      <Block row align="center" opacity={disabled ? 0.5 : 1}>
-        {position !== 'right' && (
-          <MaterialIcons
-            name={type === 'checkbox' ? checkBoxIcon : radioIcon}
-            size={21}
-            color={color ? Colors[color] || color : Colors.primaryText}
-          />
-        )}
+      <Block row align="center" opacity={disabled ? 0.6 : 1}>
+        {position !== 'right' && _renderIcon()}
         {isString(children) ? (
           <Text
             padding={{left: 4}}
@@ -52,13 +79,7 @@ const Radio: React.FC<RadioProps> = props => {
         ) : (
           children
         )}
-        {position === 'right' && (
-          <MaterialIcons
-            name={type === 'checkbox' ? checkBoxIcon : radioIcon}
-            size={21}
-            color={color ? Colors[color] || color : Colors.primaryText}
-          />
-        )}
+        {position === 'right' && _renderIcon()}
       </Block>
     </TouchableOpacity>
   );

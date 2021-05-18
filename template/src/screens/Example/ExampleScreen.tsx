@@ -20,6 +20,10 @@ const exampleData = [
     title: 'Input',
     screenName: 'ExampleInput',
   },
+  {
+    title: 'Radio',
+    screenName: 'ExampleRadio',
+  },
 ];
 
 const ExampleScreen = () => {
