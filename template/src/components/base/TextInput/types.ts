@@ -1,13 +1,13 @@
 import {
   GestureResponderEvent,
   StyleProp,
-  TextInputProps,
   TextStyle,
   ViewStyle,
 } from 'react-native';
+import {TextInputMaskProps} from 'react-native-text-input-mask';
 import {IconComponent} from '../utils';
 
-export interface InputProps extends TextInputProps {
+export interface InputProps extends TextInputMaskProps {
   /**
    * Styling for view containing label, input and error message
    */

@@ -14,6 +14,7 @@ import IconComponent from '../Icon';
 import Text from '../Text';
 import {isIcon, isString} from '../utils';
 import {InputProps} from './types';
+import TextInputMask from 'react-native-text-input-mask';
 
 const MIN_HEIGHT_INPUT = 36;
 
@@ -45,6 +46,7 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
     onFocus,
     onBlur,
     hideFocus,
+    numberOfLines,
     ...rest
   } = props;
 
@@ -100,6 +102,9 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
     },
     disabled && {opacity: 0.5},
     disabled && disabledInputStyle,
+    !!numberOfLines && {
+      height: size * 1.6 * numberOfLines,
+    },
     style,
   ]);
 
@@ -107,7 +112,7 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
 
   const _renderIcon = (isRight?: boolean) => {
     const defaultIconStyle = {
-      height: MIN_HEIGHT_INPUT,
+      minHeight: MIN_HEIGHT_INPUT,
       paddingHorizontal: 8,
       opacity: disabled ? 0.5 : 1,
       justifyContent: 'center' as ViewStyle['justifyContent'],
@@ -156,6 +161,25 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
     onBlur && onBlur(e);
   };
 
+  const _renderInput = () => {
+    return (
+      <TextInputMask
+        underlineColorAndroid="transparent"
+        style={inputInitStyle}
+        autoCorrect={false}
+        placeholderTextColor={Colors.secondaryText}
+        editable={!disabled}
+        {...rest}
+        onFocus={_onFocus}
+        onBlur={_onBlur}
+        secureTextEntry={
+          rightIcon ? props.secureTextEntry : props.secureTextEntry && secureEye
+        }
+        ref={inputRef}
+      />
+    );
+  };
+
   return (
     <Block style={containerStyle}>
       {!!label && _renderLabel()}
@@ -173,18 +197,7 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
           }}
           style={inputContainerStyle}>
           {leftIcon && _renderIcon()}
-          <NativeInput
-            underlineColorAndroid="transparent"
-            style={inputInitStyle}
-            autoCorrect={false}
-            placeholderTextColor={Colors.secondaryText}
-            editable={!disabled}
-            {...rest}
-            onFocus={_onFocus}
-            onBlur={_onBlur}
-            secureTextEntry={props.secureTextEntry && secureEye}
-            ref={inputRef}
-          />
+          {_renderInput()}
           {(rightIcon || props.secureTextEntry) && _renderIcon(true)}
         </Block>
       </TouchableWithoutFeedback>

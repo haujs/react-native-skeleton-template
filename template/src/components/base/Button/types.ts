@@ -49,9 +49,11 @@ export interface ButtonProps extends TouchableHighlightProps {
   rightIconContainerStyle?: StyleProp<ViewStyle>;
 
   /**
-   * Custom button component
+   * Button Component
    *
-   * Default: TouchableHighlight
+   * Default:
+   * - Android: TouchableNativeFeedback
+   * - Other: TouchableHighlight
    */
   ButtonComponent?: typeof Component;
 
