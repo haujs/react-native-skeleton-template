@@ -1,7 +1,7 @@
 import {useTheme} from '@theme';
 import React, {Children} from 'react';
 import {StyleSheet, Text as ReactNativeText} from 'react-native';
-import {createDefaultStyle, handleGutter, isString} from '../utils';
+import {createDefaultStyle, handleGutter, isNumber, isString} from '../utils';
 import {CommonTextProps} from './types';
 
 const Text = (props: CommonTextProps) => {
@@ -38,10 +38,11 @@ const Text = (props: CommonTextProps) => {
 
   const _getChildren = (childrenProps: CommonTextProps) => {
     return Children.map(childrenProps.children, child => {
-      if (!child) {
+      if (!isNumber(child) && !child) {
         return;
       }
-      if (!isString(child)) {
+
+      if (!isString(child) && !isNumber(child)) {
         if (child.type.name === 'Text') {
           return (
             <ReactNativeText

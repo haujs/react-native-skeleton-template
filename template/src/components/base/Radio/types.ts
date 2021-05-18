@@ -1,12 +1,45 @@
 import {StyleProp, ViewStyle} from 'react-native';
+import {IconComponent} from '../utils';
 
 export interface RadioProps {
-  checked?: any;
-  onChange?: (checked: any) => void;
+  /**
+   * Whether component is checked.
+   *
+   * **Use this prop when not use radio group**
+   */
+  checked?: boolean;
+
+  /**
+   * Called when radio should switch it's value.
+   *
+   * **Use this prop when not use RadioGroup component**
+   */
+  onChange?: (checked: boolean) => void;
+
+  /**
+   * Radio will be disabled when disabled is **true**
+   *
+   * **Use this prop when not use RadioGroup component**
+   */
   disabled?: boolean;
-  children?: React.ReactNode;
+
+  /**
+   * Color for radio icon and label
+   *
+   * Use when icon is default and children is **string**
+   */
   color?: string;
+
+  /**
+   * Value of radio item
+   *
+   * **Use this prop with RadioGroup**
+   */
   value?: string | number;
+
+  /**
+   * Styling for view containing radio item
+   */
   containerStyle?: StyleProp<ViewStyle>;
 
   /**
@@ -18,11 +51,35 @@ export interface RadioProps {
    * Position of icon (default: left)
    */
   position?: 'left' | 'right';
+
+  /**
+   * Custom radio icon
+   */
+  radioIcon?: IconComponent | React.ReactNode;
+
+  /**
+   * Styling for view containing the radio icon
+   */
+  radioIconContainerStyle?: StyleProp<ViewStyle>;
+
+  children?: React.ReactNode;
 }
 
 export interface RadioGroupProps {
-  selected: any;
-  onSelected?: (value: any) => void;
-  children?: any;
+  /**
+   * Value of currently checked radio
+   */
+  selected: string | number;
+
+  /**
+   * Called when one of the radios is pressed.
+   */
+  onSelected?: (value: string | number) => void;
+
+  /**
+   * Styling for view containing
+   */
   containerStyle?: StyleProp<ViewStyle>;
+
+  children?: any;
 }
