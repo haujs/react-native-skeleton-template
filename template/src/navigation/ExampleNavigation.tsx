@@ -3,6 +3,7 @@ import {
   ExampleButton,
   ExampleIcon,
   ExampleInput,
+  ExampleModal,
   ExampleRadio,
   ExampleScreen,
   ExampleText,
@@ -21,6 +22,7 @@ const ExampleNavigation = () => {
       <ExampleStack.Screen name="ExampleIcon" component={ExampleIcon} />
       <ExampleStack.Screen name="ExampleInput" component={ExampleInput} />
       <ExampleStack.Screen name="ExampleRadio" component={ExampleRadio} />
+      <ExampleStack.Screen name="ExampleModal" component={ExampleModal} />
     </ExampleStack.Navigator>
   );
 };

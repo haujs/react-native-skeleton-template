@@ -4,3 +4,4 @@ export {default as ExampleButton} from './ExampleButton';
 export {default as ExampleIcon} from './ExampleIcon';
 export {default as ExampleInput} from './ExampleInput';
 export {default as ExampleRadio} from './ExampleRadio';
+export {default as ExampleModal} from './ExampleModal';

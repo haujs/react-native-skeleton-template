@@ -12,19 +12,20 @@ import Block from '../Block';
 import Text from '../Text';
 import {isIcon} from '../utils';
 import {ButtonProps} from './types';
+import Helper from '@utils/helpers';
 
 const Button: React.FC<ButtonProps> = props => {
   const {Colors} = useTheme();
-
   const {
     type = 'primary',
     title,
+    containerStyle,
+    style,
+    underlayColor,
     ButtonComponent = Platform.select<typeof React.Component>({
       android: TouchableNativeFeedback,
       default: TouchableHighlight,
     }),
-    containerStyle,
-    style,
     titleStyle,
     loading,
     leftIcon,
@@ -43,7 +44,10 @@ const Button: React.FC<ButtonProps> = props => {
       return (
         <IconComponent
           style={StyleSheet.flatten([
-            {paddingRight: isRight ? 0 : 8, paddingLeft: isRight ? 8 : 0},
+            {
+              paddingRight: isRight || !title ? 0 : 8,
+              paddingLeft: isRight ? 8 : 0,
+            },
             iconStyle,
           ])}
           name={icon.name}
@@ -59,10 +63,17 @@ const Button: React.FC<ButtonProps> = props => {
 
   return (
     <Block style={containerStyle}>
-      <ButtonComponent {...rest} disabled={loading || props.disabled}>
+      <ButtonComponent
+        {...rest}
+        underlayColor={
+          StyleSheet.flatten(style)?.backgroundColor
+            ? underlayColor
+            : Helper.colorLuminance('#FFF', -0.1)
+        }
+        disabled={loading || props.disabled}>
         <Block
           row
-          backgroundColor={type === 'primary' ? 'primary' : 'white'}
+          backgroundColor={type === 'primary' ? 'primary' : 'transparent'}
           border={{
             width: 1,
             color: type === 'text' ? 'transparent' : Colors.primary,
@@ -81,13 +92,15 @@ const Button: React.FC<ButtonProps> = props => {
               />
             </Block>
           )}
-          <Text
-            fontType="bold"
-            color={type === 'primary' ? 'white' : 'primary'}
-            size={16}
-            style={titleStyle}>
-            {title}
-          </Text>
+          {title && (
+            <Text
+              fontType="bold"
+              color={type === 'primary' ? 'white' : 'primary'}
+              size={16}
+              style={titleStyle}>
+              {title}
+            </Text>
+          )}
           {rightIcon && _renderIcon(true)}
         </Block>
       </ButtonComponent>

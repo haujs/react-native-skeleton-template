@@ -8,35 +8,39 @@ const ExampleInput = () => {
       <ScrollView>
         <Block padding={16}>
           <Block margin={{bottom: 16}}>
-            <Text size={16} margin={{bottom: 12}} fontType="bold">
-              Input Simple
-            </Text>
-            <TextInput placeholder="Place your Text" />
+            <TextInput label="Input Simple" placeholder="Place your Text" />
           </Block>
           <Block margin={{bottom: 16}}>
-            <Text size={16} margin={{bottom: 12}} fontType="bold">
-              Input with left icon
-            </Text>
             <TextInput
+              label="Input with error"
+              required
+              placeholder="Place your Text"
+              leftIcon={{type: 'octicons', name: 'home'}}
+              showError
+              error="Field is required"
+            />
+          </Block>
+          <Block margin={{bottom: 16}}>
+            <TextInput
+              label="Input with left icon"
               placeholder="Place your Text"
               leftIcon={{type: 'octicons', name: 'home'}}
             />
           </Block>
           <Block margin={{bottom: 16}}>
-            <Text size={16} margin={{bottom: 12}} fontType="bold">
-              Input with right icon
-            </Text>
             <TextInput
+              label="Input with right icon"
               placeholder="Place your Text"
               rightIcon={{type: 'octicons', name: 'home'}}
               onRightIconPress={() => console.log('onRightIconPress')}
             />
           </Block>
           <Block margin={{bottom: 16}}>
-            <Text size={16} margin={{bottom: 12}} fontType="bold">
-              Input password
-            </Text>
-            <TextInput placeholder="Place your Text" secureTextEntry />
+            <TextInput
+              label="Input password"
+              placeholder="Place your Text"
+              secureTextEntry
+            />
           </Block>
           <Block margin={{bottom: 16}}>
             <Text size={16} fontType="bold">

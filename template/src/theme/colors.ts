@@ -7,4 +7,6 @@ export const Colors: ThemeColors = {
   error: '#f02849',
   inputBG: '#F0F2F5',
   primary: '#1877f2',
+  background: '#FAFBFC',
+  border: '#e4e6eb',
 };

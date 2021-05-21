@@ -5,7 +5,7 @@ import {
   TouchableHighlightProps,
   ViewStyle,
 } from 'react-native';
-import {IconComponent} from '../utils';
+import {IconComponentProps} from '../utils';
 
 export interface ButtonProps extends TouchableHighlightProps {
   /**
@@ -31,7 +31,7 @@ export interface ButtonProps extends TouchableHighlightProps {
   /**
    * Left icon
    */
-  leftIcon?: IconComponent | React.ReactNode;
+  leftIcon?: IconComponentProps | React.ReactNode;
 
   /**
    * Styling for view containing the left icon
@@ -41,7 +41,7 @@ export interface ButtonProps extends TouchableHighlightProps {
   /**
    * Right icon
    */
-  rightIcon?: IconComponent | React.ReactNode;
+  rightIcon?: IconComponentProps | React.ReactNode;
 
   /**
    * Styling for view containing the right icon

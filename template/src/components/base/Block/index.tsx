@@ -26,6 +26,7 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
     padding,
     margin,
     shadow,
+    overflow,
     ...rest
   } = props;
 
@@ -44,6 +45,7 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
     bottom && {bottom},
     left && {left},
     right && {right},
+    overflow && {overflow},
     padding && handleGutter('padding', padding),
     margin && handleGutter('margin', margin),
     handleInset(props, safeArea, padding),
@@ -51,11 +53,11 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        height: 2,
+        height: 1,
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
+      shadowOpacity: 0.1,
+      shadowRadius: 1,
+      elevation: 2,
     },
     style,
   ]);
