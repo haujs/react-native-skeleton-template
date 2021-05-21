@@ -126,12 +126,12 @@ export const isString = (x: any): x is string => typeof x === 'string';
 export const isNumber = (x: any): x is number => typeof x === 'number';
 
 export const isIcon = (
-  icon: IconComponent | React.ReactNode,
-): icon is IconComponent => {
-  return (icon as IconComponent).name !== undefined;
+  icon: IconComponentProps | React.ReactNode,
+): icon is IconComponentProps => {
+  return (icon as IconComponentProps).name !== undefined;
 };
 
-export interface IconComponent extends IconProps {
+export interface IconComponentProps extends IconProps {
   type: IconType;
 }
 

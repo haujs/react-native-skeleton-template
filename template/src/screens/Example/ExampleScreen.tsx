@@ -24,6 +24,10 @@ const exampleData = [
     title: 'Radio',
     screenName: 'ExampleRadio',
   },
+  {
+    title: 'Modal',
+    screenName: 'ExampleModal',
+  },
 ];
 
 const ExampleScreen = () => {

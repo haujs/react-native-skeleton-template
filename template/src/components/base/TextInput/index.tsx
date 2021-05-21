@@ -67,7 +67,7 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
           color="primaryText"
           style={labelStyle}>
           {label}
-          {required && <Text color="error">*</Text>}
+          {required && <Text color="error"> *</Text>}
         </Text>
       );
     }

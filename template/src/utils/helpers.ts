@@ -18,12 +18,13 @@ const Helper = {
    *
    * ```
    * Helper.colorLuminance("#69c", 0);		// returns "#6699cc"
+   * Helper.colorLuminance("6699CC",0 , 0.2);	// "#6699cc33" - set 20% alpha transparence to #6699cc
    * Helper.colorLuminance("6699CC", 0.2);	// "#7ab8f5" - 20% lighter
    * Helper.colorLuminance("69C", -0.5);	// "#334d66" - 50% darker
    * Helper.colorLuminance("000", 1);		// "#000000" - true black cannot be made lighter!
    * ```
    */
-  colorLuminance: (hex: string, lum: number): string => {
+  colorLuminance: (hex: string, lum: number, opacity?: number): string => {
     // validate hex string
     hex = String(hex).replace(/[^0-9a-f]/gi, '');
     if (hex.length < 6) {
@@ -39,7 +40,11 @@ const Helper = {
       c = Math.round(Math.min(Math.max(0, c + c * lum), 255)).toString(16);
       rgb += ('00' + c).substr(c.length);
     }
-
+    if (opacity) {
+      const intValue = Math.round(opacity * 255);
+      const hexValue = intValue.toString(16);
+      return rgb + hexValue.padStart(2, '0');
+    }
     return rgb;
   },
 };

@@ -1,5 +1,5 @@
 import {StyleProp, ViewStyle} from 'react-native';
-import {IconComponent} from '../utils';
+import {IconComponentProps} from '../utils';
 
 export interface RadioProps {
   /**
@@ -55,7 +55,7 @@ export interface RadioProps {
   /**
    * Custom radio icon
    */
-  radioIcon?: IconComponent | React.ReactNode;
+  radioIcon?: IconComponentProps | React.ReactNode;
 
   /**
    * Styling for view containing the radio icon

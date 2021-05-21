@@ -5,7 +5,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import {TextInputMaskProps} from 'react-native-text-input-mask';
-import {IconComponent} from '../utils';
+import {IconComponentProps} from '../utils';
 
 export interface InputProps extends TextInputMaskProps {
   /**
@@ -80,7 +80,7 @@ export interface InputProps extends TextInputMaskProps {
   /**
    * Left icon
    */
-  leftIcon?: IconComponent | React.ReactNode;
+  leftIcon?: IconComponentProps | React.ReactNode;
 
   /**
    * Styling for view containing the left icon
@@ -95,7 +95,7 @@ export interface InputProps extends TextInputMaskProps {
   /**
    * Right icon
    */
-  rightIcon?: IconComponent | React.ReactNode;
+  rightIcon?: IconComponentProps | React.ReactNode;
 
   /**
    * Styling for view containing the right icon

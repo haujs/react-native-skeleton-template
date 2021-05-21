@@ -20,6 +20,7 @@
       "@store": ["store"],
       "@theme": ["theme"],
       "@utils": ["utils"],
+      "@providers": ["providers"],
 
       "@assets/*": ["assets/*"],
       "@components/*": ["components/*"],
@@ -29,7 +30,8 @@
       "@screens/*": ["screens/*"],
       "@store/*": ["store/*"],
       "@theme/*": ["theme/*"],
-      "@utils/*": ["utils/*"]
+      "@utils/*": ["utils/*"],
+      "@providers/*": ["providers/*"]
     },
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
