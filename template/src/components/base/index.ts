@@ -5,3 +5,4 @@ export {default as Button} from './Button';
 export {default as Radio} from './Radio';
 export {RadioGroup} from './Radio';
 export {default as IconComponent} from './Icon';
+export {default as Portal} from './Portal';
