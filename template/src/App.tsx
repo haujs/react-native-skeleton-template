@@ -1,7 +1,7 @@
 import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 import '@i18n';
 import {MainNavigation} from '@navigation';
-import {ModalControllerProvider} from '@providers';
+import {ModalControllerProvider, PortalProvider} from '@providers';
 import {persistor, store} from '@store';
 import React from 'react';
 import 'react-native-gesture-handler';
@@ -13,11 +13,13 @@ const App = () => (
   <SafeAreaProvider>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <ModalControllerProvider>
-          <BottomSheetModalProvider>
-            <MainNavigation />
-          </BottomSheetModalProvider>
-        </ModalControllerProvider>
+        <PortalProvider>
+          <ModalControllerProvider>
+            <BottomSheetModalProvider>
+              <MainNavigation />
+            </BottomSheetModalProvider>
+          </ModalControllerProvider>
+        </PortalProvider>
       </PersistGate>
     </Provider>
   </SafeAreaProvider>
