@@ -8,6 +8,7 @@ import {
   ExampleScreen,
   ExampleSelect,
   ExampleText,
+  ExampleSwitch,
 } from '@screens/Example';
 
 const ExampleStack = createStackNavigator();
@@ -25,6 +26,7 @@ const ExampleNavigation = () => {
       <ExampleStack.Screen name="ExampleRadio" component={ExampleRadio} />
       <ExampleStack.Screen name="ExampleModal" component={ExampleModal} />
       <ExampleStack.Screen name="ExampleSelect" component={ExampleSelect} />
+      <ExampleStack.Screen name="ExampleSwitch" component={ExampleSwitch} />
     </ExampleStack.Navigator>
   );
 };

@@ -32,6 +32,10 @@ const exampleData = [
     title: 'Select',
     screenName: 'ExampleSelect',
   },
+  {
+    title: 'Toggle',
+    screenName: 'ExampleSwitch',
+  },
 ];
 
 const ExampleScreen = () => {
