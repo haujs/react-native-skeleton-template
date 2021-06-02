@@ -7,5 +7,6 @@ export {RadioGroup} from './Radio';
 export {default as IconComponent} from './Icon';
 export {default as Portal} from './Portal';
 export {default as Select} from './Select';
+export {default as Switch} from './Switch';
 
 export * from './Form';

@@ -1,5 +1,4 @@
-import {Block, Select, Text} from '@components/base';
-import FormSelect from '@components/base/Form/Select';
+import {Block, Select, Text, FormSelect} from '@components/base';
 import {yupResolver} from '@hookform/resolvers/yup';
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
