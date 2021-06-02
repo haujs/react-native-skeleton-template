@@ -1,5 +1,5 @@
 import {IconType} from '@assets/icons';
-import {ViewStyle} from 'react-native';
+import {FlexStyle, ViewStyle} from 'react-native';
 import {EdgeInsets} from 'react-native-safe-area-context';
 import {IconProps} from 'react-native-vector-icons/Icon';
 import {BlockProps} from './Block/types';
@@ -20,6 +20,20 @@ export const handleGutter = (
     [`${type}Right`]: gutter.right,
     [`${type}Bottom`]: gutter.bottom,
     [`${type}Top`]: gutter.top,
+  };
+};
+
+export const handleRadius = (radius: number | RadiusProps) => {
+  if (isNumber(radius)) {
+    return {
+      borderRadius: 12,
+    };
+  }
+  return {
+    borderBottomLeftRadius: radius.bottomLeft,
+    borderBottomRightRadius: radius.bottomRight,
+    borderTopLeftRadius: radius.topLeft,
+    borderTopRightRadius: radius.topRight,
   };
 };
 
@@ -114,10 +128,11 @@ export const createDefaultStyle = (props: {[key: string]: any}) => [
   },
   props.square && handleSquare(props.square),
   props.round && handleRound(props.round),
-  props.radius && {borderRadius: props.radius},
+  props.radius && handleRadius(props.radius),
   props.borderStyle && {borderStyle: props.borderStyle},
   props.border && handleBorder(props.border),
   props.wrap && {flexWrap: 'wrap'},
+  props.alignSelf && {alignSelf: props.alignSelf},
   isNumber(props.opacity) && {opacity: props.opacity},
 ];
 
@@ -227,7 +242,9 @@ export interface DefaultStyleProps {
   /**
    * Rounded border
    */
-  radius?: number;
+  radius?: number | RadiusProps;
+
+  alignSelf?: FlexStyle['alignSelf'];
 }
 
 export type BorderProps = {width: number; color: string};
@@ -239,6 +256,13 @@ export type GutterProps = {
   bottom?: number;
   vertical?: number;
   horizontal?: number;
+};
+
+export type RadiusProps = {
+  bottomLeft?: number;
+  bottomRight?: number;
+  topLeft?: number;
+  topRight?: number;
 };
 
 export type BorderType = {

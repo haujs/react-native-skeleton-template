@@ -1,5 +1,5 @@
 export interface PortalContextProps {
-  mount(children: React.ReactNode, key?: string): string;
+  mount(children: React.ReactNode): string;
   update(children?: React.ReactNode, key?: string): void;
   unmount(key?: string): void;
 }

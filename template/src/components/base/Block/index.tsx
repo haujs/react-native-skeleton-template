@@ -2,7 +2,12 @@ import {useTheme} from '@theme';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {createDefaultStyle, handleGutter, handleInset} from '../utils';
+import {
+  createDefaultStyle,
+  handleGutter,
+  handleInset,
+  isNumber,
+} from '../utils';
 import {BlockProps} from './types';
 
 const Block = React.forwardRef<any, BlockProps>((props, ref) => {
@@ -41,10 +46,10 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
     justify && {justifyContent: justify},
     row && {flexDirection: 'row'},
     position && {position},
-    top && {top},
-    bottom && {bottom},
-    left && {left},
-    right && {right},
+    isNumber(top) && {top},
+    isNumber(bottom) && {bottom},
+    isNumber(left) && {left},
+    isNumber(right) && {right},
     overflow && {overflow},
     padding && handleGutter('padding', padding),
     margin && handleGutter('margin', margin),
@@ -53,10 +58,10 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        height: 1,
+        height: 2,
       },
-      shadowOpacity: 0.1,
-      shadowRadius: 1,
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
       elevation: 2,
     },
     style,

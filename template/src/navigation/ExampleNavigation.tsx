@@ -6,6 +6,7 @@ import {
   ExampleModal,
   ExampleRadio,
   ExampleScreen,
+  ExampleSelect,
   ExampleText,
 } from '@screens/Example';
 
@@ -23,6 +24,7 @@ const ExampleNavigation = () => {
       <ExampleStack.Screen name="ExampleInput" component={ExampleInput} />
       <ExampleStack.Screen name="ExampleRadio" component={ExampleRadio} />
       <ExampleStack.Screen name="ExampleModal" component={ExampleModal} />
+      <ExampleStack.Screen name="ExampleSelect" component={ExampleSelect} />
     </ExampleStack.Navigator>
   );
 };
