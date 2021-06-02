@@ -81,10 +81,10 @@ export interface BlockProps extends DefaultStyleProps, ViewProps {
       shadowColor: '#000',
       shadowOffset: {
         width: 0,
-        height: 1,
+        height: 2,
       },
-      shadowOpacity: 0.1,
-      shadowRadius: 1,
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
       elevation: 2,
     }
    * ```

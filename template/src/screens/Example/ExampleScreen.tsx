@@ -28,6 +28,10 @@ const exampleData = [
     title: 'Modal',
     screenName: 'ExampleModal',
   },
+  {
+    title: 'Select',
+    screenName: 'ExampleSelect',
+  },
 ];
 
 const ExampleScreen = () => {

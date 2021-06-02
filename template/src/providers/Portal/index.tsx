@@ -14,10 +14,8 @@ const PortalProvider: React.FC = ({children}) => {
 
   const portalContext = useMemo(
     () => ({
-      mount: (childNode: React.ReactNode, key?: string) => {
-        if (!key) {
-          key = Helper.generateUUID();
-        }
+      mount: (childNode: React.ReactNode) => {
+        const key = Helper.generateUUID();
         managerRef.current?.mount(key, childNode);
         return key;
       },
