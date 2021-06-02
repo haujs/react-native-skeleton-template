@@ -13,11 +13,12 @@ const Text = (props: CommonTextProps) => {
       fontType = 'regular',
       color = 'primaryText',
       size = 14,
-      lineHeight,
+      lineHeight = size * 1.25,
       backgroundColor,
       padding,
       margin,
     } = childProps;
+
     return StyleSheet.flatten([
       createDefaultStyle(childProps),
       backgroundColor && {
@@ -26,7 +27,7 @@ const Text = (props: CommonTextProps) => {
       Fonts[fontType],
       {color: Colors[color] || color},
       {fontSize: size},
-      {lineHeight: lineHeight ? lineHeight : size * 1.5},
+      {lineHeight},
       childProps.center && {textAlign: 'center'},
       childProps.right && {textAlign: 'right'},
       childProps.justify && {textAlign: 'justify'},

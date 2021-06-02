@@ -76,7 +76,12 @@ const Button: React.FC<ButtonProps> = props => {
           backgroundColor={type === 'primary' ? 'primary' : 'transparent'}
           border={{
             width: 1,
-            color: type === 'text' ? 'transparent' : Colors.primary,
+            color:
+              type === 'text'
+                ? 'transparent'
+                : props.disabled
+                ? Helper.colorLuminance(Colors.primary, 0, 0.5)
+                : Colors.primary,
           }}
           opacity={loading || props.disabled ? 0.5 : 1}
           padding={{horizontal: 16, vertical: 12}}
