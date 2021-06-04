@@ -1,25 +1,51 @@
 import {Block, Text} from '@components/base';
 import {
   AlertButton,
-  AlertPayload,
+  AlertType,
   closeAlert,
+  dismissAlert,
 } from '@store/actions-types/modal';
 import Helper from '@utils/helpers';
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
+  Modal,
+  ModalProps,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
+import Animated, {
+  Easing,
+  Extrapolate,
+  interpolate,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import {useDispatch} from 'react-redux';
 
-interface AlertProps extends AlertPayload {
+interface AlertProps extends ModalProps, AlertType {
   onBackdropPress?: () => void;
 }
 
+const alertTimingConfig = {
+  easing: Easing.inOut(Easing.quad),
+  duration: 100,
+};
+
 const Alert: React.FC<AlertProps> = props => {
-  const {title, message, buttons, options, onBackdropPress} = props;
+  const {
+    title,
+    message,
+    buttons,
+    options,
+    isVisible = false,
+    onBackdropPress,
+    override,
+    ...rest
+  } = props;
 
   const dispatch = useDispatch();
 
@@ -27,6 +53,44 @@ const Alert: React.FC<AlertProps> = props => {
     () => Helper.colorLuminance('#3C3C43', 0, 0.36),
     [],
   );
+
+  const [isShow, setIsShow] = useState(false);
+
+  const translateY = useSharedValue(0);
+
+  useEffect(() => {
+    if (isVisible) {
+      setIsShow(true);
+      translateY.value = withTiming(1, alertTimingConfig);
+    } else {
+      translateY.value = withTiming(0, alertTimingConfig, () =>
+        runOnJS(setIsShow)(false),
+      );
+    }
+  }, [isVisible, translateY]);
+
+  const contentContainerStyle = useAnimatedStyle(() => {
+    const scaleValue = interpolate(
+      translateY.value,
+      [0, 1],
+      [0, 1],
+      Extrapolate.CLAMP,
+    );
+    return {
+      transform: [{scale: scaleValue}],
+    };
+  });
+
+  const overlayStyle = useAnimatedStyle(() => {
+    return {
+      opacity: interpolate(
+        translateY.value,
+        [0, 1],
+        [0, 0.4],
+        Extrapolate.CLAMP,
+      ),
+    };
+  });
 
   const _renderActions = (item: AlertButton, index: number) => {
     return (
@@ -39,7 +103,7 @@ const Alert: React.FC<AlertProps> = props => {
             color: borderColor,
           },
           left: {
-            width: buttons && buttons.length === 2 ? 1 : 0,
+            width: buttons && buttons.length === 2 && index === 1 ? 1 : 0,
             color: borderColor,
           },
         }}>
@@ -66,38 +130,53 @@ const Alert: React.FC<AlertProps> = props => {
     }
   };
 
+  const _onDismiss = () => {
+    if (override === false || (override && !isVisible)) {
+      dispatch(dismissAlert());
+    }
+  };
+
   return (
-    <Block
-      style={StyleSheet.absoluteFillObject}
-      justify="center"
-      align="center">
-      <TouchableWithoutFeedback onPress={_onPressBackdrop}>
-        <Block style={[StyleSheet.absoluteFillObject, styles.overlay]} />
-      </TouchableWithoutFeedback>
-      <Block
-        width="78%"
-        style={styles.container}
-        backgroundColor="#F2F2F2"
-        radius={14}>
-        <Block padding={{horizontal: 16, vertical: 19}}>
-          <Text fontType="bold" size={15} center>
-            {title}
-          </Text>
-          {message && (
-            <Text center margin={{top: 2}}>
-              {message}
-            </Text>
-          )}
-        </Block>
-        {buttons && (
-          <ScrollView bounces={false}>
-            <Block row={buttons.length < 3}>
-              {buttons.map(_renderActions)}
+    <Modal transparent onDismiss={_onDismiss} {...rest} visible={isShow}>
+      <Block style={StyleSheet.absoluteFillObject}>
+        <TouchableWithoutFeedback onPress={_onPressBackdrop}>
+          <Animated.View
+            style={[
+              StyleSheet.absoluteFillObject,
+              styles.overlay,
+              overlayStyle,
+            ]}
+          />
+        </TouchableWithoutFeedback>
+        <Animated.View
+          pointerEvents="box-none"
+          style={[styles.contentContainer, contentContainerStyle]}>
+          <Block
+            width="78%"
+            style={styles.container}
+            backgroundColor="#F2F2F2"
+            radius={14}>
+            <Block padding={{horizontal: 16, vertical: 19}}>
+              <Text fontType="bold" size={15} center>
+                {title}
+              </Text>
+              {message && (
+                <Text center margin={{top: 2}}>
+                  {message}
+                </Text>
+              )}
             </Block>
-          </ScrollView>
-        )}
+            {buttons && (
+              <ScrollView bounces={false}>
+                <Block row={buttons.length < 3}>
+                  {buttons.map(_renderActions)}
+                </Block>
+              </ScrollView>
+            )}
+          </Block>
+        </Animated.View>
       </Block>
-    </Block>
+    </Modal>
   );
 };
 
@@ -106,7 +185,7 @@ export default Alert;
 const styles = StyleSheet.create({
   overlay: {
     backgroundColor: '#000',
-    opacity: 0.4,
   },
+  contentContainer: {justifyContent: 'center', alignItems: 'center', flex: 1},
   container: {maxHeight: '80%'},
 });

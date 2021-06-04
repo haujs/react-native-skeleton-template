@@ -49,10 +49,20 @@ const startupReducer = produce((state = INITIAL_STATE, action) => {
       return state;
 
     case types.SHOW_ALERT:
-      state.alert = action.payload;
+      state.alert = {
+        isVisible: true,
+        ...action.payload,
+        override: !!state.alert,
+      };
       return state;
 
     case types.CLOSE_ALERT:
+      if (state.alert) {
+        state.alert.isVisible = false;
+      }
+      return state;
+
+    case types.DISMISS_ALERT:
       state.alert = null;
       return state;
 
