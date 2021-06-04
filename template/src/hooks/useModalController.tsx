@@ -1,24 +1,35 @@
-import {ModalControllerContext} from '@providers/ModalController';
-import {ModalState} from '@store/actions-types/modal';
-import {useContext} from 'react';
-import {useSelector} from 'react-redux';
+import {
+  closeModal,
+  ModalState,
+  removeModal,
+  showModal,
+} from '@store/actions-types/modal';
+import {useDispatch, useSelector} from 'react-redux';
 
 const useModalController = ({id}: {id: string}) => {
-  const {show, hide, remove} = useContext(ModalControllerContext);
+  const dispatch = useDispatch();
 
-  const isVisible = useSelector((state: {modal: ModalState}) => {
+  const modalState = useSelector((state: {modal: ModalState}) => {
     const modalItem = state.modal.modals.find(m => m.id === id);
     if (modalItem) {
-      return modalItem.isVisible;
+      return modalItem;
     }
-    return false;
+    return {isVisible: false, customProps: undefined};
   });
 
-  const showModal = () => show(id);
-  const hideModal = () => hide(id);
-  const removeModal = () => remove(id);
+  const show = (customProps?: {[key: string]: any}) => {
+    if (customProps?.persist) {
+      customProps.persist();
+      dispatch(showModal({id}));
+    } else {
+      dispatch(showModal({id, customProps}));
+    }
+  };
 
-  return {showModal, hideModal, removeModal, isVisible};
+  const hide = () => dispatch(closeModal({id}));
+  const remove = () => dispatch(removeModal({id}));
+
+  return {show, hide, remove, ...modalState};
 };
 
 export default useModalController;
