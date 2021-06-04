@@ -1,4 +1,4 @@
-import {Alert, Block, Button, Text} from '@components/base';
+import {ActionSheet, Alert, Block, Button, Text} from '@components/base';
 import {useModalController} from '@hooks';
 import {closeAlert, showAlert} from '@store/actions-types/modal';
 import React from 'react';
@@ -11,6 +11,9 @@ const ExampleModal = () => {
   const alertState = useModalController({
     id: 'Alert_popup',
   });
+  const actionSheetState = useModalController({
+    id: 'ActionSheet_Example',
+  });
 
   const _showAlert = () => {
     dispatch(
@@ -19,7 +22,24 @@ const ExampleModal = () => {
         message: 'Message odf ',
         buttons: [
           {text: 'Cancel', onPress: () => dispatch(closeAlert())},
-          {text: 'Submit'},
+          {
+            text: 'Submit',
+            onPress: () => {
+              dispatch(closeAlert());
+              setTimeout(() => {
+                dispatch(
+                  showAlert({
+                    title: 'Example Alert',
+                    message: 'Message odf ',
+                    buttons: [
+                      {text: 'Cancel', onPress: () => dispatch(closeAlert())},
+                    ],
+                    options: {cancelable: true},
+                  }),
+                );
+              }, 300);
+            },
+          },
         ],
         options: {cancelable: true},
       }),
@@ -37,8 +57,8 @@ const ExampleModal = () => {
         visible={modalState.isVisible}
         animationType="slide"
         presentationStyle="pageSheet"
-        onRequestClose={modalState.hide}
-        onDismiss={modalState.remove}>
+        onRequestClose={modalState.close}
+        onDismiss={modalState.dismiss}>
         <Block padding={16}>
           <Text fontType="bold" size={16} center>
             Modal Example
@@ -51,17 +71,26 @@ const ExampleModal = () => {
             }}
           />
           <Block height={24} />
-          <Button title="Hide Modal" onPress={modalState.hide} />
-          <Modal transparent visible={alertState.isVisible}>
-            <Alert
-              title="Alert title"
-              message="Original Message"
-              buttons={[{text: 'Cancel', onPress: alertState.remove}]}
-              {...alertState.customProps}
-            />
-          </Modal>
+          <Button title="Close Modal" onPress={modalState.close} />
+          <Alert
+            isVisible={alertState.isVisible}
+            title="Alert title"
+            buttons={[{text: 'Cancel', onPress: alertState.close}]}
+            onDismiss={alertState.dismiss}
+            {...alertState.customProps}
+          />
         </Block>
       </Modal>
+      <Block height={24} />
+      <Text>Action Sheet</Text>
+      <Button title="Show Action Sheet" onPress={actionSheetState.show} />
+      <ActionSheet
+        isVisible={actionSheetState.isVisible}
+        headerTitle="A short description of the actions goes here."
+        buttons={[{text: 'Action 1'}, {text: 'Action 2'}, {text: 'Action 3'}]}
+        onPressCancel={actionSheetState.close}
+        onDismiss={actionSheetState.dismiss}
+      />
     </Block>
   );
 };

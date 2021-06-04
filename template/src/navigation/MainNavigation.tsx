@@ -1,8 +1,9 @@
 import {Alert} from '@components/base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {ModalState} from '@store/actions-types/modal';
-import {startupRequest, StartupState} from '@store/actions-types/startup';
+import {startupRequest} from '@store/actions-types/startup';
+import {getStartUpLoading} from '@store/selectors';
+import {getAlertState} from '@store/selectors/modal';
 import {useTheme} from '@theme';
 import React, {useEffect} from 'react';
 import {StatusBar} from 'react-native';
@@ -16,12 +17,8 @@ const RootStack = createStackNavigator();
 const MainNavigation = () => {
   const {NavigationTheme} = useTheme();
   const dispatch = useDispatch();
-  const isLoading = useSelector(
-    (state: {startup: StartupState}) => state.startup.isLoading,
-  );
-  const alertProps = useSelector(
-    (state: {modal: ModalState}) => state.modal.alert,
-  );
+  const isLoading = useSelector(getStartUpLoading);
+  const alertProps = useSelector(getAlertState);
 
   useEffect(() => {
     dispatch(startupRequest());
@@ -39,7 +36,7 @@ const MainNavigation = () => {
       <RootStack.Navigator headerMode="none">
         <RootStack.Screen name="Example" component={ExampleNavigation} />
       </RootStack.Navigator>
-      {alertProps && <Alert {...alertProps} />}
+      <Alert {...alertProps} />
     </NavigationContainer>
   );
 };

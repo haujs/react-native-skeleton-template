@@ -27,6 +27,7 @@ export interface ModalType {
 
 export const SHOW_ALERT = '@alert/show';
 export const CLOSE_ALERT = '@alert/close';
+export const DISMISS_ALERT = '@alert/dismiss';
 
 export const showAlert = (payload: AlertPayload) => ({
   type: SHOW_ALERT,
@@ -35,6 +36,10 @@ export const showAlert = (payload: AlertPayload) => ({
 
 export const closeAlert = () => ({
   type: CLOSE_ALERT,
+});
+
+export const dismissAlert = () => ({
+  type: DISMISS_ALERT,
 });
 
 export interface AlertButton {
@@ -49,9 +54,14 @@ export interface AlertPayload {
   options?: {
     cancelable?: boolean;
   };
+  override?: boolean;
+}
+
+export interface AlertType extends AlertPayload {
+  isVisible?: boolean;
 }
 
 export interface ModalState {
   modals: ModalType[];
-  alert: AlertPayload | null;
+  alert: AlertType;
 }

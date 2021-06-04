@@ -9,5 +9,6 @@ export {default as Portal} from './Portal';
 export {default as Select} from './Select';
 export {default as Switch} from './Switch';
 export {default as Alert} from './Alert';
+export {default as ActionSheet} from './ActionSheet';
 
 export * from './Form';
