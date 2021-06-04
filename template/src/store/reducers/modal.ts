@@ -3,6 +3,7 @@ import produce from 'immer';
 
 const INITIAL_STATE = {
   modals: [],
+  alert: null,
 };
 
 const startupReducer = produce((state = INITIAL_STATE, action) => {
@@ -13,8 +14,14 @@ const startupReducer = produce((state = INITIAL_STATE, action) => {
     case types.SHOW_MODAL:
       if (selectedIndex !== -1) {
         state.modals[selectedIndex].isVisible = true;
+        state.modals[selectedIndex].customProps =
+          action.payload.customProps || {};
       } else {
-        state.modals.push({id: action.payload.id, isVisible: true});
+        state.modals.push({
+          id: action.payload.id,
+          isVisible: true,
+          customProps: action.payload.customProps || {},
+        });
       }
       return state;
 
@@ -39,6 +46,14 @@ const startupReducer = produce((state = INITIAL_STATE, action) => {
       } else {
         state.modals = [];
       }
+      return state;
+
+    case types.SHOW_ALERT:
+      state.alert = action.payload;
+      return state;
+
+    case types.CLOSE_ALERT:
+      state.alert = null;
       return state;
 
     default:

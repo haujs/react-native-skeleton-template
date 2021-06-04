@@ -30,6 +30,7 @@ const Icon: React.FC<IconComponentProps> = props => {
           default: TouchableHighlight,
         })
       : Block,
+    buttonStyle,
     ...rest
   } = props;
 
@@ -44,13 +45,15 @@ const Icon: React.FC<IconComponentProps> = props => {
   ]);
 
   return (
-    <ButtonComponent {...{underlayColor}} {...rest} style={initContainerStyle}>
-      <IconComponent
-        {...iconProps}
-        name={name}
-        size={size}
-        color={Colors[color] || color}
-      />
+    <ButtonComponent {...{underlayColor}} {...rest} style={buttonStyle}>
+      <Block style={initContainerStyle}>
+        <IconComponent
+          {...iconProps}
+          name={name}
+          size={size}
+          color={Colors[color] || color}
+        />
+      </Block>
     </ButtonComponent>
   );
 };

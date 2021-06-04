@@ -32,7 +32,6 @@ const ExampleInput = () => {
               label="Input with right icon"
               placeholder="Place your Text"
               rightIcon={{type: 'octicons', name: 'home'}}
-              onRightIconPress={() => console.log('onRightIconPress')}
             />
           </Block>
           <Block margin={{bottom: 16}}>

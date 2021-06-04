@@ -1,5 +1,7 @@
+import {Alert} from '@components/base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import {ModalState} from '@store/actions-types/modal';
 import {startupRequest, StartupState} from '@store/actions-types/startup';
 import {useTheme} from '@theme';
 import React, {useEffect} from 'react';
@@ -16,6 +18,9 @@ const MainNavigation = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(
     (state: {startup: StartupState}) => state.startup.isLoading,
+  );
+  const alertProps = useSelector(
+    (state: {modal: ModalState}) => state.modal.alert,
   );
 
   useEffect(() => {
@@ -34,6 +39,7 @@ const MainNavigation = () => {
       <RootStack.Navigator headerMode="none">
         <RootStack.Screen name="Example" component={ExampleNavigation} />
       </RootStack.Navigator>
+      {alertProps && <Alert {...alertProps} />}
     </NavigationContainer>
   );
 };
