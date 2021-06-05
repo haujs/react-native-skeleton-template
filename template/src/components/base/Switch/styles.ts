@@ -6,4 +6,5 @@ export default StyleSheet.create({
     paddingHorizontal: 2,
     borderRadius: 36.5,
   },
+  disabled: {opacity: 0.5},
 });

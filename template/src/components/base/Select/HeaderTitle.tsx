@@ -64,7 +64,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
           width={40}
           height={5}
           radius={15}
-          backgroundColor={Helper.colorLuminance('#FFF', 0, 0.8)}
+          backgroundColor={'rgba(255,255,255,0.8)'}
         />
       </Block>
       <Block onLayout={_onHeaderLeftLayout}>

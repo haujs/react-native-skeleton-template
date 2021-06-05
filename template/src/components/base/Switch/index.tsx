@@ -34,6 +34,7 @@ const Switch: React.FC<SwitchProps> = props => {
     onValueChange,
     trackWidth = DEFAULT_TRACK_WIDTH,
     thumbWidth = DEFAULT_THUMB_WIDTH,
+    disabled,
   } = props;
 
   const trackThumbWidth = useMemo(
@@ -49,42 +50,50 @@ const Switch: React.FC<SwitchProps> = props => {
     });
   }, [trackThumbWidth, translateX, value]);
 
-  const trackInActive = useMemo(
-    () =>
-      isString(trackColor)
-        ? Colors[trackColor] || trackColor
-        : Colors[trackColor.inActive] || trackColor.inActive,
-    [Colors, trackColor],
-  );
-  const trackActive = useMemo(
-    () =>
-      isString(trackColor)
-        ? Colors[trackColor] || trackColor
-        : Colors[trackColor.active] || trackColor.active,
-    [Colors, trackColor],
-  );
+  const trackBgColor = useMemo(() => {
+    if (disabled) {
+      return {
+        active: 'rgba(143, 155, 179, 0.16)',
+        inActive: 'rgba(143, 155, 179, 0.16)',
+      };
+    }
+    if (isString(trackColor)) {
+      return {
+        active: Colors[trackColor] || trackColor,
+        inActive: Colors[trackColor] || trackColor,
+      };
+    }
+    return {
+      active: Colors[trackColor.active] || trackColor.active,
+      inActive: Colors[trackColor.inActive] || trackColor.inActive,
+    };
+  }, [Colors, disabled, trackColor]);
 
-  const circleInActive = useMemo(
-    () =>
-      isString(thumbColor)
-        ? Colors[thumbColor] || thumbColor
-        : Colors[thumbColor.inActive] || thumbColor.inActive,
-    [Colors, thumbColor],
-  );
-  const circleActive = useMemo(
-    () =>
-      isString(thumbColor)
-        ? Colors[thumbColor] || thumbColor
-        : Colors[thumbColor.active] || thumbColor.active,
-    [Colors, thumbColor],
-  );
+  const circleColor = useMemo(() => {
+    if (disabled) {
+      return {
+        active: 'rgba(143, 155, 179, 0.32)',
+        inActive: 'rgba(143, 155, 179, 0.32)',
+      };
+    }
+    if (isString(thumbColor)) {
+      return {
+        active: Colors[thumbColor] || thumbColor,
+        inActive: Colors[thumbColor] || thumbColor,
+      };
+    }
+    return {
+      active: Colors[thumbColor.active] || thumbColor.active,
+      inActive: Colors[thumbColor.inActive] || thumbColor.inActive,
+    };
+  }, [Colors, disabled, thumbColor]);
 
   const animSwitchContainter = useAnimatedStyle(() => {
     return {
       backgroundColor: interpolateColor(
         translateX.value,
         [0, trackThumbWidth],
-        [trackInActive, trackActive],
+        [trackBgColor.inActive, trackBgColor.active],
       ),
     };
   });
@@ -95,7 +104,7 @@ const Switch: React.FC<SwitchProps> = props => {
       backgroundColor: interpolateColor(
         translateX.value,
         [0, trackThumbWidth],
-        [circleInActive, circleActive],
+        [circleColor.inActive, circleColor.active],
       ),
       width: interpolate(
         translateX.value,
@@ -142,6 +151,7 @@ const Switch: React.FC<SwitchProps> = props => {
   return (
     <TapGestureHandler
       waitFor={panRef}
+      enabled={!disabled}
       onHandlerStateChange={_handleStateChange}>
       <Animated.View
         style={[
@@ -149,7 +159,10 @@ const Switch: React.FC<SwitchProps> = props => {
           {width: trackWidth},
           animSwitchContainter,
         ]}>
-        <PanGestureHandler ref={panRef} onGestureEvent={onGestureEvent}>
+        <PanGestureHandler
+          ref={panRef}
+          enabled={!disabled}
+          onGestureEvent={onGestureEvent}>
           <Animated.View
             style={[
               {width: thumbWidth, height: thumbWidth, borderRadius: thumbWidth},
