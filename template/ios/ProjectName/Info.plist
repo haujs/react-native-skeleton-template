@@ -51,6 +51,12 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>プロフィール写真の撮影やQRコードの読取りに利用します。</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>プロフィール写真の選択に利用します。</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>プロフィール写真の選択に利用します。</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

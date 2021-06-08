@@ -4,6 +4,9 @@ import {createSelector} from 'reselect';
 export const getAlertState = (state: {modal: ModalState}) =>
   state.modal.alert || {isVisible: false};
 
+export const getBottomMenuState = (state: {modal: ModalState}) =>
+  state.modal.bottomMenu || {isVisible: false};
+
 export const getModalState = (state: {modal: ModalState}) => state.modal.modals;
 
 export const getModalById = (id: string) =>

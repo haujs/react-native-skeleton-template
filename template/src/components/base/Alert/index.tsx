@@ -166,12 +166,17 @@ const Alert: React.FC<AlertProps> = props => {
                 </Text>
               )}
             </Block>
-            {buttons && (
+            {buttons ? (
               <ScrollView bounces={false}>
                 <Block row={buttons.length < 3}>
                   {buttons.map(_renderActions)}
                 </Block>
               </ScrollView>
+            ) : (
+              _renderActions(
+                {text: 'Cancel', onPress: () => dispatch(closeAlert())},
+                0,
+              )
             )}
           </Block>
         </Animated.View>

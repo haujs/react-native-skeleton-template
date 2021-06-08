@@ -1,9 +1,9 @@
-import {Alert} from '@components/base';
+import {Alert, BottomMenu} from '@components/base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {startupRequest} from '@store/actions-types/startup';
 import {getStartUpLoading} from '@store/selectors';
-import {getAlertState} from '@store/selectors/modal';
+import {getAlertState, getBottomMenuState} from '@store/selectors/modal';
 import {useTheme} from '@theme';
 import React, {useEffect} from 'react';
 import {StatusBar} from 'react-native';
@@ -18,6 +18,7 @@ const MainNavigation = () => {
   const {NavigationTheme} = useTheme();
   const dispatch = useDispatch();
   const isLoading = useSelector(getStartUpLoading);
+  const bottomMenuProps = useSelector(getBottomMenuState);
   const alertProps = useSelector(getAlertState);
 
   useEffect(() => {
@@ -37,6 +38,7 @@ const MainNavigation = () => {
         <RootStack.Screen name="Example" component={ExampleNavigation} />
       </RootStack.Navigator>
       <Alert {...alertProps} />
+      <BottomMenu {...bottomMenuProps} />
     </NavigationContainer>
   );
 };
