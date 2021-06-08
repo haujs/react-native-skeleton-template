@@ -1,3 +1,5 @@
+import {MenuItemType} from '@components/base/BottomMenu/types';
+import {BottomSheetModalProps} from '@gorhom/bottom-sheet';
 import {StyleProp, TextStyle} from 'react-native';
 
 export const SHOW_MODAL = '@modal/show';
@@ -61,7 +63,29 @@ export interface AlertType extends AlertPayload {
   isVisible?: boolean;
 }
 
+export const SHOW_BOTTOM_MENU = '@bottom_menu/show';
+export const CLOSE_BOTTOM_MENU = '@bottom_menu/close';
+
+export const showBottomMenu = (payload: BottomMenuPayload) => ({
+  type: SHOW_BOTTOM_MENU,
+  payload,
+});
+
+export const closeBottomMenu = () => ({
+  type: CLOSE_BOTTOM_MENU,
+});
+
+export interface BottomMenuPayload {
+  data: MenuItemType[];
+  bottomSheetModalProps?: Partial<BottomSheetModalProps>;
+}
+
+export interface BottomMenuType extends BottomMenuPayload {
+  isVisible?: boolean;
+}
+
 export interface ModalState {
   modals: ModalType[];
   alert: AlertType;
+  bottomMenu: BottomMenuType;
 }

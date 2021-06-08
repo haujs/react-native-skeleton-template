@@ -1,8 +1,8 @@
 import {ActionSheet, Alert, Block, Button, Text} from '@components/base';
-import {useModalController} from '@hooks';
+import {useMediaPicker, useModalController} from '@hooks';
 import {closeAlert, showAlert} from '@store/actions-types/modal';
 import React from 'react';
-import {Modal} from 'react-native';
+import {Image, Modal, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 const ExampleModal = () => {
@@ -14,6 +14,7 @@ const ExampleModal = () => {
   const actionSheetState = useModalController({
     id: 'ActionSheet_Example',
   });
+  const {openPicker, file, setFile} = useMediaPicker({mediaType: 'photo'});
 
   const _showAlert = () => {
     dispatch(
@@ -91,8 +92,27 @@ const ExampleModal = () => {
         onPressCancel={actionSheetState.close}
         onDismiss={actionSheetState.dismiss}
       />
+
+      <Block height={24} />
+      <Text>Image Picker</Text>
+      <Button title="Show Image Picker" onPress={openPicker} />
+      <Block height={24} />
+      {!!file && (
+        <Block align="center">
+          <Image
+            source={{uri: file.uri}}
+            resizeMode="cover"
+            style={styles.imageStyle}
+          />
+          <Button title="Remove" onPress={() => setFile(undefined)} />
+        </Block>
+      )}
     </Block>
   );
 };
 
 export default ExampleModal;
+
+const styles = StyleSheet.create({
+  imageStyle: {width: 100, height: 100},
+});

@@ -1,3 +1,6 @@
 export default {
-  hello_c2c: 'Hello C2C',
+  file_picker: {
+    take_photo: 'Take photo',
+    choose_from_library: 'Choose from library',
+  },
 };

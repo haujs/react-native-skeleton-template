@@ -4,6 +4,7 @@ import produce from 'immer';
 const INITIAL_STATE = {
   modals: [],
   alert: null,
+  bottomMenu: null,
 };
 
 const startupReducer = produce((state = INITIAL_STATE, action) => {
@@ -64,6 +65,14 @@ const startupReducer = produce((state = INITIAL_STATE, action) => {
 
     case types.DISMISS_ALERT:
       state.alert = null;
+      return state;
+
+    case types.SHOW_BOTTOM_MENU:
+      state.bottomMenu = {...action.payload, isVisible: true};
+      return state;
+
+    case types.CLOSE_BOTTOM_MENU:
+      state.bottomMenu = null;
       return state;
 
     default:
