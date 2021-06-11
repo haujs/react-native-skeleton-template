@@ -4,15 +4,18 @@ import {Text, Block} from '@components/base';
 const ExampleText = () => {
   return (
     <Block backgroundColor="white" flex padding={16}>
-      <Text>Default text</Text>
-      <Text size={16}>
-        Text with font size: <Text fontType="bold">16</Text>
-      </Text>
-      <Text>
+      <Text margin={{bottom: 8}}>Default text</Text>
+      <Text margin={{bottom: 8}}>
         Text with color:{' '}
         <Text fontType="bold" color="red">
           Red
         </Text>
+      </Text>
+      <Text size={16} margin={{bottom: 8}}>
+        Text with font size: <Text fontType="bold">16</Text>
+      </Text>
+      <Text size={16} fontType="bold" margin={{bottom: 4}}>
+        Example paragraph:{' '}
       </Text>
       <Text>
         いまはもうこの種のちょうは絶えてしまっている。

@@ -6,6 +6,7 @@ import {
   dismissAlert,
 } from '@store/actions-types/modal';
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Modal,
   ModalProps,
@@ -35,6 +36,7 @@ const alertTimingConfig = {
 };
 
 const Alert: React.FC<AlertProps> = props => {
+  const {t} = useTranslation();
   const {
     title,
     message,
@@ -168,7 +170,10 @@ const Alert: React.FC<AlertProps> = props => {
               </ScrollView>
             ) : (
               _renderActions(
-                {text: 'Cancel', onPress: () => dispatch(closeAlert())},
+                {
+                  text: t('general.cancel'),
+                  onPress: () => dispatch(closeAlert()),
+                },
                 0,
               )
             )}

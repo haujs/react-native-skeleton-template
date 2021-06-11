@@ -15,7 +15,6 @@ import {ActivityIndicator} from 'react-native';
 import {Easing} from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Block from '../Block';
-import {ITEM_HEIGHT_DEFAULT} from './constants';
 import HeaderTitle from './HeaderTitle';
 import SelectItem from './SelectItem';
 import styles from './styles';
@@ -34,6 +33,7 @@ const SelectPopup = forwardRef<any, SelectPopupProps>((props, ref) => {
     submitText,
     submitTextStyle,
     submitDisabled,
+    itemHeight,
   } = props;
 
   const {Colors} = useTheme();
@@ -69,12 +69,8 @@ const SelectPopup = forwardRef<any, SelectPopupProps>((props, ref) => {
   );
 
   const snapPoints = useMemo(
-    () => [
-      data.length === 0
-        ? 90
-        : data.length * ITEM_HEIGHT_DEFAULT + safeBottomArea,
-    ],
-    [data.length, safeBottomArea],
+    () => [data.length === 0 ? 90 : data.length * itemHeight + safeBottomArea],
+    [data.length, itemHeight, safeBottomArea],
   );
 
   const _renderBackdrop = useCallback(
@@ -127,6 +123,7 @@ const SelectPopup = forwardRef<any, SelectPopupProps>((props, ref) => {
 
       return (
         <SelectItem
+          itemHeight={itemHeight}
           data={item}
           onPress={_onPressItem}
           isSelected={isSelected}
@@ -134,7 +131,7 @@ const SelectPopup = forwardRef<any, SelectPopupProps>((props, ref) => {
         />
       );
     },
-    [_onPressItem, isMultiple, selected.value, tempSelected],
+    [_onPressItem, isMultiple, itemHeight, selected.value, tempSelected],
   );
 
   const _keyExtractor = useCallback(
@@ -144,11 +141,11 @@ const SelectPopup = forwardRef<any, SelectPopupProps>((props, ref) => {
 
   const _getItemLayout = useCallback(
     (_data, index) => ({
-      length: ITEM_HEIGHT_DEFAULT,
-      offset: ITEM_HEIGHT_DEFAULT * index,
+      length: itemHeight,
+      offset: itemHeight * index,
       index,
     }),
-    [],
+    [itemHeight],
   );
 
   const _renderEmptyList = useCallback(() => {

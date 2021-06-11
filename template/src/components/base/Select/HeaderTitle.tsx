@@ -1,6 +1,7 @@
 import {useTheme} from '@theme';
 import Helper from '@utils/helpers';
 import React, {useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {LayoutChangeEvent, TouchableOpacity} from 'react-native';
 import Block from '../Block';
 import IconComponent from '../Icon';
@@ -15,10 +16,11 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
   onPressDone,
   HeaderLeftComponent,
   HeaderRightComponent,
-  submitText = 'Done',
+  submitText,
   submitTextStyle,
   submitDisabled,
 }) => {
+  const {t} = useTranslation();
   const {Colors} = useTheme();
 
   const [leftButtonWidth, setLeftButtonWidth] = useState(0);
@@ -104,7 +106,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
               opacity={submitDisabled ? 0.6 : 1}>
               {isMultiple ? (
                 <Text color="primary" fontType="bold" style={submitTextStyle}>
-                  {submitText}
+                  {submitText || t('general.done')}
                 </Text>
               ) : (
                 <IconComponent
