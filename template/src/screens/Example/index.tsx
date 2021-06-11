@@ -8,3 +8,4 @@ export {default as ExampleModal} from './ExampleModal';
 export {default as ExampleSelect} from './ExampleSelect';
 export {default as ExampleSwitch} from './ExampleSwitch';
 export {default as ExampleDateTimePicker} from './ExampleDateTimePicker';
+export {default as ExampleImage} from './ExampleImage';

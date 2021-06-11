@@ -40,6 +40,10 @@ const exampleData = [
     title: 'DateTimePicker',
     screenName: 'ExampleDateTimePicker',
   },
+  {
+    title: 'Image',
+    screenName: 'ExampleImage',
+  },
 ];
 
 const ExampleScreen = () => {

@@ -1,6 +1,5 @@
 import {useModalController} from '@hooks';
 import {useTheme} from '@theme';
-import Helper from '@utils/helpers';
 import moment from 'moment';
 import React, {useMemo} from 'react';
 import {StyleSheet, TouchableHighlight, ViewStyle} from 'react-native';
@@ -123,7 +122,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
     );
   };
 
-  const pickerId = useMemo(() => Helper.generateUUID(), []);
+  const pickerId = useMemo(() => Math.random().toString(), []);
   const pickerState = useModalController({id: `date_time_picker_${pickerId}`});
 
   const _onPressDone = (date?: Date) => {
