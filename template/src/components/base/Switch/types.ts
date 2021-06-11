@@ -5,4 +5,5 @@ export interface SwitchProps {
   thumbColor?: string | {active: string; inActive: string};
   trackWidth?: number;
   thumbWidth?: number;
+  disabled?: boolean;
 }

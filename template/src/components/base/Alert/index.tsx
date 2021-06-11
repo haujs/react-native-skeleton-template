@@ -5,8 +5,7 @@ import {
   closeAlert,
   dismissAlert,
 } from '@store/actions-types/modal';
-import Helper from '@utils/helpers';
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Modal,
   ModalProps,
@@ -48,11 +47,6 @@ const Alert: React.FC<AlertProps> = props => {
   } = props;
 
   const dispatch = useDispatch();
-
-  const borderColor = useMemo(
-    () => Helper.colorLuminance('#3C3C43', 0, 0.36),
-    [],
-  );
 
   const [isShow, setIsShow] = useState(false);
 
@@ -100,11 +94,11 @@ const Alert: React.FC<AlertProps> = props => {
         border={{
           top: {
             width: 1,
-            color: borderColor,
+            color: 'rgba(60, 60, 67, 0.36)',
           },
           left: {
             width: buttons && buttons.length === 2 && index === 1 ? 1 : 0,
-            color: borderColor,
+            color: 'rgba(60, 60, 67, 0.36)',
           },
         }}>
         <TouchableOpacity onPress={item.onPress}>

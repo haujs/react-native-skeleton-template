@@ -16,6 +16,8 @@ const ExampleSwitch = () => {
       </Text>
       <Block height={24} />
       <Switch value={isToggle} onValueChange={setIsToggle} />
+      <Block height={24} />
+      <Switch value={true} onValueChange={setIsToggle} disabled />
     </Block>
   );
 };

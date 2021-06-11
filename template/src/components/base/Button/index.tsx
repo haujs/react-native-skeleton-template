@@ -66,9 +66,7 @@ const Button: React.FC<ButtonProps> = props => {
       <ButtonComponent
         {...rest}
         underlayColor={
-          StyleSheet.flatten(style)?.backgroundColor
-            ? underlayColor
-            : Helper.colorLuminance('#FFF', -0.1)
+          StyleSheet.flatten(style)?.backgroundColor ? underlayColor : '#e6e6e6'
         }
         disabled={loading || props.disabled}>
         <Block
