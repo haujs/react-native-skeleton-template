@@ -45,6 +45,11 @@ export interface SelectProps {
   containerStyle?: StyleProp<ViewStyle>;
 
   /**
+   * Styling for view containing input
+   */
+  inputContainerStyle?: StyleProp<ViewStyle>;
+
+  /**
    * if **true**, text is not editable
    */
   disabled?: boolean;
@@ -118,6 +123,12 @@ export interface SelectProps {
    * Disable submit button
    */
   submitDisabled?: boolean;
+
+  /**
+   * Height of select item
+   * Default: **45**
+   */
+  itemHeight?: number;
 }
 
 export interface SelectPopupProps {
@@ -132,6 +143,7 @@ export interface SelectPopupProps {
   submitText?: string;
   submitTextStyle?: StyleProp<TextStyle>;
   submitDisabled?: boolean;
+  itemHeight: number;
 }
 
 export interface HeaderTitleProps extends BottomSheetHandleProps {
@@ -151,4 +163,5 @@ export interface SelectItemProps {
   onPress?: (data: SelectItemType) => void;
   isSelected?: boolean;
   multiple?: boolean;
+  itemHeight: number;
 }

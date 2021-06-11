@@ -36,6 +36,10 @@ const exampleData = [
     title: 'Toggle',
     screenName: 'ExampleSwitch',
   },
+  {
+    title: 'DateTimePicker',
+    screenName: 'ExampleDateTimePicker',
+  },
 ];
 
 const ExampleScreen = () => {

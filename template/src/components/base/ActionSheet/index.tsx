@@ -1,6 +1,6 @@
 import {Block, Text} from '@components/base';
-import Helper from '@utils/helpers';
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   Dimensions,
   Modal,
@@ -38,6 +38,7 @@ interface ActionSheetProps extends ModalProps {
   onPressCancel?: () => void;
   cancelText?: string;
   cancelTextStyle?: StyleProp<TextStyle>;
+  CustomContentComponent?: React.ReactNode;
 }
 
 const actionSheetTimingConfig = {
@@ -46,6 +47,7 @@ const actionSheetTimingConfig = {
 };
 
 const ActionSheet: React.FC<ActionSheetProps> = props => {
+  const {t} = useTranslation();
   const {
     buttons,
     headerTitle,
@@ -54,13 +56,9 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
     onPressCancel,
     cancelTextStyle,
     cancelText,
+    children,
     ...rest
   } = props;
-
-  const borderColor = useMemo(
-    () => Helper.colorLuminance('#3C3C43', 0, 0.36),
-    [],
-  );
 
   const [isShow, setIsShow] = useState(false);
 
@@ -110,7 +108,7 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
         border={{
           top: {
             width: 1,
-            color: borderColor,
+            color: '#3c3c435c',
           },
         }}>
         <TouchableOpacity activeOpacity={0.8} onPress={item.onPress}>
@@ -151,20 +149,27 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
         <Animated.View
           pointerEvents="box-none"
           style={[styles.container, contentContainerStyle]}>
-          <Block inset="bottom" style={styles.contentContainer}>
-            <ScrollView bounces={false} style={styles.scrollView}>
-              {headerTitle && (
-                <Text
-                  padding={14}
-                  center
-                  size={13}
-                  fontType="bold"
-                  color="#8F8F8F">
-                  {headerTitle}
-                </Text>
-              )}
-              {buttons && <Block>{buttons.map(_renderActions)}</Block>}
-            </ScrollView>
+          <Block
+            inset="bottom"
+            padding={{bottom: 16}}
+            style={styles.contentContainer}>
+            {children ? (
+              children
+            ) : (
+              <ScrollView bounces={false} style={styles.scrollView}>
+                {headerTitle && (
+                  <Text
+                    padding={14}
+                    center
+                    size={13}
+                    fontType="bold"
+                    color="#8F8F8F">
+                    {headerTitle}
+                  </Text>
+                )}
+                {buttons && <Block>{buttons.map(_renderActions)}</Block>}
+              </ScrollView>
+            )}
             <Block margin={{top: 8}}>
               <TouchableOpacity activeOpacity={0.8} onPress={onPressCancel}>
                 <Block backgroundColor="#F2F2F2" radius={14} padding={16}>
@@ -174,7 +179,7 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
                     center
                     color="#0A7AFF"
                     style={cancelTextStyle}>
-                    {cancelText || 'Cancel'}
+                    {cancelText || t('general.cancel')}
                   </Text>
                 </Block>
               </TouchableOpacity>
@@ -199,6 +204,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     borderRadius: 14,
-    backgroundColor: Helper.colorLuminance('#EDEDED', 0, 0.8),
+    backgroundColor: '#edededcc',
   },
 });

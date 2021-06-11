@@ -52,7 +52,7 @@ export const useMediaPicker = (props?: Options) => {
     const options = props || {};
     const data = [
       {
-        label: t('file_picker.take_photo'),
+        label: t('general.take_photo'),
         icon: {name: 'camera', type: 'ionicons'},
         onPress: () => {
           dispatch(closeBottomMenu());
@@ -62,7 +62,7 @@ export const useMediaPicker = (props?: Options) => {
         },
       },
       {
-        label: t('file_picker.choose_from_library'),
+        label: t('general.choose_from_library'),
         icon: {name: 'image', type: 'ionicons'},
         onPress: () => {
           dispatch(closeBottomMenu());

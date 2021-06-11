@@ -1,30 +1,19 @@
-import {BottomSheetModal} from '@gorhom/bottom-sheet';
+import {useModalController} from '@hooks';
 import {useTheme} from '@theme';
-import React, {
-  forwardRef,
-  useCallback,
-  useImperativeHandle,
-  useRef,
-} from 'react';
+import Helper from '@utils/helpers';
+import moment from 'moment';
+import React, {useMemo} from 'react';
 import {StyleSheet, TouchableHighlight, ViewStyle} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Block from '../Block';
 import IconComponent from '../Icon';
 import Text from '../Text';
 import {isIcon, isString} from '../utils';
-import {HEIGHT_SELECT_BOX, ITEM_HEIGHT_DEFAULT} from './constants';
-import SelectPopup from './SelectPopup';
-import {SelectItemType, SelectProps} from './types';
+import Picker from './Picker';
+import {DateTimePickerProps} from './types';
 
-declare type Select = {
-  openSelect: () => void;
-  closeSelect: () => void;
-};
-
-const Select = forwardRef<any, SelectProps>((props, ref) => {
+const DateTimePicker: React.FC<DateTimePickerProps> = props => {
   const {
-    containerStyle,
-    inputContainerStyle,
     label,
     labelStyle,
     required,
@@ -36,32 +25,19 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
     rightIcon,
     rightIconContainerStyle,
     disabled,
-    data = [],
-    type = 'single',
-    onSelected,
-    selected = type === 'single' ? {label: '', value: ''} : [],
     placeholder,
     placeholderTextColor = 'secondaryText',
-    HeaderLeftComponent,
-    HeaderRightComponent,
-    submitText,
-    submitTextStyle,
-    submitDisabled,
-    itemHeight = ITEM_HEIGHT_DEFAULT,
+    containerStyle,
+    inputContainerStyle,
+    value,
+    onChange,
+    mode = 'date',
+    maximumDate,
+    minimumDate,
+    valueFormat = mode === 'date' ? 'DD/MM/YYYY' : 'HH:mm',
   } = props;
 
   const {Colors} = useTheme();
-  const bottomSheetRef = useRef<BottomSheetModal>(null);
-  const isMultiple = type === 'multiple';
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      openSelect: () => bottomSheetRef.current?.present(),
-      closeSelect: () => bottomSheetRef.current?.close(),
-    }),
-    [],
-  );
 
   const _renderLabel = () => {
     if (isString(label)) {
@@ -97,7 +73,7 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
 
   const _renderIcon = (isRight?: boolean) => {
     const defaultIconStyle = {
-      minHeight: HEIGHT_SELECT_BOX,
+      minHeight: 36,
       paddingHorizontal: 8,
       opacity: disabled ? 0.5 : 1,
       justifyContent: 'center' as ViewStyle['justifyContent'],
@@ -134,74 +110,53 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
     return icon;
   };
 
-  const _renderSelectBox = () => {
-    const placeholderColor =
-      Colors[placeholderTextColor] || placeholderTextColor;
-
-    const selectedValue = isMultiple
-      ? (selected as SelectItemType[])
-          .map((item: SelectItemType) => item.label)
-          .join(', ')
-      : (selected as SelectItemType).label;
-
+  const _renderDateTimeValue = () => {
     return (
       <Text
         flexGrow
         flexShrink
         numberOfLines={1}
         padding={{right: rightIcon ? 0 : 8, left: leftIcon ? 0 : 8}}
-        color={selectedValue === '' ? placeholderColor : Colors.primaryText}>
-        {selectedValue === '' ? placeholder : selectedValue}
+        color={value === '' ? placeholderTextColor : Colors.primaryText}>
+        {value === '' ? placeholder : value}
       </Text>
     );
   };
 
-  const _openSelectPopup = () => {
-    bottomSheetRef.current?.present();
-  };
+  const pickerId = useMemo(() => Helper.generateUUID(), []);
+  const pickerState = useModalController({id: `date_time_picker_${pickerId}`});
 
-  const _onPressClose = useCallback(() => {
-    bottomSheetRef.current?.close();
-  }, []);
-
-  const selectPopup = {
-    HeaderLeftComponent,
-    HeaderRightComponent,
-    submitText,
-    submitTextStyle,
-    label,
-    selected,
-    isMultiple,
-    onSelected,
-    data,
-    submitDisabled,
+  const _onPressDone = (date?: Date) => {
+    onChange && onChange(moment(date).format(valueFormat));
   };
 
   return (
     <Block style={containerStyle}>
       {label && _renderLabel()}
-      <TouchableHighlight disabled={disabled} onPress={_openSelectPopup}>
+      <TouchableHighlight disabled={disabled} onPress={pickerState.show}>
         <Block
-          height={HEIGHT_SELECT_BOX}
+          height={36}
           backgroundColor="inputBG"
           opacity={disabled ? 0.6 : 1}
           align="center"
           row
           style={inputContainerStyle}>
           {leftIcon && _renderIcon()}
-          {_renderSelectBox()}
+          {_renderDateTimeValue()}
           {_renderIcon(true)}
         </Block>
       </TouchableHighlight>
       {showError && error && _renderError()}
-      <SelectPopup
-        ref={bottomSheetRef}
-        onPressClose={_onPressClose}
-        itemHeight={itemHeight}
-        {...selectPopup}
+      <Picker
+        {...pickerState}
+        maximumDate={maximumDate}
+        minimumDate={minimumDate}
+        mode={mode}
+        value={value === '' ? new Date() : moment(value, valueFormat).toDate()}
+        onPressDone={_onPressDone}
       />
     </Block>
   );
-});
+};
 
-export default Select;
+export default DateTimePicker;

@@ -11,7 +11,6 @@ import Block from '../Block';
 import IconComponent from '../Icon';
 import Text from '../Text';
 import {isIcon} from '../utils';
-import {ITEM_HEIGHT_DEFAULT} from './constants';
 import styles from './styles';
 import {SelectItemProps, SelectItemType} from './types';
 
@@ -20,6 +19,7 @@ const SelectItem: React.FC<SelectItemProps> = ({
   onPress,
   isSelected,
   multiple,
+  itemHeight,
 }) => {
   const {Colors} = useTheme();
 
@@ -67,7 +67,7 @@ const SelectItem: React.FC<SelectItemProps> = ({
   return (
     <ButtonComponent onPress={() => onPress && onPress(data)}>
       <Block
-        height={ITEM_HEIGHT_DEFAULT}
+        height={itemHeight}
         row
         padding={{horizontal: 16}}
         backgroundColor="white"

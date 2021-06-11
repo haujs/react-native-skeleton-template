@@ -23,7 +23,7 @@ api.interceptors.request.use(async config => {
 });
 
 api.interceptors.response.use(
-  response => response,
+  response => response.data,
   ({message, response: {data, status}}) => {
     return Promise.reject({message, data, status});
   },
