@@ -10,6 +10,7 @@ import {
   ExampleText,
   ExampleSwitch,
   ExampleDateTimePicker,
+  ExampleImage,
 } from '@screens/Example';
 
 const ExampleStack = createStackNavigator();
@@ -28,6 +29,7 @@ const ExampleNavigation = () => {
       <ExampleStack.Screen name="ExampleModal" component={ExampleModal} />
       <ExampleStack.Screen name="ExampleSelect" component={ExampleSelect} />
       <ExampleStack.Screen name="ExampleSwitch" component={ExampleSwitch} />
+      <ExampleStack.Screen name="ExampleImage" component={ExampleImage} />
       <ExampleStack.Screen
         name="ExampleDateTimePicker"
         component={ExampleDateTimePicker}

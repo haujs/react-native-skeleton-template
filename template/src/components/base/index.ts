@@ -12,5 +12,6 @@ export {default as Alert} from './Alert';
 export {default as ActionSheet} from './ActionSheet';
 export {default as BottomMenu} from './BottomMenu';
 export {default as DateTimePicker} from './DateTimePicker';
+export {default as Image} from './Image';
 
 export * from './Form';
