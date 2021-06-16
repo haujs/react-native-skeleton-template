@@ -1,8 +1,4 @@
-import {
-  closeBottomMenu,
-  showAlert,
-  showBottomMenu,
-} from '@store/actions-types/modal';
+import {closeBottomMenu, showAlert, showBottomMenu} from '@store/actions/modal';
 import {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Platform} from 'react-native';

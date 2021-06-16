@@ -1,4 +1,4 @@
-import {ModalState} from '@store/actions-types/modal';
+import {ModalState} from '@store/types/modal';
 import {createSelector} from 'reselect';
 
 export const getAlertState = (state: {modal: ModalState}) =>

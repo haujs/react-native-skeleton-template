@@ -15,8 +15,9 @@ import Text from '../Text';
 import {isIcon, isString} from '../utils';
 import {InputProps} from './types';
 import TextInputMask from 'react-native-text-input-mask';
+import {getSize} from '@utils/responsive';
 
-const MIN_HEIGHT_INPUT = 36;
+const MIN_HEIGHT_INPUT = getSize.s(40);
 
 const TextInput = forwardRef<any, InputProps>((props, ref) => {
   const inputRef = useRef<NativeInput>(null);
@@ -61,11 +62,7 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
   const _renderLabel = () => {
     if (isString(label)) {
       return (
-        <Text
-          margin={{bottom: 2}}
-          size={12}
-          color="primaryText"
-          style={labelStyle}>
+        <Text margin={{bottom: 2}} color="primaryText" style={labelStyle}>
           {label}
           {required && <Text color="error"> *</Text>}
         </Text>
@@ -77,7 +74,7 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
   const _renderError = () => {
     if (isString(error)) {
       return (
-        <Text margin={{top: 2}} size={10} color="error" style={errorStyle}>
+        <Text margin={{top: 4}} size={10} color="error" style={errorStyle}>
           <MaterialCommunityIcons
             name="information-outline"
             color={Colors.error}

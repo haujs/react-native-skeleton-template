@@ -12,7 +12,6 @@ import Block from '../Block';
 import Text from '../Text';
 import {isIcon} from '../utils';
 import {ButtonProps} from './types';
-import Helper from '@utils/helpers';
 
 const Button: React.FC<ButtonProps> = props => {
   const {Colors} = useTheme();
@@ -32,6 +31,7 @@ const Button: React.FC<ButtonProps> = props => {
     leftIconContainerStyle,
     rightIcon,
     rightIconContainerStyle,
+    children,
     ...rest
   } = props;
 
@@ -69,43 +69,47 @@ const Button: React.FC<ButtonProps> = props => {
           StyleSheet.flatten(style)?.backgroundColor ? underlayColor : '#e6e6e6'
         }
         disabled={loading || props.disabled}>
-        <Block
-          row
-          backgroundColor={type === 'primary' ? 'primary' : 'transparent'}
-          border={{
-            width: 1,
-            color:
-              type === 'text'
-                ? 'transparent'
-                : props.disabled
-                ? Helper.colorLuminance(Colors.primary, 0, 0.5)
-                : Colors.primary,
-          }}
-          opacity={loading || props.disabled ? 0.5 : 1}
-          padding={{horizontal: 16, vertical: 12}}
-          align="center"
-          justify="center"
-          style={style}>
-          {leftIcon && _renderIcon()}
-          {loading && (
-            <Block margin={{right: 8}}>
-              <ActivityIndicator
-                color={type === 'primary' ? 'white' : Colors.primary}
-                size="small"
-              />
-            </Block>
-          )}
-          {title && (
-            <Text
-              fontType="bold"
-              color={type === 'primary' ? 'white' : 'primary'}
-              size={16}
-              style={titleStyle}>
-              {title}
-            </Text>
-          )}
-          {rightIcon && _renderIcon(true)}
-        </Block>
+        {children ? (
+          children
+        ) : (
+          <Block
+            row
+            backgroundColor={type === 'primary' ? 'primary' : 'transparent'}
+            border={{
+              width: 1,
+              color:
+                type === 'text'
+                  ? 'transparent'
+                  : props.disabled
+                  ? 'rgba(58,197,201, 0.5)'
+                  : Colors.primary,
+            }}
+            opacity={loading || props.disabled ? 0.5 : 1}
+            padding={{horizontal: 16, vertical: 12}}
+            align="center"
+            justify="center"
+            style={style}>
+            {leftIcon && _renderIcon()}
+            {loading && (
+              <Block margin={{right: 8}}>
+                <ActivityIndicator
+                  color={type === 'primary' ? 'white' : Colors.primary}
+                  size="small"
+                />
+              </Block>
+            )}
+            {title && (
+              <Text
+                fontType="bold"
+                color={type === 'primary' ? 'white' : 'primary'}
+                size={16}
+                style={titleStyle}>
+                {title}
+              </Text>
+            )}
+            {rightIcon && _renderIcon(true)}
+          </Block>
+        )}
       </ButtonComponent>
     </Block>
   );

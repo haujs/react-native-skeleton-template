@@ -3,7 +3,7 @@ import {
   BottomSheetFlatList,
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
-import {BottomMenuType} from '@store/actions-types/modal';
+import {BottomMenuType} from '@store/types/modal';
 import {useTheme} from '@theme';
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {ActivityIndicator} from 'react-native';

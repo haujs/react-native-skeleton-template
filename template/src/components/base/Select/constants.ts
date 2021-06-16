@@ -1,2 +1,4 @@
-export const ITEM_HEIGHT_DEFAULT = 45;
-export const HEIGHT_SELECT_BOX = 36;
+import {getSize} from '@utils/responsive';
+
+export const ITEM_HEIGHT_DEFAULT = getSize.s(45);
+export const HEIGHT_SELECT_BOX = getSize.s(40);

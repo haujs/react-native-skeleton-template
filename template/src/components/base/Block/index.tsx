@@ -1,4 +1,5 @@
 import {useTheme} from '@theme';
+import {getSize} from '@utils/responsive';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -37,8 +38,8 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
 
   const blockStyles = StyleSheet.flatten([
     createDefaultStyle(props),
-    width && {width},
-    height && {height},
+    width && {width: isNumber(width) ? getSize.s(width) : width},
+    height && {height: isNumber(height) ? getSize.s(height) : height},
     backgroundColor && {
       backgroundColor: Colors[backgroundColor] || backgroundColor,
     },
@@ -46,10 +47,10 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
     justify && {justifyContent: justify},
     row && {flexDirection: 'row'},
     position && {position},
-    isNumber(top) && {top},
-    isNumber(bottom) && {bottom},
-    isNumber(left) && {left},
-    isNumber(right) && {right},
+    {top: isNumber(top) ? getSize.s(top) : top},
+    {bottom: isNumber(bottom) ? getSize.s(bottom) : bottom},
+    {left: isNumber(left) ? getSize.s(left) : left},
+    {right: isNumber(right) ? getSize.s(right) : right},
     overflow && {overflow},
     padding && handleGutter('padding', padding),
     margin && handleGutter('margin', margin),
@@ -60,9 +61,9 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
         width: 0,
         height: 2,
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 2,
+      shadowOpacity: 0.15,
+      shadowRadius: 4,
+      elevation: 3,
     },
     style,
   ]);

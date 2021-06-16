@@ -1,6 +1,4 @@
-import {MenuItemType} from '@components/base/BottomMenu/types';
-import {BottomSheetModalProps} from '@gorhom/bottom-sheet';
-import {StyleProp, TextStyle} from 'react-native';
+import {AlertPayload, BottomMenuPayload} from '@store/types/modal';
 
 export const SHOW_MODAL = '@modal/show';
 export const REMOVE_MODAL = '@modal/remove';
@@ -21,12 +19,6 @@ export const removeModal = (payload: {id?: string}) => ({
   payload,
 });
 
-export interface ModalType {
-  id: string;
-  isVisible: boolean;
-  customProps?: {[key: string]: any};
-}
-
 export const SHOW_ALERT = '@alert/show';
 export const CLOSE_ALERT = '@alert/close';
 export const DISMISS_ALERT = '@alert/dismiss';
@@ -44,25 +36,6 @@ export const dismissAlert = () => ({
   type: DISMISS_ALERT,
 });
 
-export interface AlertButton {
-  text: string;
-  onPress?: () => void;
-  textStyle?: StyleProp<TextStyle>;
-}
-export interface AlertPayload {
-  title: string;
-  message?: string;
-  buttons?: AlertButton[];
-  options?: {
-    cancelable?: boolean;
-  };
-  override?: boolean;
-}
-
-export interface AlertType extends AlertPayload {
-  isVisible?: boolean;
-}
-
 export const SHOW_BOTTOM_MENU = '@bottom_menu/show';
 export const CLOSE_BOTTOM_MENU = '@bottom_menu/close';
 
@@ -74,18 +47,3 @@ export const showBottomMenu = (payload: BottomMenuPayload) => ({
 export const closeBottomMenu = () => ({
   type: CLOSE_BOTTOM_MENU,
 });
-
-export interface BottomMenuPayload {
-  data: MenuItemType[];
-  bottomSheetModalProps?: Partial<BottomSheetModalProps>;
-}
-
-export interface BottomMenuType extends BottomMenuPayload {
-  isVisible?: boolean;
-}
-
-export interface ModalState {
-  modals: ModalType[];
-  alert: AlertType;
-  bottomMenu: BottomMenuType;
-}

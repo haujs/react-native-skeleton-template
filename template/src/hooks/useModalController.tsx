@@ -1,4 +1,4 @@
-import {closeModal, removeModal, showModal} from '@store/actions-types/modal';
+import {closeModal, removeModal, showModal} from '@store/actions/modal';
 import {getModalById} from '@store/selectors/modal';
 import {useDispatch, useSelector} from 'react-redux';
 

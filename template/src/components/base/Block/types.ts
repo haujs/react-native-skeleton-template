@@ -83,9 +83,9 @@ export interface BlockProps extends DefaultStyleProps, ViewProps {
         width: 0,
         height: 2,
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 2,
+      shadowOpacity: 0.15,
+      shadowRadius: 4,
+      elevation: 3,
     }
    * ```
    */

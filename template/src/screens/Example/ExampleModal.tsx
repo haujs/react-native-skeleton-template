@@ -1,6 +1,6 @@
 import {ActionSheet, Alert, Block, Button, Text} from '@components/base';
 import {useMediaPicker, useModalController} from '@hooks';
-import {closeAlert, showAlert} from '@store/actions-types/modal';
+import {closeAlert, showAlert} from '@store/actions/modal';
 import React from 'react';
 import {Image, Modal, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';

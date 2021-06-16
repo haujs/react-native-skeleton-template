@@ -13,7 +13,7 @@ const FormDateTimePicker: React.FC<FormDateTimePickerProps> = ({
     <Controller
       control={control}
       name={name}
-      render={({field: {onChange, value}, formState: {errors}}) => (
+      render={({field: {onChange, value}, fieldState: {error: fieldError}}) => (
         <DateTimePicker
           {...props}
           value={value}
@@ -21,7 +21,7 @@ const FormDateTimePicker: React.FC<FormDateTimePickerProps> = ({
             onChange(text);
             props.onChange && props.onChange(text);
           }}
-          error={error || errors[name]?.message}
+          error={fieldError && (error || fieldError?.message)}
         />
       )}
       defaultValue=""

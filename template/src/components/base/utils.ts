@@ -1,4 +1,5 @@
 import {IconType} from '@assets/icons';
+import {getSize} from '@utils/responsive';
 import {FlexStyle, ViewStyle} from 'react-native';
 import {EdgeInsets} from 'react-native-safe-area-context';
 import {IconProps} from 'react-native-vector-icons/Icon';
@@ -10,45 +11,46 @@ export const handleGutter = (
 ) => {
   if (isNumber(gutter)) {
     return {
-      padding: gutter,
+      padding: getSize.m(gutter),
     };
   }
   return {
-    [`${type}Horizontal`]: gutter.horizontal,
-    [`${type}Vertical`]: gutter.vertical,
-    [`${type}Left`]: gutter.left,
-    [`${type}Right`]: gutter.right,
-    [`${type}Bottom`]: gutter.bottom,
-    [`${type}Top`]: gutter.top,
+    [`${type}Horizontal`]: gutter.horizontal && getSize.m(gutter.horizontal),
+    [`${type}Vertical`]: gutter.vertical && getSize.m(gutter.vertical),
+    [`${type}Left`]: gutter.left && getSize.m(gutter.left),
+    [`${type}Right`]: gutter.right && getSize.m(gutter.right),
+    [`${type}Bottom`]: gutter.bottom && getSize.m(gutter.bottom),
+    [`${type}Top`]: gutter.top && getSize.m(gutter.top),
   };
 };
 
 export const handleRadius = (radius: number | RadiusProps) => {
   if (isNumber(radius)) {
     return {
-      borderRadius: 12,
+      borderRadius: getSize.s(radius),
     };
   }
   return {
-    borderBottomLeftRadius: radius.bottomLeft,
-    borderBottomRightRadius: radius.bottomRight,
-    borderTopLeftRadius: radius.topLeft,
-    borderTopRightRadius: radius.topRight,
+    borderBottomLeftRadius: radius.bottomLeft && getSize.s(radius.bottomLeft),
+    borderBottomRightRadius:
+      radius.bottomRight && getSize.s(radius.bottomRight),
+    borderTopLeftRadius: radius.topLeft && getSize.s(radius.topLeft),
+    borderTopRightRadius: radius.topRight && getSize.s(radius.topRight),
   };
 };
 
 export const handleSquare = (number: number) => {
   return {
-    width: number,
-    height: number,
+    width: getSize.s(number),
+    height: getSize.s(number),
   };
 };
 
 export const handleRound = (number: number) => {
   return {
-    width: number,
-    height: number,
-    borderRadius: number / 2,
+    width: getSize.s(number),
+    height: getSize.s(number),
+    borderRadius: getSize.s(number) / 2,
   };
 };
 
@@ -61,15 +63,15 @@ const getInitPadding = (
     return initPadding;
   }
   if (isNumber(padding)) {
-    initPadding = padding;
+    initPadding = getSize.m(padding);
   } else {
-    initPadding = padding?.[inset] ?? 0;
+    initPadding = getSize.m(padding?.[inset] ?? 0);
     if (!initPadding) {
       const isVertical = inset === 'top' || inset === 'bottom';
       if (isVertical) {
-        initPadding = padding?.vertical ?? 0;
+        initPadding = padding.vertical ? getSize.m(padding.vertical) : 0;
       } else {
-        initPadding = padding?.horizontal ?? 0;
+        initPadding = padding.horizontal ? getSize.m(padding.horizontal) : 0;
       }
     }
   }
@@ -106,13 +108,13 @@ export const handleInset = (
 
 export const handleBorder = (border: BorderProps | BorderType) => {
   if ('width' in border) {
-    return {borderWidth: border.width, borderColor: border.color};
+    return {borderWidth: getSize.s(border.width), borderColor: border.color};
   }
   return {
-    borderTopWidth: border.top?.width,
-    borderBottomWidth: border.bottom?.width,
-    borderLeftWidth: border.left?.width,
-    borderRightWidth: border.right?.width,
+    borderTopWidth: border.top?.width && getSize.s(border.top?.width),
+    borderBottomWidth: border.bottom?.width && getSize.s(border.bottom?.width),
+    borderLeftWidth: border.left?.width && getSize.s(border.left?.width),
+    borderRightWidth: border.right?.width && getSize.s(border.right?.width),
     borderTopColor: border.top?.color,
     borderBottomColor: border.bottom?.color,
     borderLeftColor: border.left?.color,

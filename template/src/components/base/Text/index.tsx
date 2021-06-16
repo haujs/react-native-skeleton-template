@@ -1,4 +1,5 @@
 import {useTheme} from '@theme';
+import {getSize} from '@utils/responsive';
 import React, {Children} from 'react';
 import {StyleSheet, Text as ReactNativeText} from 'react-native';
 import {createDefaultStyle, handleGutter, isNumber, isString} from '../utils';
@@ -13,7 +14,7 @@ const Text = (props: CommonTextProps) => {
       fontType = 'regular',
       color = 'primaryText',
       size = 14,
-      lineHeight = size * 1.25,
+      lineHeight = getSize.m(size) * 1.25,
       backgroundColor,
       padding,
       margin,
@@ -26,7 +27,7 @@ const Text = (props: CommonTextProps) => {
       },
       Fonts[fontType],
       {color: Colors[color] || color},
-      {fontSize: size},
+      {fontSize: getSize.m(size)},
       {lineHeight},
       childProps.center && {textAlign: 'center'},
       childProps.right && {textAlign: 'right'},
