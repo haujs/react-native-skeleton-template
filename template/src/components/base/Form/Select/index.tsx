@@ -23,7 +23,7 @@ const FormSelect: React.FC<FormSelectProps> = ({
               onChange(newValue);
               props.onSelected && props.onSelected(newValue);
             }}
-            error={error ? error : handleError(fieldError)}
+            error={fieldError && (error || handleError(fieldError))}
           />
         );
       }}

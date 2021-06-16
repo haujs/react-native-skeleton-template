@@ -1,10 +1,6 @@
 import {Block, Text} from '@components/base';
-import {
-  AlertButton,
-  AlertType,
-  closeAlert,
-  dismissAlert,
-} from '@store/actions-types/modal';
+import {closeAlert, dismissAlert} from '@store/actions/modal';
+import {AlertButton, AlertType} from '@store/types/modal';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {

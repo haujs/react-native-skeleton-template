@@ -1,5 +1,6 @@
 import {useModalController} from '@hooks';
 import {useTheme} from '@theme';
+import {getSize} from '@utils/responsive';
 import moment from 'moment';
 import React, {useMemo} from 'react';
 import {StyleSheet, TouchableHighlight, ViewStyle} from 'react-native';
@@ -41,11 +42,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
   const _renderLabel = () => {
     if (isString(label)) {
       return (
-        <Text
-          margin={{bottom: 2}}
-          size={12}
-          color="primaryText"
-          style={labelStyle}>
+        <Text margin={{bottom: 4}} color="primaryText" style={labelStyle}>
           {label}
           {required && <Text color="error"> *</Text>}
         </Text>
@@ -57,7 +54,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
   const _renderError = () => {
     if (isString(error)) {
       return (
-        <Text margin={{top: 2}} size={10} color="error" style={errorStyle}>
+        <Text margin={{top: 4}} size={10} color="error" style={errorStyle}>
           <MaterialCommunityIcons
             name="information-outline"
             color={Colors.error}
@@ -72,7 +69,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
 
   const _renderIcon = (isRight?: boolean) => {
     const defaultIconStyle = {
-      minHeight: 36,
+      minHeight: getSize.s(40),
       paddingHorizontal: 8,
       opacity: disabled ? 0.5 : 1,
       justifyContent: 'center' as ViewStyle['justifyContent'],
@@ -134,7 +131,7 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
       {label && _renderLabel()}
       <TouchableHighlight disabled={disabled} onPress={pickerState.show}>
         <Block
-          height={36}
+          height={40}
           backgroundColor="inputBG"
           opacity={disabled ? 0.6 : 1}
           align="center"

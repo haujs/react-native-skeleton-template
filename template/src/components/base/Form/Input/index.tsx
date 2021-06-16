@@ -16,7 +16,7 @@ const FormInput: React.FC<FormInputProps> = ({
       name={name}
       render={({
         field: {onChange, onBlur, value, ref},
-        formState: {errors},
+        fieldState: {error: fieldError},
       }) => (
         <TextInput
           {...props}
@@ -30,7 +30,7 @@ const FormInput: React.FC<FormInputProps> = ({
             onBlur();
             props.onBlur && props.onBlur(e);
           }}
-          error={error || errors[name]?.message}
+          error={fieldError && (error || fieldError?.message)}
         />
       )}
       defaultValue=""

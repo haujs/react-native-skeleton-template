@@ -1,4 +1,5 @@
-import * as types from '@store/actions-types/modal';
+import * as actions from '@store/actions/modal';
+import {ModalType} from '@store/types/modal';
 import produce from 'immer';
 
 const INITIAL_STATE = {
@@ -9,10 +10,10 @@ const INITIAL_STATE = {
 
 const startupReducer = produce((state = INITIAL_STATE, action) => {
   const selectedIndex = state.modals.findIndex(
-    (modal: types.ModalType) => modal.id === action.payload?.id,
+    (modal: ModalType) => modal.id === action.payload?.id,
   );
   switch (action.type) {
-    case types.SHOW_MODAL:
+    case actions.SHOW_MODAL:
       if (selectedIndex !== -1) {
         state.modals[selectedIndex].isVisible = true;
         state.modals[selectedIndex].customProps =
@@ -26,7 +27,7 @@ const startupReducer = produce((state = INITIAL_STATE, action) => {
       }
       return state;
 
-    case types.CLOSE_MODAL:
+    case actions.CLOSE_MODAL:
       if (action.payload) {
         if (selectedIndex !== -1) {
           state.modals[selectedIndex].isVisible = false;
@@ -39,7 +40,7 @@ const startupReducer = produce((state = INITIAL_STATE, action) => {
       }
       return state;
 
-    case types.REMOVE_MODAL:
+    case actions.REMOVE_MODAL:
       if (action.payload) {
         if (selectedIndex !== -1) {
           state.modals.splice(selectedIndex, 1);
@@ -49,7 +50,7 @@ const startupReducer = produce((state = INITIAL_STATE, action) => {
       }
       return state;
 
-    case types.SHOW_ALERT:
+    case actions.SHOW_ALERT:
       state.alert = {
         isVisible: true,
         ...action.payload,
@@ -57,21 +58,21 @@ const startupReducer = produce((state = INITIAL_STATE, action) => {
       };
       return state;
 
-    case types.CLOSE_ALERT:
+    case actions.CLOSE_ALERT:
       if (state.alert) {
         state.alert.isVisible = false;
       }
       return state;
 
-    case types.DISMISS_ALERT:
+    case actions.DISMISS_ALERT:
       state.alert = null;
       return state;
 
-    case types.SHOW_BOTTOM_MENU:
+    case actions.SHOW_BOTTOM_MENU:
       state.bottomMenu = {...action.payload, isVisible: true};
       return state;
 
-    case types.CLOSE_BOTTOM_MENU:
+    case actions.CLOSE_BOTTOM_MENU:
       state.bottomMenu = null;
       return state;
 

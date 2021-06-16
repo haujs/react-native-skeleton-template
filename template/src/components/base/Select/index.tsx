@@ -66,11 +66,7 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
   const _renderLabel = () => {
     if (isString(label)) {
       return (
-        <Text
-          margin={{bottom: 2}}
-          size={12}
-          color="primaryText"
-          style={labelStyle}>
+        <Text margin={{bottom: 4}} color="primaryText" style={labelStyle}>
           {label}
           {required && <Text color="error"> *</Text>}
         </Text>
@@ -82,7 +78,7 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
   const _renderError = () => {
     if (isString(error)) {
       return (
-        <Text margin={{top: 2}} size={10} color="error" style={errorStyle}>
+        <Text margin={{top: 4}} size={10} color="error" style={errorStyle}>
           <MaterialCommunityIcons
             name="information-outline"
             color={Colors.error}

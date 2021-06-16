@@ -1,4 +1,4 @@
-import * as types from '@store/actions-types/startup';
+import * as actions from '@store/actions/startup';
 import produce from 'immer';
 
 const INITIAL_STATE = {
@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 
 const startupReducer = produce((state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case types.START_UP_SUCCESS:
+    case actions.START_UP_SUCCESS:
       state.isLoading = false;
       return state;
 

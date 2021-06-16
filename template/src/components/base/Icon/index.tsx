@@ -1,6 +1,7 @@
 import {getIconComponent} from '@assets/icons';
 import {useTheme} from '@theme';
 import Helper from '@utils/helpers';
+import {getSize} from '@utils/responsive';
 import React from 'react';
 import {
   Platform,
@@ -30,7 +31,6 @@ const Icon: React.FC<IconComponentProps> = props => {
           default: TouchableHighlight,
         })
       : Block,
-    buttonStyle,
     ...rest
   } = props;
 
@@ -45,12 +45,15 @@ const Icon: React.FC<IconComponentProps> = props => {
   ]);
 
   return (
-    <ButtonComponent {...{underlayColor}} {...rest} style={buttonStyle}>
-      <Block style={initContainerStyle}>
+    <ButtonComponent
+      {...{underlayColor}}
+      {...rest}
+      style={Platform.OS === 'android' ? {} : initContainerStyle}>
+      <Block style={Platform.OS === 'android' ? initContainerStyle : {}}>
         <IconComponent
           {...iconProps}
           name={name}
-          size={size}
+          size={getSize.s(size || 0)}
           color={Colors[color] || color}
         />
       </Block>

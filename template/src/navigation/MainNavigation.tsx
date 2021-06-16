@@ -1,7 +1,7 @@
 import {Alert, BottomMenu} from '@components/base';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {startupRequest} from '@store/actions-types/startup';
+import {startupRequest} from '@store/actions/startup';
 import {getStartUpLoading} from '@store/selectors';
 import {getAlertState, getBottomMenuState} from '@store/selectors/modal';
 import {useTheme} from '@theme';
