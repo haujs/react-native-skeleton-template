@@ -20,7 +20,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
   submitTextStyle,
   submitDisabled,
 }) => {
-  const {t} = useTranslation();
+  const {t} = useTranslation('Common');
   const {Colors} = useTheme();
 
   const [leftButtonWidth, setLeftButtonWidth] = useState(0);
@@ -106,7 +106,7 @@ const HeaderTitle: React.FC<HeaderTitleProps> = ({
               opacity={submitDisabled ? 0.6 : 1}>
               {isMultiple ? (
                 <Text color="primary" fontType="bold" style={submitTextStyle}>
-                  {submitText || t('general.done')}
+                  {submitText || t('done')}
                 </Text>
               ) : (
                 <IconComponent

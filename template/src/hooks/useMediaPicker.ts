@@ -18,7 +18,7 @@ interface MediaResponseType {
 
 export const useMediaPicker = (props?: Options) => {
   const dispatch = useDispatch();
-  const {t} = useTranslation();
+  const {t} = useTranslation('Common');
 
   const [file, setFile] = useState<MediaResponseType | undefined>();
 
@@ -48,7 +48,7 @@ export const useMediaPicker = (props?: Options) => {
     const options = props || {};
     const data = [
       {
-        label: t('general.take_photo'),
+        label: t('take_photo'),
         icon: {name: 'camera', type: 'ionicons'},
         onPress: () => {
           dispatch(closeBottomMenu());
@@ -58,7 +58,7 @@ export const useMediaPicker = (props?: Options) => {
         },
       },
       {
-        label: t('general.choose_from_library'),
+        label: t('choose_from_library'),
         icon: {name: 'image', type: 'ionicons'},
         onPress: () => {
           dispatch(closeBottomMenu());

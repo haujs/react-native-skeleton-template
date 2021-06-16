@@ -1,5 +1,5 @@
 export default {
-  general: {
+  Common: {
     take_photo: 'Take photo',
     choose_from_library: 'Choose from library',
     cancel: 'Cancel',
