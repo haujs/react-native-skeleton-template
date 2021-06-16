@@ -32,7 +32,7 @@ const alertTimingConfig = {
 };
 
 const Alert: React.FC<AlertProps> = props => {
-  const {t} = useTranslation();
+  const {t} = useTranslation('Common');
   const {
     title,
     message,
@@ -167,7 +167,7 @@ const Alert: React.FC<AlertProps> = props => {
             ) : (
               _renderActions(
                 {
-                  text: t('general.cancel'),
+                  text: t('cancel'),
                   onPress: () => dispatch(closeAlert()),
                 },
                 0,

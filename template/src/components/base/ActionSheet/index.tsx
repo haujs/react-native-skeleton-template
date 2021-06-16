@@ -47,7 +47,7 @@ const actionSheetTimingConfig = {
 };
 
 const ActionSheet: React.FC<ActionSheetProps> = props => {
-  const {t} = useTranslation();
+  const {t} = useTranslation('Common');
   const {
     buttons,
     headerTitle,
@@ -179,7 +179,7 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
                     center
                     color="#0A7AFF"
                     style={cancelTextStyle}>
-                    {cancelText || t('general.cancel')}
+                    {cancelText || t('cancel')}
                   </Text>
                 </Block>
               </TouchableOpacity>

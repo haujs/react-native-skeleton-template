@@ -15,7 +15,7 @@ interface PickerIosProps extends IOSNativeProps {
 }
 
 const PickerIos: React.FC<PickerIosProps> = props => {
-  const {t} = useTranslation();
+  const {t} = useTranslation('Common');
   const {isVisible, close, value, onPressDone, dismiss, ...rest} = props;
   const [pickerValue, setPickerValue] = useState<Date>(value);
 
@@ -38,7 +38,7 @@ const PickerIos: React.FC<PickerIosProps> = props => {
             border={{top: {width: StyleSheet.hairlineWidth, color: 'gray'}}}>
             <Button
               type="text"
-              title={t('general.done')}
+              title={t('done')}
               onPress={() => {
                 close();
                 onPressDone && onPressDone(pickerValue);
