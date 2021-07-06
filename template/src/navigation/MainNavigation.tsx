@@ -7,6 +7,7 @@ import {getAlertState, getBottomMenuState} from '@store/selectors/modal';
 import {useTheme} from '@theme';
 import React, {useEffect} from 'react';
 import {StatusBar} from 'react-native';
+import Orientation from 'react-native-orientation';
 import SplashScreen from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
 import ExampleNavigation from './ExampleNavigation';
@@ -22,6 +23,7 @@ const MainNavigation = () => {
   const alertProps = useSelector(getAlertState);
 
   useEffect(() => {
+    Orientation.lockToPortrait();
     dispatch(startupRequest());
   }, [dispatch]);
 
