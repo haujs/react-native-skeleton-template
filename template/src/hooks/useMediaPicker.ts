@@ -9,7 +9,7 @@ import ImageCropPicker, {
 } from 'react-native-image-crop-picker';
 import {useDispatch} from 'react-redux';
 
-interface MediaResponseType {
+export interface MediaResponseType {
   name: string;
   uri: string;
   type: string;
@@ -44,7 +44,7 @@ export const useMediaPicker = (props?: Options) => {
     [dispatch],
   );
 
-  const openPicker = useCallback(() => {
+  const openPicker = () => {
     const options = props || {};
     const data = [
       {
@@ -75,7 +75,7 @@ export const useMediaPicker = (props?: Options) => {
         bottomSheetModalProps: {onDismiss: () => dispatch(closeBottomMenu())},
       }),
     );
-  }, [_handleError, dispatch, props, t]);
+  };
 
   return {file, setFile, openPicker};
 };

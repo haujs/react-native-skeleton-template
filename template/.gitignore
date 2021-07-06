@@ -65,3 +65,9 @@ buck-out/
 /configs/production/.env
 /configs/production/GoogleService-Info.plist
 /configs/production/google-services.json
+
+# react-native-config codegen
+ios/tmp.xcconfig
+.env
+
+.vscode
