@@ -2,6 +2,8 @@ import {ActionSheet, Block, Button} from '@components/base';
 import DateTimePicker, {
   IOSNativeProps,
 } from '@react-native-community/datetimepicker';
+import {useTheme} from '@theme';
+import {getSize} from '@utils/responsive';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
@@ -16,6 +18,7 @@ interface PickerIosProps extends IOSNativeProps {
 
 const PickerIos: React.FC<PickerIosProps> = props => {
   const {t} = useTranslation('Common');
+  const {Colors} = useTheme();
   const {isVisible, close, value, onPressDone, dismiss, ...rest} = props;
   const [pickerValue, setPickerValue] = useState<Date>(value);
 
@@ -35,9 +38,13 @@ const PickerIos: React.FC<PickerIosProps> = props => {
         </Block>
         {!!pickerValue && (
           <Block
-            border={{top: {width: StyleSheet.hairlineWidth, color: 'gray'}}}>
+            border={{
+              top: {width: StyleSheet.hairlineWidth, color: Colors.border},
+            }}>
             <Button
+              style={styles.doneBtn}
               type="text"
+              titleProps={{style: styles.titleStyle}}
               title={t('done')}
               onPress={() => {
                 close();
@@ -52,3 +59,8 @@ const PickerIos: React.FC<PickerIosProps> = props => {
 };
 
 export default PickerIos;
+
+const styles = StyleSheet.create({
+  doneBtn: {paddingVertical: getSize.m(12)},
+  titleStyle: {color: '#0A7AFF', fontSize: getSize.m(18)},
+});

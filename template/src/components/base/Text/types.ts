@@ -1,3 +1,4 @@
+import {ThemeFontWeight} from '@theme/types';
 import {TextProps} from 'react-native';
 import {DefaultStyleProps} from '../utils';
 
@@ -6,8 +7,18 @@ export interface CommonTextProps extends DefaultStyleProps, TextProps {
    * Specifies font weight.
    *
    * Default is **"regular"**
+   *
+   * **xl** : fontSize: 22, lineHeight: 24, fontWeight: bold
+   *
+   * **lg** : fontSize: 14, lineHeight: 22, fontWeight: bold
+   *
+   * **p** : fontSize: 14, lineHeight: 20
+   *
+   * **s** : fontSize: 12, lineHeight: 18
+   *
+   * **xs** : fontSize: 10, lineHeight: 14
    */
-  fontType?: 'regular' | 'bold';
+  fontType?: keyof ThemeFontWeight;
 
   /**
    * Color of text - key of **Colors (theme/colors.ts)** or **Color keywords**

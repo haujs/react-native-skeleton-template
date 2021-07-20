@@ -1,8 +1,9 @@
 import {combineReducers} from 'redux';
-import startup from './startup';
-import modal from './modal';
+import common from './commonReducer';
+import startup from './startupReducer';
+import user from './userReducer';
 
-const reducers = combineReducers({startup, modal});
+const reducers = combineReducers({common, startup, user});
 
 export type RootState = ReturnType<typeof reducers>;
 

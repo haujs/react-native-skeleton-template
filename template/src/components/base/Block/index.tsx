@@ -8,6 +8,7 @@ import {
   handleGutter,
   handleInset,
   isNumber,
+  isUndefined,
 } from '../utils';
 import {BlockProps} from './types';
 
@@ -40,21 +41,19 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
     createDefaultStyle(props),
     width && {width: isNumber(width) ? getSize.s(width) : width},
     height && {height: isNumber(height) ? getSize.s(height) : height},
-    backgroundColor && {
-      backgroundColor: Colors[backgroundColor] || backgroundColor,
-    },
     align && {alignItems: align},
     justify && {justifyContent: justify},
     row && {flexDirection: 'row'},
     position && {position},
-    {top: isNumber(top) ? getSize.s(top) : top},
-    {bottom: isNumber(bottom) ? getSize.s(bottom) : bottom},
-    {left: isNumber(left) ? getSize.s(left) : left},
-    {right: isNumber(right) ? getSize.s(right) : right},
+    !isUndefined(top) && {top: isNumber(top) ? getSize.s(top) : top},
+    !isUndefined(bottom) && {
+      bottom: isNumber(bottom) ? getSize.s(bottom) : bottom,
+    },
+    !isUndefined(left) && {left: isNumber(left) ? getSize.s(left) : left},
+    !isUndefined(right) && {right: isNumber(right) ? getSize.s(right) : right},
     overflow && {overflow},
     padding && handleGutter('padding', padding),
     margin && handleGutter('margin', margin),
-    handleInset(props, safeArea, padding),
     shadow && {
       shadowColor: '#000',
       shadowOffset: {
@@ -64,6 +63,10 @@ const Block = React.forwardRef<any, BlockProps>((props, ref) => {
       shadowOpacity: 0.15,
       shadowRadius: 4,
       elevation: 3,
+    },
+    handleInset(props, safeArea, padding),
+    backgroundColor && {
+      backgroundColor: Colors[backgroundColor] || backgroundColor,
     },
     style,
   ]);

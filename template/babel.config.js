@@ -21,7 +21,6 @@ module.exports = {
           '@store': './src/store',
           '@theme': './src/theme',
           '@utils': './src/utils',
-          '@providers': './src/providers',
         },
       },
     ],

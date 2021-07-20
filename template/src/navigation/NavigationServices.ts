@@ -15,7 +15,18 @@ export function navigate(name: string, params?: any, key?: string) {
   navigationRef.current?.navigate(name, params);
 }
 
-export function navigateAndReset(routes: {name: string}[], index: number) {
+export function goBack() {
+  if (navigationRef.current?.canGoBack()) {
+    navigationRef.current?.goBack();
+  } else {
+    navigateAndReset([{name: 'MainStack'}], 0);
+  }
+}
+
+export function navigateAndReset(
+  routes: {name: string; params?: any}[],
+  index: number,
+) {
   navigationRef.current?.dispatch(
     CommonActions.reset({
       index,

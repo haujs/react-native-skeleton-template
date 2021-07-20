@@ -1,7 +1,6 @@
-/**
- * @format
- */
-
+import 'moment-timezone';
+import 'moment/locale/en-gb';
+import 'moment/locale/ja';
 import {AppRegistry} from 'react-native';
 import App from './src/App';
 import {name as appName} from './app.json';

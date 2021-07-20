@@ -113,4 +113,6 @@ export interface InputProps extends TextInputMaskProps {
   hideFocus?: boolean;
 
   ref?: any;
+
+  maxLength?: number;
 }

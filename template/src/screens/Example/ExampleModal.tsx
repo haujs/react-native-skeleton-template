@@ -1,16 +1,13 @@
-import {ActionSheet, Alert, Block, Button, Text} from '@components/base';
+import {ActionSheet, Block, Button, Modal, Text} from '@components/base';
 import {useMediaPicker, useModalController} from '@hooks';
-import {closeAlert, showAlert} from '@store/actions/modal';
+import {showAlert} from '@store/actions/commonAction';
 import React from 'react';
-import {Image, Modal, StyleSheet} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 import {useDispatch} from 'react-redux';
 
 const ExampleModal = () => {
   const dispatch = useDispatch();
   const modalState = useModalController({id: 'Modal_1'});
-  const alertState = useModalController({
-    id: 'Alert_popup',
-  });
   const actionSheetState = useModalController({
     id: 'ActionSheet_Example',
   });
@@ -19,29 +16,9 @@ const ExampleModal = () => {
   const _showAlert = () => {
     dispatch(
       showAlert({
+        id: 'example_alert',
         title: 'Example Alert',
         message: 'Message odf ',
-        buttons: [
-          {text: 'Cancel', onPress: () => dispatch(closeAlert())},
-          {
-            text: 'Submit',
-            onPress: () => {
-              dispatch(closeAlert());
-              setTimeout(() => {
-                dispatch(
-                  showAlert({
-                    title: 'Example Alert',
-                    message: 'Message odf ',
-                    buttons: [
-                      {text: 'Cancel', onPress: () => dispatch(closeAlert())},
-                    ],
-                    options: {cancelable: true},
-                  }),
-                );
-              }, 300);
-            },
-          },
-        ],
         options: {cancelable: true},
       }),
     );
@@ -55,31 +32,17 @@ const ExampleModal = () => {
       <Text>Modal Controller</Text>
       <Button title="Show Modal" onPress={modalState.show} />
       <Modal
-        visible={modalState.isVisible}
-        animationType="slide"
-        presentationStyle="pageSheet"
-        onRequestClose={modalState.close}
-        onDismiss={modalState.dismiss}>
+        id="example_modal"
+        isVisible={modalState.isVisible}
+        onRequestClose={modalState.close}>
         <Block padding={16}>
           <Text fontType="bold" size={16} center>
             Modal Example
           </Text>
           <Block height={24} />
-          <Button
-            title="Show Alert In Modal"
-            onPress={() => {
-              alertState.show({message: 'Alert in modal'});
-            }}
-          />
+          <Button title="Show Alert In Modal" onPress={_showAlert} />
           <Block height={24} />
           <Button title="Close Modal" onPress={modalState.close} />
-          <Alert
-            isVisible={alertState.isVisible}
-            title="Alert title"
-            buttons={[{text: 'Cancel', onPress: alertState.close}]}
-            onDismiss={alertState.dismiss}
-            {...alertState.customProps}
-          />
         </Block>
       </Modal>
       <Block height={24} />
@@ -92,7 +55,6 @@ const ExampleModal = () => {
         onPressCancel={actionSheetState.close}
         onDismiss={actionSheetState.dismiss}
       />
-
       <Block height={24} />
       <Text>Image Picker</Text>
       <Button title="Show Image Picker" onPress={openPicker} />

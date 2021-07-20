@@ -1,46 +1,54 @@
-import {Alert, BottomMenu} from '@components/base';
+import {AlertDialog, BottomMenu} from '@components/base';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
+import {PortalHost, PortalProvider} from '@gorhom/portal';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {startupRequest} from '@store/actions/startup';
-import {getStartUpLoading} from '@store/selectors';
-import {getAlertState, getBottomMenuState} from '@store/selectors/modal';
+import {startupRequest} from '@store/actions/startupAction';
+import {getBottomMenuState, getStartUpLoading} from '@store/selectors';
 import {useTheme} from '@theme';
+import {TIMEZONE} from '@utils/constants';
+import moment from 'moment';
 import React, {useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import {StatusBar} from 'react-native';
-import Orientation from 'react-native-orientation';
-import SplashScreen from 'react-native-splash-screen';
+import Splash from 'react-native-splash-screen';
 import {useDispatch, useSelector} from 'react-redux';
-import ExampleNavigation from './ExampleNavigation';
 import {navigationRef} from './NavigationServices';
+import RootStackNavigation from './RootStackNavigation';
 
-const RootStack = createStackNavigator();
+moment.tz.setDefault(TIMEZONE);
 
 const MainNavigation = () => {
+  const {i18n} = useTranslation();
   const {NavigationTheme} = useTheme();
   const dispatch = useDispatch();
   const isLoading = useSelector(getStartUpLoading);
   const bottomMenuProps = useSelector(getBottomMenuState);
-  const alertProps = useSelector(getAlertState);
 
   useEffect(() => {
-    Orientation.lockToPortrait();
     dispatch(startupRequest());
   }, [dispatch]);
 
   useEffect(() => {
+    moment.locale(i18n.language);
+  }, [i18n.language]);
+
+  useEffect(() => {
     if (!isLoading) {
-      SplashScreen.hide();
+      Splash.hide();
     }
   }, [isLoading]);
 
   return (
     <NavigationContainer ref={navigationRef} theme={NavigationTheme}>
-      <StatusBar barStyle="dark-content" />
-      <RootStack.Navigator headerMode="none">
-        <RootStack.Screen name="Example" component={ExampleNavigation} />
-      </RootStack.Navigator>
-      <Alert {...alertProps} />
-      <BottomMenu {...bottomMenuProps} />
+      <PortalProvider>
+        <BottomSheetModalProvider>
+          <StatusBar barStyle="dark-content" />
+          <RootStackNavigation />
+          <BottomMenu {...bottomMenuProps} />
+        </BottomSheetModalProvider>
+        <PortalHost name="root_alert" />
+      </PortalProvider>
+      <AlertDialog />
     </NavigationContainer>
   );
 };

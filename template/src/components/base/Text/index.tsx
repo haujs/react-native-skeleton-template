@@ -1,70 +1,54 @@
 import {useTheme} from '@theme';
 import {getSize} from '@utils/responsive';
-import React, {Children} from 'react';
+import React from 'react';
 import {StyleSheet, Text as ReactNativeText} from 'react-native';
-import {createDefaultStyle, handleGutter, isNumber, isString} from '../utils';
+import {createDefaultStyle, handleGutter, isNumber} from '../utils';
 import {CommonTextProps} from './types';
 
 const Text = (props: CommonTextProps) => {
   const {Fonts, Colors} = useTheme();
 
-  const textStyle = (childProps: CommonTextProps) => {
-    const {
-      style,
-      fontType = 'regular',
-      color = 'primaryText',
-      size = 14,
-      lineHeight = getSize.m(size) * 1.25,
-      backgroundColor,
-      padding,
-      margin,
-    } = childProps;
+  const {
+    style,
+    fontType = 'regular',
+    color = 'primaryText',
+    size,
+    lineHeight,
+    backgroundColor,
+    padding,
+    margin,
+    center,
+    justify,
+    right,
+  } = props;
 
-    return StyleSheet.flatten([
-      createDefaultStyle(childProps),
-      backgroundColor && {
-        backgroundColor: Colors[backgroundColor] || backgroundColor,
-      },
-      Fonts[fontType],
-      {color: Colors[color] || color},
-      {fontSize: getSize.m(size)},
-      {lineHeight},
-      childProps.center && {textAlign: 'center'},
-      childProps.right && {textAlign: 'right'},
-      childProps.justify && {textAlign: 'justify'},
-      padding && handleGutter('padding', padding),
-      margin && handleGutter('margin', margin),
-      style,
-    ]);
-  };
+  const textStyle = StyleSheet.flatten([
+    createDefaultStyle(props),
+    backgroundColor && {
+      backgroundColor: Colors[backgroundColor] || backgroundColor,
+    },
+    Fonts[fontType],
+    !Fonts[fontType]?.lineHeight && {
+      lineHeight: getSize.m(size || 14) * 1.25,
+    },
+    {color: Colors[color] || color},
+    isNumber(size) && {fontSize: getSize.m(size)},
+    isNumber(lineHeight) && {lineHeight},
+    center && {textAlign: 'center'},
+    right && {textAlign: 'right'},
+    justify && {textAlign: 'justify'},
+    padding && handleGutter('padding', padding),
+    margin && handleGutter('margin', margin),
+    style,
+  ]);
 
-  const _getChildren = (childrenProps: CommonTextProps) => {
-    return Children.map(childrenProps.children, child => {
-      if (!isNumber(child) && !child) {
-        return;
-      }
-
-      if (!isString(child) && !isNumber(child)) {
-        if (child.type.name === 'Text') {
-          return (
-            <ReactNativeText
-              style={[textStyle({...childrenProps, ...child.props})]}>
-              {_getChildren(child.props)}
-            </ReactNativeText>
-          );
-        } else if (child.type.name === 'Icon') {
-          return child;
-        } else {
-          console.log(`Component ${child.type.name} is not support`);
-        }
-      }
-      return child;
-    });
-  };
+  if (props?.children === undefined || props?.children === null) {
+    return null;
+  }
 
   return (
-    <ReactNativeText {...props} style={textStyle(props)}>
-      {_getChildren(props)}
+    <ReactNativeText allowFontScaling={false} {...props} style={textStyle}>
+      {props.children}
     </ReactNativeText>
   );
 };

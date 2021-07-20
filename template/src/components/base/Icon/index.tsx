@@ -1,13 +1,12 @@
 import {getIconComponent} from '@assets/icons';
 import {useTheme} from '@theme';
-import Helper from '@utils/helpers';
 import {getSize} from '@utils/responsive';
 import React from 'react';
 import {
   Platform,
   StyleSheet,
-  TouchableHighlight,
   TouchableNativeFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import Block from '../Block';
 import {IconComponentProps} from './types';
@@ -24,11 +23,11 @@ const Icon: React.FC<IconComponentProps> = props => {
     disabledStyle,
     style,
     backgroundColor,
-    underlayColor = Helper.colorLuminance(backgroundColor || '#FFF', -0.1),
+    activeOpacity = 0.6,
     ButtonComponent = props.onPress
       ? Platform.select<typeof React.Component>({
           android: TouchableNativeFeedback,
-          default: TouchableHighlight,
+          default: TouchableOpacity,
         })
       : Block,
     ...rest
@@ -46,8 +45,8 @@ const Icon: React.FC<IconComponentProps> = props => {
 
   return (
     <ButtonComponent
-      {...{underlayColor}}
       {...rest}
+      {...{activeOpacity}}
       style={Platform.OS === 'android' ? {} : initContainerStyle}>
       <Block style={Platform.OS === 'android' ? initContainerStyle : {}}>
         <IconComponent

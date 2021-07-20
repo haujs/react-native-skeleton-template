@@ -1,39 +1,88 @@
+import {getIconComponent} from '@assets/icons';
+import {Text} from '@components/base';
 import {useTheme} from '@theme';
+import {ThemeColors} from '@theme/types';
+import Helper from '@utils/helpers';
+import {getSize} from '@utils/responsive';
 import React from 'react';
-import {
-  ActivityIndicator,
-  Platform,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableNativeFeedback,
-} from 'react-native';
-import IconComponent from '../Icon';
+import {ActivityIndicator, Pressable, StyleSheet} from 'react-native';
 import Block from '../Block';
-import Text from '../Text';
-import {isIcon} from '../utils';
+import {
+  createDefaultStyle,
+  handleGutter,
+  isIcon,
+  isNumber,
+  isUndefined,
+} from '../utils';
 import {ButtonProps} from './types';
 
 const Button: React.FC<ButtonProps> = props => {
   const {Colors} = useTheme();
   const {
-    type = 'primary',
     title,
-    containerStyle,
+    type = title ? 'primary' : 'text',
+    children,
     style,
-    underlayColor,
-    ButtonComponent = Platform.select<typeof React.Component>({
-      android: TouchableNativeFeedback,
-      default: TouchableHighlight,
-    }),
-    titleStyle,
-    loading,
+    width,
+    height,
+    align,
+    justify,
+    row,
+    position,
+    top,
+    bottom,
+    left,
+    right,
+    padding = title ? 14 : 0,
+    margin,
+    shadow,
+    overflow,
     leftIcon,
     leftIconContainerStyle,
     rightIcon,
     rightIconContainerStyle,
-    children,
+    loading,
+    titleProps,
+    disabled,
+    backgroundColor,
+    pressedBackground,
+    disabledBackground,
     ...rest
   } = props;
+
+  const buttonStyles = ({pressed}: {pressed: boolean}) => {
+    return StyleSheet.flatten([
+      getDefaultButtonStyles({
+        type,
+        pressed,
+        Colors,
+        isDisabled: disabled || loading,
+        backgroundColor,
+        pressedBackground,
+        disabledBackground,
+      }),
+      createDefaultStyle(props),
+      width && {width: isNumber(width) ? getSize.s(width) : width},
+      height && {height: isNumber(height) ? getSize.s(height) : height},
+      align && {alignItems: align},
+      justify && {justifyContent: justify},
+      row && {flexDirection: 'row'},
+      position && {position},
+      !isUndefined(top) && {top: isNumber(top) ? getSize.s(top) : top},
+      !isUndefined(bottom) && {
+        bottom: isNumber(bottom) ? getSize.s(bottom) : bottom,
+      },
+      !isUndefined(left) && {left: isNumber(left) ? getSize.s(left) : left},
+      !isUndefined(right) && {
+        right: isNumber(right) ? getSize.s(right) : right,
+      },
+      overflow && {overflow},
+      padding && handleGutter('padding', padding),
+      margin && handleGutter('margin', margin),
+      shadow && styles.shadow,
+      style,
+    ]);
+  };
 
   const _renderIcon = (isRight?: boolean) => {
     const [icon, iconStyle] = isRight
@@ -41,6 +90,8 @@ const Button: React.FC<ButtonProps> = props => {
       : [leftIcon, leftIconContainerStyle];
 
     if (isIcon(icon)) {
+      const IconComponent = getIconComponent(icon.type);
+
       return (
         <IconComponent
           style={StyleSheet.flatten([
@@ -53,7 +104,6 @@ const Button: React.FC<ButtonProps> = props => {
           name={icon.name}
           size={icon.size || 24}
           color={icon.color || (type === 'primary' ? 'white' : 'primary')}
-          type={icon.type}
         />
       );
     }
@@ -62,57 +112,98 @@ const Button: React.FC<ButtonProps> = props => {
   };
 
   return (
-    <Block style={containerStyle}>
-      <ButtonComponent
-        {...rest}
-        underlayColor={
-          StyleSheet.flatten(style)?.backgroundColor ? underlayColor : '#e6e6e6'
-        }
-        disabled={loading || props.disabled}>
-        {children ? (
-          children
-        ) : (
-          <Block
-            row
-            backgroundColor={type === 'primary' ? 'primary' : 'transparent'}
-            border={{
-              width: 1,
-              color:
-                type === 'text'
-                  ? 'transparent'
-                  : props.disabled
-                  ? 'rgba(58,197,201, 0.5)'
-                  : Colors.primary,
-            }}
-            opacity={loading || props.disabled ? 0.5 : 1}
-            padding={{horizontal: 16, vertical: 12}}
-            align="center"
-            justify="center"
-            style={style}>
-            {leftIcon && _renderIcon()}
-            {loading && (
-              <Block margin={{right: 8}}>
-                <ActivityIndicator
-                  color={type === 'primary' ? 'white' : Colors.primary}
-                  size="small"
-                />
-              </Block>
-            )}
-            {title && (
-              <Text
-                fontType="bold"
-                color={type === 'primary' ? 'white' : 'primary'}
-                size={16}
-                style={titleStyle}>
-                {title}
-              </Text>
-            )}
-            {rightIcon && _renderIcon(true)}
-          </Block>
-        )}
-      </ButtonComponent>
-    </Block>
+    <Pressable {...rest} disabled={disabled || loading} style={buttonStyles}>
+      {children ? (
+        children
+      ) : (
+        <Block row alignSelf="center">
+          {leftIcon && _renderIcon()}
+          {loading && (
+            <Block margin={{right: 8}}>
+              <ActivityIndicator
+                color={type === 'primary' ? 'white' : Colors.primary}
+                size="small"
+              />
+            </Block>
+          )}
+          {title && (
+            <Text
+              fontType="bold"
+              color={type === 'primary' ? 'white' : 'primary'}
+              size={14}
+              {...titleProps}>
+              {title}
+            </Text>
+          )}
+          {rightIcon && _renderIcon(true)}
+        </Block>
+      )}
+    </Pressable>
   );
 };
 
 export default Button;
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+});
+
+type IProps = {
+  type: 'primary' | 'outline' | 'text';
+  Colors: ThemeColors;
+  pressed: boolean;
+  isDisabled?: boolean;
+  backgroundColor?: string;
+  pressedBackground?: string;
+  disabledBackground?: string;
+};
+
+const getDefaultButtonStyles = ({
+  type,
+  Colors,
+  pressed,
+  isDisabled,
+  backgroundColor,
+  pressedBackground,
+  disabledBackground,
+}: IProps) => {
+  let buttonDefaultStyle: any = {
+    borderRadius: getSize.s(8),
+    backgroundColor: pressed ? Colors.focus : Colors.primary,
+  };
+  if (type === 'text' || type === 'outline') {
+    buttonDefaultStyle.backgroundColor = 'transparent';
+    buttonDefaultStyle.opacity = pressed ? 0.6 : 1;
+  }
+  if (type === 'outline') {
+    buttonDefaultStyle.borderColor = Colors.focus;
+    buttonDefaultStyle.borderWidth = 1;
+  }
+  if (isDisabled) {
+    if (type === 'primary') {
+      buttonDefaultStyle.backgroundColor =
+        disabledBackground || Colors.disabled;
+    } else {
+      buttonDefaultStyle.opacity = 0.6;
+    }
+  }
+  if (backgroundColor) {
+    buttonDefaultStyle.backgroundColor =
+      Colors[backgroundColor] || backgroundColor;
+    if (pressed) {
+      buttonDefaultStyle.backgroundColor =
+        pressedBackground ||
+        Helper.colorLuminance(Colors[backgroundColor] || backgroundColor, -0.1);
+    }
+  }
+  return buttonDefaultStyle;
+};

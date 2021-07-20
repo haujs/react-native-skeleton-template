@@ -3,8 +3,8 @@ import React from 'react';
 import {
   Platform,
   StyleSheet,
-  TouchableHighlight,
   TouchableNativeFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Block from '../Block';
@@ -61,11 +61,13 @@ const SelectItem: React.FC<SelectItemProps> = ({
   };
   const ButtonComponent = Platform.select<typeof React.Component>({
     android: TouchableNativeFeedback,
-    default: TouchableHighlight,
+    default: TouchableOpacity,
   });
 
   return (
-    <ButtonComponent onPress={() => onPress && onPress(data)}>
+    <ButtonComponent
+      activeOpacity={0.6}
+      onPress={() => onPress && onPress(data)}>
       <Block
         height={itemHeight}
         row
