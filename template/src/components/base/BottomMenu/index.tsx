@@ -3,10 +3,10 @@ import {
   BottomSheetFlatList,
   BottomSheetModal,
 } from '@gorhom/bottom-sheet';
-import {BottomMenuType} from '@store/types/modal';
+import {BottomMenuType} from '@store/types/commonType';
 import {useTheme} from '@theme';
 import React, {useCallback, useEffect, useMemo, useRef} from 'react';
-import {ActivityIndicator} from 'react-native';
+import {ActivityIndicator, Keyboard} from 'react-native';
 import {Easing} from 'react-native-reanimated';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Block from '../Block';
@@ -24,6 +24,7 @@ const BottomMenu: React.FC<BottomMenuType> = props => {
 
   useEffect(() => {
     if (isVisible) {
+      Keyboard.dismiss();
       bottomSheetRef.current?.present();
     } else {
       bottomSheetRef.current?.close();

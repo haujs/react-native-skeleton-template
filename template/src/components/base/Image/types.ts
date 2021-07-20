@@ -1,5 +1,5 @@
 import React from 'react';
-import {FastImageProps} from 'react-native-fast-image';
+import {FastImageProps, Source} from 'react-native-fast-image';
 import {DefaultStyleProps} from '../utils';
 
 export interface ImageProps extends FastImageProps, DefaultStyleProps {
@@ -7,4 +7,6 @@ export interface ImageProps extends FastImageProps, DefaultStyleProps {
   height?: number | string;
   backgroundColor?: string;
   ImageComponent?: React.ComponentType<any>;
+  placeholderImage?: Source | number;
+  placeholderImageProps?: Omit<FastImageProps, 'source'>;
 }

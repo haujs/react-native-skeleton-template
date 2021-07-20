@@ -88,7 +88,7 @@ const Switch: React.FC<SwitchProps> = props => {
     };
   }, [Colors, disabled, thumbColor]);
 
-  const animSwitchContainter = useAnimatedStyle(() => {
+  const animSwitchContainer = useAnimatedStyle(() => {
     return {
       backgroundColor: interpolateColor(
         translateX.value,
@@ -157,7 +157,7 @@ const Switch: React.FC<SwitchProps> = props => {
         style={[
           styles.switchContainer,
           {width: trackWidth},
-          animSwitchContainter,
+          animSwitchContainer,
         ]}>
         <PanGestureHandler
           ref={panRef}

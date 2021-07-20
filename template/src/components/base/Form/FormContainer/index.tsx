@@ -31,7 +31,7 @@ const FormContainer: React.FC<IFormContainer> = forwardRef(
     const _renderCustomToolBar = () => (
       <Block
         padding={{bottom}}
-        backgroundColor="paleGrey"
+        backgroundColor="border"
         justify="center"
         style={toolBarStyleContainer}>
         {customToolBar}
@@ -41,8 +41,7 @@ const FormContainer: React.FC<IFormContainer> = forwardRef(
     return (
       <KeyboardAvoidingView
         style={styles.keyboardAvoiding}
-        behavior="padding"
-        enabled={Platform.OS === 'ios'}
+        behavior={Platform.select({ios: 'padding', android: 'height'})}
         {...props}>
         <ScrollView
           ref={ref as any}

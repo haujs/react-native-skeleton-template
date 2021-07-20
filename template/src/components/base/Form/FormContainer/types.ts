@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   KeyboardAvoidingViewProps,
   ScrollViewProps,
@@ -5,7 +6,7 @@ import {
 } from 'react-native';
 
 export interface IFormContainer extends KeyboardAvoidingViewProps {
-  children: JSX.Element;
+  children: React.ReactNode;
   nativeId?: string;
   toolbar?: JSX.Element;
   ref?: any;

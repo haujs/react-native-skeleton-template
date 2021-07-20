@@ -14,10 +14,14 @@ const FormSelect: React.FC<FormSelectProps> = ({
     <Controller
       control={control}
       name={name}
-      render={({field: {onChange, value}, fieldState: {error: fieldError}}) => {
+      render={({
+        field: {onChange, value, ref},
+        fieldState: {error: fieldError},
+      }) => {
         return (
           <Select
             {...props}
+            ref={ref}
             selected={value}
             onSelected={(newValue: any) => {
               onChange(newValue);

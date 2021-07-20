@@ -1,7 +1,6 @@
 import {useTheme} from '@theme';
 import React, {Children} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import IconComponent from '../Icon';
 import Block from '../Block';
 import Text from '../Text';
@@ -17,10 +16,12 @@ const Radio: React.FC<RadioProps> = props => {
     children,
     color = 'primaryText',
     containerStyle,
-    type,
+    type = 'radio',
     position = 'left',
     radioIcon,
     radioIconContainerStyle,
+    radioIconSize,
+    contentContainerStyle,
   } = props;
 
   const containerStyles = StyleSheet.flatten([
@@ -31,18 +32,21 @@ const Radio: React.FC<RadioProps> = props => {
 
   const _renderIcon = () => {
     if (!radioIcon) {
-      const defaultRadioIcon = checked
+      let iconName = checked
         ? 'radio-button-checked'
         : 'radio-button-unchecked';
-      const defaultcheckBoxIcon = checked
-        ? 'check-box'
-        : 'check-box-outline-blank';
-
+      if (type === 'checkbox') {
+        iconName = checked ? 'check-box' : 'check-box-outline-blank';
+      } else if (type === 'checkbox-circle') {
+        iconName = checked ? 'check-circle' : 'radio-button-unchecked';
+      }
       return (
-        <MaterialIcons
-          name={type === 'checkbox' ? defaultcheckBoxIcon : defaultRadioIcon}
-          size={24}
-          color={Colors[color] || color}
+        <IconComponent
+          style={StyleSheet.flatten(radioIconContainerStyle)}
+          name={iconName}
+          size={radioIconSize || 24}
+          color={checked ? Colors.primary : Colors.secondaryText}
+          type="materialIcons"
         />
       );
     }
@@ -68,11 +72,15 @@ const Radio: React.FC<RadioProps> = props => {
       disabled={disabled}
       onPress={() => onChange && onChange(!checked)}
       style={containerStyles}>
-      <Block row align="center" opacity={disabled ? 0.6 : 1}>
+      <Block
+        row
+        align="center"
+        opacity={disabled ? 0.6 : 1}
+        style={contentContainerStyle}>
         {position !== 'right' && _renderIcon()}
         {isString(children) ? (
           <Text
-            padding={{left: 4}}
+            padding={{left: 6}}
             color={color ? Colors[color] || color : Colors.primaryText}>
             {children}
           </Text>

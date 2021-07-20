@@ -4,20 +4,10 @@ import {Text, Block} from '@components/base';
 const ExampleText = () => {
   return (
     <Block backgroundColor="white" flex padding={16}>
-      <Text margin={{bottom: 8}}>Default text</Text>
-      <Text margin={{bottom: 8}}>
-        Text with color:{' '}
-        <Text fontType="bold" color="red">
-          Red
-        </Text>
-      </Text>
-      <Text size={16} margin={{bottom: 8}}>
-        Text with font size: <Text fontType="bold">16</Text>
-      </Text>
       <Text size={16} fontType="bold" margin={{bottom: 4}}>
         Example paragraph:{' '}
       </Text>
-      <Text>
+      <Text fontType="p">
         いまはもうこの種のちょうは絶えてしまっている。
         いまだかつて偉大なもので熱烈な精神なくして成し遂げられたものは何もない。
         「ｐｒｅｔｔｙ」の綴りは？ 肩慣らしには丁度いいかも。

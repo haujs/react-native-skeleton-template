@@ -3,8 +3,8 @@ import React from 'react';
 import {
   Platform,
   StyleSheet,
-  TouchableHighlight,
   TouchableNativeFeedback,
+  TouchableOpacity,
 } from 'react-native';
 import Block from '../Block';
 import IconComponent from '../Icon';
@@ -38,11 +38,11 @@ const MenuItem: React.FC<MenuItemProps> = ({data, onPress}) => {
 
   const ButtonComponent = Platform.select<typeof React.Component>({
     android: TouchableNativeFeedback,
-    default: TouchableHighlight,
+    default: TouchableOpacity,
   });
 
   return (
-    <ButtonComponent onPress={onPress}>
+    <ButtonComponent activeOpacity={0.6} onPress={onPress}>
       <Block
         height={ITEM_HEIGHT_DEFAULT}
         row
@@ -50,7 +50,9 @@ const MenuItem: React.FC<MenuItemProps> = ({data, onPress}) => {
         backgroundColor="white"
         align="center">
         {data.icon && _renderIcon(data.icon)}
-        <Text flexGrow>{data.label}</Text>
+        <Text fontType="p" flexGrow>
+          {data.label}
+        </Text>
       </Block>
     </ButtonComponent>
   );

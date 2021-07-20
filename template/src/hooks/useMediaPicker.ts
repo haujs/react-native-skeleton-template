@@ -1,4 +1,8 @@
-import {closeBottomMenu, showAlert, showBottomMenu} from '@store/actions/modal';
+import {
+  closeBottomMenu,
+  showAlert,
+  showBottomMenu,
+} from '@store/actions/commonAction';
 import {useCallback, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Platform} from 'react-native';
@@ -24,7 +28,7 @@ export const useMediaPicker = (props?: Options) => {
 
   const _handleResponse = (response: ImageOrVideo) => {
     const result = {
-      name: response.filename || 'projectname-media',
+      name: 'ProjectName-media',
       uri:
         Platform.OS === 'android'
           ? response.path
@@ -38,7 +42,7 @@ export const useMediaPicker = (props?: Options) => {
   const _handleError = useCallback(
     (error: {code: PickerErrorCode; message: string}) => {
       if (error.code !== 'E_PICKER_CANCELLED') {
-        dispatch(showAlert({title: error.message}));
+        dispatch(showAlert({id: 'media_picker', message: error.message}));
       }
     },
     [dispatch],

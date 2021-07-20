@@ -172,6 +172,7 @@ const SelectPopup = forwardRef<any, SelectPopupProps>((props, ref) => {
           styles.contentStyle,
           {paddingBottom: safeBottomArea},
         ]}
+        showsVerticalScrollIndicator={false}
         renderItem={_renderSelectItem}
         keyExtractor={_keyExtractor}
         getItemLayout={_getItemLayout}

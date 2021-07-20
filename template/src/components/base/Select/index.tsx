@@ -1,14 +1,16 @@
 import {BottomSheetModal} from '@gorhom/bottom-sheet';
 import {useTheme} from '@theme';
+import {getSize} from '@utils/responsive';
 import React, {
   forwardRef,
   useCallback,
   useImperativeHandle,
   useRef,
 } from 'react';
-import {StyleSheet, TouchableHighlight, ViewStyle} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Keyboard} from 'react-native';
+import {StyleSheet, ViewStyle} from 'react-native';
 import Block from '../Block';
+import Button from '../Button';
 import IconComponent from '../Icon';
 import Text from '../Text';
 import {isIcon, isString} from '../utils';
@@ -57,8 +59,8 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
   useImperativeHandle(
     ref,
     () => ({
-      openSelect: () => bottomSheetRef.current?.present(),
-      closeSelect: () => bottomSheetRef.current?.close(),
+      focus: () => bottomSheetRef.current?.present(),
+      blur: () => bottomSheetRef.current?.close(),
     }),
     [],
   );
@@ -66,7 +68,11 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
   const _renderLabel = () => {
     if (isString(label)) {
       return (
-        <Text margin={{bottom: 4}} color="primaryText" style={labelStyle}>
+        <Text
+          margin={{bottom: 4}}
+          fontType="s"
+          color="primaryText"
+          style={labelStyle}>
           {label}
           {required && <Text color="error"> *</Text>}
         </Text>
@@ -78,13 +84,8 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
   const _renderError = () => {
     if (isString(error)) {
       return (
-        <Text margin={{top: 4}} size={10} color="error" style={errorStyle}>
-          <MaterialCommunityIcons
-            name="information-outline"
-            color={Colors.error}
-            size={10}
-          />
-          <Text> {error}</Text>
+        <Text margin={{top: 4}} fontType="s" color="error" style={errorStyle}>
+          {error}
         </Text>
       );
     }
@@ -94,7 +95,7 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
   const _renderIcon = (isRight?: boolean) => {
     const defaultIconStyle = {
       minHeight: HEIGHT_SELECT_BOX,
-      paddingHorizontal: 8,
+      paddingHorizontal: getSize.m(16),
       opacity: disabled ? 0.5 : 1,
       justifyContent: 'center' as ViewStyle['justifyContent'],
     };
@@ -141,18 +142,22 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
       : (selected as SelectItemType).label;
 
     return (
-      <Text
-        flexGrow
-        flexShrink
-        numberOfLines={1}
-        padding={{right: rightIcon ? 0 : 8, left: leftIcon ? 0 : 8}}
-        color={selectedValue === '' ? placeholderColor : Colors.primaryText}>
-        {selectedValue === '' ? placeholder : selectedValue}
-      </Text>
+      <Block flexGrow flexShrink padding={{left: leftIcon ? 0 : 16}}>
+        <Text
+          numberOfLines={1}
+          color={
+            selectedValue === '' || disabled
+              ? placeholderColor
+              : Colors.primaryText
+          }>
+          {selectedValue === '' ? placeholder : selectedValue}
+        </Text>
+      </Block>
     );
   };
 
   const _openSelectPopup = () => {
+    Keyboard.dismiss();
     bottomSheetRef.current?.present();
   };
 
@@ -176,19 +181,22 @@ const Select = forwardRef<any, SelectProps>((props, ref) => {
   return (
     <Block style={containerStyle}>
       {label && _renderLabel()}
-      <TouchableHighlight disabled={disabled} onPress={_openSelectPopup}>
-        <Block
-          height={HEIGHT_SELECT_BOX}
-          backgroundColor="inputBG"
-          opacity={disabled ? 0.6 : 1}
-          align="center"
-          row
-          style={inputContainerStyle}>
-          {leftIcon && _renderIcon()}
-          {_renderSelectBox()}
-          {_renderIcon(true)}
-        </Block>
-      </TouchableHighlight>
+      <Button
+        disabled={disabled}
+        onPress={_openSelectPopup}
+        height={HEIGHT_SELECT_BOX}
+        backgroundColor={disabled ? 'disabled' : 'inputBG'}
+        align="center"
+        row
+        border={{
+          width: StyleSheet.hairlineWidth,
+          color: error ? Colors.error : Colors.border,
+        }}
+        style={inputContainerStyle}>
+        {leftIcon && _renderIcon()}
+        {_renderSelectBox()}
+        {_renderIcon(true)}
+      </Button>
       {showError && error && _renderError()}
       <SelectPopup
         ref={bottomSheetRef}

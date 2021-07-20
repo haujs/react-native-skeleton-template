@@ -11,17 +11,18 @@ export const handleGutter = (
 ) => {
   if (isNumber(gutter)) {
     return {
-      padding: getSize.m(gutter),
+      [type]: getSize.m(gutter),
     };
   }
-  return {
-    [`${type}Horizontal`]: gutter.horizontal && getSize.m(gutter.horizontal),
-    [`${type}Vertical`]: gutter.vertical && getSize.m(gutter.vertical),
-    [`${type}Left`]: gutter.left && getSize.m(gutter.left),
-    [`${type}Right`]: gutter.right && getSize.m(gutter.right),
-    [`${type}Bottom`]: gutter.bottom && getSize.m(gutter.bottom),
-    [`${type}Top`]: gutter.top && getSize.m(gutter.top),
-  };
+  let padding: any = {};
+  const gutterKeys = Object.keys(gutter) as Array<keyof GutterProps>;
+  gutterKeys.forEach(key => {
+    const capFirstLetter = key.charAt(0).toUpperCase() + key.slice(1);
+    if (gutter[key] !== undefined) {
+      padding[`${type}${capFirstLetter}`] = getSize.m(gutter[key] as number);
+    }
+  });
+  return padding;
 };
 
 export const handleRadius = (radius: number | RadiusProps) => {
@@ -30,13 +31,17 @@ export const handleRadius = (radius: number | RadiusProps) => {
       borderRadius: getSize.s(radius),
     };
   }
-  return {
-    borderBottomLeftRadius: radius.bottomLeft && getSize.s(radius.bottomLeft),
-    borderBottomRightRadius:
-      radius.bottomRight && getSize.s(radius.bottomRight),
-    borderTopLeftRadius: radius.topLeft && getSize.s(radius.topLeft),
-    borderTopRightRadius: radius.topRight && getSize.s(radius.topRight),
-  };
+  let borderRadius: any = {};
+  const gutterKeys = Object.keys(radius) as Array<keyof RadiusProps>;
+  gutterKeys.forEach(key => {
+    const capFirstLetter = key.charAt(0).toUpperCase() + key.slice(1);
+    if (radius[key] !== undefined) {
+      borderRadius[`border${capFirstLetter}Radius`] = getSize.s(
+        radius[key] as number,
+      );
+    }
+  });
+  return borderRadius;
 };
 
 export const handleSquare = (number: number) => {
@@ -110,16 +115,19 @@ export const handleBorder = (border: BorderProps | BorderType) => {
   if ('width' in border) {
     return {borderWidth: getSize.s(border.width), borderColor: border.color};
   }
-  return {
-    borderTopWidth: border.top?.width && getSize.s(border.top?.width),
-    borderBottomWidth: border.bottom?.width && getSize.s(border.bottom?.width),
-    borderLeftWidth: border.left?.width && getSize.s(border.left?.width),
-    borderRightWidth: border.right?.width && getSize.s(border.right?.width),
-    borderTopColor: border.top?.color,
-    borderBottomColor: border.bottom?.color,
-    borderLeftColor: border.left?.color,
-    borderRightColor: border.right?.color,
-  };
+
+  const borderKeys = Object.keys(border) as Array<keyof BorderType>;
+  let borderBox: any = {};
+  borderKeys.forEach(key => {
+    const capFirstLetter = key.charAt(0).toUpperCase() + key.slice(1);
+    if (border[key] !== undefined) {
+      borderBox[`border${capFirstLetter}Width`] = getSize.s(
+        border[key]?.width as number,
+      );
+      borderBox[`border${capFirstLetter}Color`] = border[key]?.color;
+    }
+  });
+  return borderBox;
 };
 
 export const createDefaultStyle = (props: {[key: string]: any}) => [
@@ -128,9 +136,9 @@ export const createDefaultStyle = (props: {[key: string]: any}) => [
   props.flexShrink && {
     flexShrink: isNumber(props.flexShrink) ? props.flexShrink : 1,
   },
-  props.square && handleSquare(props.square),
-  props.round && handleRound(props.round),
-  props.radius && handleRadius(props.radius),
+  isNumber(props.square) && handleSquare(props.square),
+  isNumber(props.round) && handleRound(props.round),
+  isNumber(props.radius) && handleRadius(props.radius),
   props.borderStyle && {borderStyle: props.borderStyle},
   props.border && handleBorder(props.border),
   props.wrap && {flexWrap: 'wrap'},
@@ -142,10 +150,12 @@ export const isString = (x: any): x is string => typeof x === 'string';
 
 export const isNumber = (x: any): x is number => typeof x === 'number';
 
+export const isUndefined = (x: any): x is undefined => x === undefined;
+
 export const isIcon = (
   icon: IconComponentProps | React.ReactNode,
 ): icon is IconComponentProps => {
-  return (icon as IconComponentProps).name !== undefined;
+  return (icon as IconComponentProps)?.name !== undefined;
 };
 
 export interface IconComponentProps extends IconProps {

@@ -19,6 +19,8 @@ const Image: React.FC<ImageProps> = props => {
     backgroundColor,
     ImageComponent = FastImage,
     source,
+    placeholderImage,
+    placeholderImageProps,
     ...rest
   } = props;
 
@@ -64,12 +66,18 @@ const Image: React.FC<ImageProps> = props => {
     const placeHolderBg = {backgroundColor: '#FFF'};
     return (
       <ImageComponent
-        source={Images().placeholder}
+        source={placeholderImage || Images().placeholder}
         resizeMode="contain"
-        style={[imageStyle, StyleSheet.absoluteFillObject, placeHolderBg]}
+        {...placeholderImageProps}
+        style={[
+          imageStyle,
+          StyleSheet.absoluteFillObject,
+          placeHolderBg,
+          placeholderImageProps?.style,
+        ]}
       />
     );
-  }, [imageStyle]);
+  }, [imageStyle, placeholderImage, placeholderImageProps]);
 
   return (
     <Block style={containerImageStyle}>

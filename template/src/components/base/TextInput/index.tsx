@@ -1,26 +1,24 @@
 import {useTheme} from '@theme';
+import {getSize} from '@utils/responsive';
 import React, {forwardRef, useEffect, useRef, useState} from 'react';
 import {
   NativeSyntheticEvent,
   StyleSheet,
-  TextInput as NativeInput,
   TextInputFocusEventData,
   TouchableWithoutFeedback,
   ViewStyle,
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import TextInputMask from 'react-native-text-input-mask';
 import Block from '../Block';
 import IconComponent from '../Icon';
 import Text from '../Text';
 import {isIcon, isString} from '../utils';
 import {InputProps} from './types';
-import TextInputMask from 'react-native-text-input-mask';
-import {getSize} from '@utils/responsive';
 
-const MIN_HEIGHT_INPUT = getSize.s(40);
+const MIN_HEIGHT_INPUT = getSize.s(45);
 
 const TextInput = forwardRef<any, InputProps>((props, ref) => {
-  const inputRef = useRef<NativeInput>(null);
+  const inputRef = useRef<any>(null);
   const {Colors, Fonts} = useTheme();
 
   const {
@@ -48,13 +46,15 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
     onBlur,
     hideFocus,
     numberOfLines,
+    maxLength,
+    value = '',
     ...rest
   } = props;
 
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
-    if (ref) {
+    if (ref && typeof ref !== 'function') {
       (ref as any).current = inputRef.current;
     }
   }, [ref]);
@@ -62,7 +62,11 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
   const _renderLabel = () => {
     if (isString(label)) {
       return (
-        <Text margin={{bottom: 2}} color="primaryText" style={labelStyle}>
+        <Text
+          fontType="s"
+          margin={{bottom: 4}}
+          color="primaryText"
+          style={labelStyle}>
           {label}
           {required && <Text color="error"> *</Text>}
         </Text>
@@ -74,13 +78,8 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
   const _renderError = () => {
     if (isString(error)) {
       return (
-        <Text margin={{top: 4}} size={10} color="error" style={errorStyle}>
-          <MaterialCommunityIcons
-            name="information-outline"
-            color={Colors.error}
-            size={10}
-          />
-          <Text> {error}</Text>
+        <Text fontType="s" color="error" style={errorStyle}>
+          {error}
         </Text>
       );
     }
@@ -94,10 +93,11 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
       fontSize: size,
       minHeight: MIN_HEIGHT_INPUT,
       flex: 1,
-      paddingLeft: leftIcon ? 0 : 8,
-      paddingRight: rightIcon || props.secureTextEntry ? 0 : 8,
+      borderRadius: getSize.s(8),
+      paddingLeft: leftIcon ? 0 : getSize.m(16),
+      paddingRight: rightIcon || props.secureTextEntry ? 0 : getSize.m(16),
     },
-    disabled && {opacity: 0.5},
+    disabled && {backgroundColor: Colors.disabled, color: Colors.placeholder},
     disabled && disabledInputStyle,
     !!numberOfLines && {
       height: size * 1.6 * numberOfLines,
@@ -110,7 +110,7 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
   const _renderIcon = (isRight?: boolean) => {
     const defaultIconStyle = {
       minHeight: MIN_HEIGHT_INPUT,
-      paddingHorizontal: 8,
+      paddingHorizontal: getSize.m(16),
       opacity: disabled ? 0.5 : 1,
       justifyContent: 'center' as ViewStyle['justifyContent'],
     };
@@ -119,10 +119,10 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
       return (
         <IconComponent
           style={defaultIconStyle}
-          size={size}
-          color={Colors.secondaryText}
+          size={16}
+          color={Colors.blueyGrey}
           name={secureEye ? 'eye' : 'eye-off'}
-          type="materialCommunityIcons"
+          type="ionicons"
           onPress={() => setSecureEye(prev => !prev)}
         />
       );
@@ -161,19 +161,34 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
   const _renderInput = () => {
     return (
       <TextInputMask
+        autoCapitalize="none"
+        allowFontScaling={false}
         underlineColorAndroid="transparent"
         style={inputInitStyle}
         autoCorrect={false}
-        placeholderTextColor={Colors.secondaryText}
+        placeholderTextColor={Colors.placeholder}
         editable={!disabled}
         {...rest}
+        value={value}
         onFocus={_onFocus}
         onBlur={_onBlur}
+        maxLength={maxLength}
         secureTextEntry={
           rightIcon ? props.secureTextEntry : props.secureTextEntry && secureEye
         }
-        ref={inputRef}
+        ref={e => {
+          inputRef.current = e;
+          typeof ref === 'function' && ref(e);
+        }}
       />
+    );
+  };
+
+  const _renderHint = () => {
+    return (
+      <Text fontType="xs" margin={{left: 4}} color="placeholder">
+        {`${value.length}/${maxLength}`}
+      </Text>
     );
   };
 
@@ -188,9 +203,15 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
           row
           align="center"
           backgroundColor="inputBG"
+          radius={8}
           border={{
-            width: StyleSheet.hairlineWidth,
-            color: !hideFocus && isFocused ? Colors.primary : 'transparent',
+            width: 1,
+            color:
+              !hideFocus && error
+                ? Colors.error
+                : isFocused
+                ? Colors.primary
+                : Colors.border,
           }}
           style={inputContainerStyle}>
           {leftIcon && _renderIcon()}
@@ -198,7 +219,14 @@ const TextInput = forwardRef<any, InputProps>((props, ref) => {
           {(rightIcon || props.secureTextEntry) && _renderIcon(true)}
         </Block>
       </TouchableWithoutFeedback>
-      {showError && error && _renderError()}
+      <Block
+        row
+        justify={showError && error ? 'space-between' : 'flex-end'}
+        align="flex-start"
+        margin={{top: 4}}>
+        {showError && error && _renderError()}
+        {!!maxLength && _renderHint()}
+      </Block>
     </Block>
   );
 });

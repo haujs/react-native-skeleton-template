@@ -11,7 +11,6 @@ export interface IconComponentProps extends TouchableHighlightProps {
   iconProps?: Omit<IconProps, 'name' | 'size' | 'color'>;
   disabledStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<Omit<ViewStyle, 'backgroundColor'>>;
-  buttonStyle?: StyleProp<Omit<ViewStyle, 'backgroundColor'>>;
 
   /**
    * Background color of button
@@ -22,7 +21,7 @@ export interface IconComponentProps extends TouchableHighlightProps {
    * Button Component
    * Default:
    * - Android: TouchableNativeFeedback
-   * - Other: TouchableHighlight
+   * - Other: TouchableOpacity
    */
   ButtonComponent?: typeof Component;
 }

@@ -45,7 +45,7 @@ export interface RadioProps {
   /**
    * Default: radio
    */
-  type?: 'checkbox' | 'radio';
+  type?: 'checkbox' | 'radio' | 'checkbox-circle';
 
   /**
    * Position of icon (default: left)
@@ -63,6 +63,13 @@ export interface RadioProps {
   radioIconContainerStyle?: StyleProp<ViewStyle>;
 
   children?: React.ReactNode;
+
+  /**
+   * Radio icon size
+   */
+  radioIconSize?: number;
+
+  contentContainerStyle?: StyleProp<ViewStyle>;
 }
 
 export interface RadioGroupProps {

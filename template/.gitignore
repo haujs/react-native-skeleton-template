@@ -68,6 +68,14 @@ buck-out/
 
 # react-native-config codegen
 ios/tmp.xcconfig
-.env
+/.env
 
 .vscode
+
+#fastlane
+fastlane/README.md
+fastlane/report.xml
+*.mobileprovision
+
+*.cer
+*.p12

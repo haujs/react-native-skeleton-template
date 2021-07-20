@@ -1,26 +1,27 @@
 import {Block, Text} from '@components/base';
+import {useTheme} from '@theme';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   Dimensions,
+  Keyboard,
   Modal,
   ModalProps,
   ScrollView,
   StyleProp,
   StyleSheet,
   TextStyle,
-  TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
 import Animated, {
   Easing,
-  Extrapolate,
-  interpolate,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {mix} from 'react-native-redash';
+import Button from '../Button';
 
 interface ActionSheetButton {
   text: string;
@@ -48,6 +49,7 @@ const actionSheetTimingConfig = {
 
 const ActionSheet: React.FC<ActionSheetProps> = props => {
   const {t} = useTranslation('Common');
+  const {Colors} = useTheme();
   const {
     buttons,
     headerTitle,
@@ -67,6 +69,7 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
   useEffect(() => {
     if (isVisible) {
       setIsShow(true);
+      Keyboard.dismiss();
       translateY.value = withTiming(1, actionSheetTimingConfig);
     } else {
       translateY.value = withTiming(0, actionSheetTimingConfig, () =>
@@ -79,12 +82,7 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
     return {
       transform: [
         {
-          translateY: interpolate(
-            translateY.value,
-            [0, 1],
-            [DEVICE_HEIGHT, 0],
-            Extrapolate.CLAMP,
-          ),
+          translateY: mix(translateY.value, DEVICE_HEIGHT, 0),
         },
       ],
     };
@@ -92,12 +90,7 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
 
   const overlayStyle = useAnimatedStyle(() => {
     return {
-      opacity: interpolate(
-        translateY.value,
-        [0, 1],
-        [0, 0.4],
-        Extrapolate.CLAMP,
-      ),
+      opacity: mix(translateY.value, 0, 0.4),
     };
   });
 
@@ -108,21 +101,21 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
         border={{
           top: {
             width: 1,
-            color: '#3c3c435c',
+            color: Colors.border,
           },
         }}>
-        <TouchableOpacity activeOpacity={0.8} onPress={item.onPress}>
-          <Block padding={16}>
-            <Text
-              fontType="bold"
-              size={18}
-              center
-              color="#0A7AFF"
-              style={item.textStyle}>
-              {item.text}
-            </Text>
-          </Block>
-        </TouchableOpacity>
+        <Button
+          type="text"
+          radius={14}
+          title={item.text}
+          onPress={item.onPress}
+          titleProps={{
+            size: 18,
+            fontType: 'bold',
+            color: '#0A7AFF',
+            style: item.textStyle,
+          }}
+        />
       </Block>
     );
   };
@@ -171,18 +164,19 @@ const ActionSheet: React.FC<ActionSheetProps> = props => {
               </ScrollView>
             )}
             <Block margin={{top: 8}}>
-              <TouchableOpacity activeOpacity={0.8} onPress={onPressCancel}>
-                <Block backgroundColor="#F2F2F2" radius={14} padding={16}>
-                  <Text
-                    fontType="bold"
-                    size={18}
-                    center
-                    color="#0A7AFF"
-                    style={cancelTextStyle}>
-                    {cancelText || t('cancel')}
-                  </Text>
-                </Block>
-              </TouchableOpacity>
+              <Button
+                backgroundColor="#F2F2F2"
+                radius={14}
+                title={cancelText || t('cancel')}
+                onPress={onPressCancel}
+                padding={12}
+                titleProps={{
+                  size: 18,
+                  fontType: 'bold',
+                  color: '#0A7AFF',
+                  style: cancelTextStyle,
+                }}
+              />
             </Block>
           </Block>
         </Animated.View>

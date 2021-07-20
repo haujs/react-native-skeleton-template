@@ -175,13 +175,29 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            resValue "string", "CodePushDeploymentKey", '""'
         }
         release {
-            // Caution! In production, you need to generate your own keystore file.
-            // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            if (project.env.get("NODE_ENV") == "Production") {
+                signingConfig signingConfigs.release
+            } else {
+                signingConfig signingConfigs.debug
+            }
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            resValue "string", "CodePushDeploymentKey", '""'
+        }
+        developmentRelease {
+            initWith release
+            matchingFallbacks = ['release']
+        }
+        stagingRelease {
+            initWith release
+            matchingFallbacks = ['release']
+        }
+        productionRelease {
+            initWith release
+            matchingFallbacks = ['release']
         }
     }
 

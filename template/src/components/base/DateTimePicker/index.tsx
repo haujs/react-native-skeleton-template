@@ -3,9 +3,9 @@ import {useTheme} from '@theme';
 import {getSize} from '@utils/responsive';
 import moment from 'moment';
 import React, {useMemo} from 'react';
-import {StyleSheet, TouchableHighlight, ViewStyle} from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Keyboard, StyleSheet, ViewStyle} from 'react-native';
 import Block from '../Block';
+import Button from '../Button';
 import IconComponent from '../Icon';
 import Text from '../Text';
 import {isIcon, isString} from '../utils';
@@ -42,7 +42,11 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
   const _renderLabel = () => {
     if (isString(label)) {
       return (
-        <Text margin={{bottom: 4}} color="primaryText" style={labelStyle}>
+        <Text
+          margin={{bottom: 4}}
+          fontType="s"
+          color="primaryText"
+          style={labelStyle}>
           {label}
           {required && <Text color="error"> *</Text>}
         </Text>
@@ -54,13 +58,8 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
   const _renderError = () => {
     if (isString(error)) {
       return (
-        <Text margin={{top: 4}} size={10} color="error" style={errorStyle}>
-          <MaterialCommunityIcons
-            name="information-outline"
-            color={Colors.error}
-            size={10}
-          />
-          <Text> {error}</Text>
+        <Text margin={{top: 4}} fontType="s" color="error" style={errorStyle}>
+          {error}
         </Text>
       );
     }
@@ -69,8 +68,8 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
 
   const _renderIcon = (isRight?: boolean) => {
     const defaultIconStyle = {
-      minHeight: getSize.s(40),
-      paddingHorizontal: 8,
+      minHeight: getSize.s(45),
+      paddingHorizontal: getSize.m(16),
       opacity: disabled ? 0.5 : 1,
       justifyContent: 'center' as ViewStyle['justifyContent'],
     };
@@ -108,14 +107,15 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
 
   const _renderDateTimeValue = () => {
     return (
-      <Text
-        flexGrow
-        flexShrink
-        numberOfLines={1}
-        padding={{right: rightIcon ? 0 : 8, left: leftIcon ? 0 : 8}}
-        color={value === '' ? placeholderTextColor : Colors.primaryText}>
-        {value === '' ? placeholder : value}
-      </Text>
+      <Block flexGrow flexShrink padding={{left: leftIcon ? 0 : 16}}>
+        <Text
+          numberOfLines={1}
+          color={
+            value === '' || disabled ? placeholderTextColor : Colors.primaryText
+          }>
+          {value === '' ? placeholder : value}
+        </Text>
+      </Block>
     );
   };
 
@@ -126,22 +126,31 @@ const DateTimePicker: React.FC<DateTimePickerProps> = props => {
     onChange && onChange(moment(date).format(valueFormat));
   };
 
+  const _openDateTimePicker = () => {
+    Keyboard.dismiss();
+    pickerState.show();
+  };
+
   return (
     <Block style={containerStyle}>
       {label && _renderLabel()}
-      <TouchableHighlight disabled={disabled} onPress={pickerState.show}>
-        <Block
-          height={40}
-          backgroundColor="inputBG"
-          opacity={disabled ? 0.6 : 1}
-          align="center"
-          row
-          style={inputContainerStyle}>
-          {leftIcon && _renderIcon()}
-          {_renderDateTimeValue()}
-          {_renderIcon(true)}
-        </Block>
-      </TouchableHighlight>
+      <Button
+        height={45}
+        radius={8}
+        align="center"
+        row
+        border={{
+          width: StyleSheet.hairlineWidth,
+          color: error ? Colors.error : Colors.border,
+        }}
+        backgroundColor={disabled ? 'disabled' : 'inputBG'}
+        disabled={disabled}
+        onPress={_openDateTimePicker}
+        style={inputContainerStyle}>
+        {leftIcon && _renderIcon()}
+        {_renderDateTimeValue()}
+        {_renderIcon(true)}
+      </Button>
       {showError && error && _renderError()}
       <Picker
         {...pickerState}

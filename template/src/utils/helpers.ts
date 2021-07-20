@@ -1,3 +1,11 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import {Colors} from '@theme/colors';
+import {Alert, Linking} from 'react-native';
+import InAppBrowser, {
+  InAppBrowserOptions,
+} from 'react-native-inappbrowser-reborn';
+import {INSTALLATION_ID} from './constants';
+
 const Helper = {
   generateUUID: (): string => {
     const hexOctet: string = Math.floor((1 + Math.random()) * 0x10000)
@@ -14,6 +22,26 @@ const Helper = {
     top: hitSlop,
   }),
   /**
+   * Add opacity to color
+   */
+  colorOpacity: (color: string, opacity: number) => {
+    const rgbArr = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    if (rgbArr) {
+      const [r, g, b] = rgbArr;
+      return `rgba(${r},${g},${b},${opacity})`;
+    } else {
+      const colors = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+      if (colors) {
+        const [, r, g, b] = colors;
+        return `rgba(${parseInt(r, 16)},${parseInt(g, 16)},${parseInt(
+          b,
+          16,
+        )},${opacity})`;
+      }
+    }
+    return color;
+  },
+  /**
    * Calculate Lighter or Darker Hex Colors
    *
    * ```
@@ -25,6 +53,9 @@ const Helper = {
    * ```
    */
   colorLuminance: (hex: string, lum: number, opacity?: number): string => {
+    if (!hex.startsWith('#')) {
+      return hex;
+    }
     // validate hex string
     hex = String(hex).replace(/[^0-9a-f]/gi, '');
     if (hex.length < 6) {
@@ -46,6 +77,52 @@ const Helper = {
       return rgb + hexValue.padStart(2, '0');
     }
     return rgb;
+  },
+  addCommasToNumber: (num: number = 0, unit: string = '円') => {
+    let numParts = Number(num).toString().split('.');
+    numParts[0] = numParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return numParts.join('.') + unit;
+  },
+  openLink: async (url: string, options?: InAppBrowserOptions | undefined) => {
+    try {
+      if (await InAppBrowser.isAvailable()) {
+        await InAppBrowser.open(url, {
+          // iOS Properties
+          dismissButtonStyle: 'cancel',
+          preferredBarTintColor: Colors.tealBlue,
+          preferredControlTintColor: 'white',
+          modalEnabled: true,
+          modalPresentationStyle: 'automatic',
+          animated: true,
+          enableBarCollapsing: false,
+
+          // Android Properties
+          showTitle: true,
+          toolbarColor: Colors.primary,
+          secondaryToolbarColor: Colors.tealBlue,
+          enableUrlBarHiding: true,
+          enableDefaultShare: true,
+          forceCloseOnRedirection: false,
+          ...options,
+        });
+      } else {
+        Linking.openURL(url);
+      }
+    } catch (error) {
+      InAppBrowser.close();
+      Alert.alert(error.message);
+    }
+  },
+  getInstallationId: async () => {
+    let installationId;
+    const storedInstallationId = await AsyncStorage.getItem(INSTALLATION_ID);
+    if (storedInstallationId) {
+      installationId = storedInstallationId;
+    } else {
+      installationId = Helper.generateUUID();
+      await AsyncStorage.setItem(INSTALLATION_ID, installationId);
+    }
+    return installationId;
   },
 };
 

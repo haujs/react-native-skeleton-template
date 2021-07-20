@@ -40,7 +40,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>プロフィール写真の撮影やQRコードの読取りに利用します。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>プロフィール写真の選択に利用します。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -63,6 +63,7 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>projectname.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

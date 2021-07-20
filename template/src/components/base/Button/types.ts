@@ -1,32 +1,44 @@
-import React, {Component} from 'react';
-import {
-  StyleProp,
-  TextStyle,
-  TouchableHighlightProps,
-  ViewStyle,
-} from 'react-native';
-import {IconComponentProps} from '../utils';
+import {PressableProps, StyleProp, ViewStyle} from 'react-native';
+import {BlockProps} from '../Block/types';
+import {CommonTextProps} from '../Text/types';
+import {GutterProps, IconComponentProps} from '../utils';
 
-export interface ButtonProps extends TouchableHighlightProps {
-  /**
-   * Type of button. Default is **primary**
-   */
-  type?: 'primary' | 'outline' | 'text';
+export type CommonButtonProps = Omit<
+  BlockProps,
+  'style' | 'hitSlop' | 'children' | 'inset'
+>;
 
+export interface ButtonProps extends PressableProps, CommonButtonProps {
   /**
    * Label of button
    */
-  title?: React.ReactNode;
+  title?: string;
+
+  style?: StyleProp<Omit<ViewStyle, 'backgroundColor'>>;
+  /**
+   * Background color on pressed button - (key of Colors (theme/colors.ts) or Color keywords)
+   */
+  pressedBackground?: string;
 
   /**
-   * Styling for label
+   * Background color when button disabled - (key of Colors (theme/colors.ts) or Color keywords)
    */
-  titleStyle?: StyleProp<TextStyle>;
+  disabledBackground?: string;
 
   /**
-   * Show loading icon if loading is **true**
-   */
-  loading?: boolean;
+ * **padding** creates extra space within an component
+ *
+ * Default is **16**
+ *
+ * Example:
+ *
+ * ```
+  padding={16}
+  //or
+  padding={{horizontal: 16, top: 12}}
+  ```
+ */
+  padding?: number | GutterProps;
 
   /**
    * Left icon
@@ -47,18 +59,18 @@ export interface ButtonProps extends TouchableHighlightProps {
    * Styling for view containing the right icon
    */
   rightIconContainerStyle?: StyleProp<ViewStyle>;
+  /**
+   * Show loading icon if loading is **true**
+   */
+  loading?: boolean;
 
   /**
-   * Button Component
-   *
-   * Default:
-   * - Android: TouchableNativeFeedback
-   * - Other: TouchableHighlight
+   * Type of button. Default is **primary**
    */
-  ButtonComponent?: typeof Component;
+  type?: 'primary' | 'outline' | 'text';
 
   /**
-   * Styling for view containing
+   * props for label
    */
-  containerStyle?: StyleProp<ViewStyle>;
+  titleProps?: CommonTextProps;
 }
