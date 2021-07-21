@@ -1,0 +1,11 @@
+{
+  "name": "react-native-boilerplate",
+  "version": "0.1.0",
+  "description": "React Native Boilerplate",
+  "author": "Le Hau <j2team.lbh@gmail.com>",
+  "license": "MIT",
+  "main": "init.script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
