@@ -6,7 +6,7 @@ interface HomeScreenProps {}
 const HomeScreen: React.FC<HomeScreenProps> = () => {
   return (
     <Block flex backgroundColor="white" inset="top">
-      <Text>• 大文字１文字以上</Text>
+      <Text>Hello world</Text>
     </Block>
   );
 };
