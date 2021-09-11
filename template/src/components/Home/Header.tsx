@@ -11,7 +11,11 @@ const Header: React.FC<HeaderProps> = ({avatarUrl}) => {
   const {Colors} = useTheme();
 
   return (
-    <Block row align="center" justify="space-between" margin={{bottom: 25}}>
+    <Block
+      row
+      align="center"
+      justify="space-between"
+      margin={{bottom: 25, top: 16}}>
       <Block row align="center">
         <CustomIcon name="logo" size={27} color={Colors.oceanBlue} />
         <Text

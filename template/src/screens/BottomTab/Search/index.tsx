@@ -71,7 +71,7 @@ const Search = ({}: SearchProps) => {
         keyExtractor={_keyExtractor}
         ListHeaderComponent={
           <Block>
-            <Block padding={{horizontal: 27}}>
+            <Block padding={{horizontal: 27, top: 16}}>
               <Block row align="center" justify="space-between">
                 <Text fontType="bold" size={23}>
                   {t('headlines')}

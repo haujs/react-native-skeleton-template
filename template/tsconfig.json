@@ -42,7 +42,8 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "useUnknownInCatchVariables": false
   },
   "exclude": [
     "node_modules",

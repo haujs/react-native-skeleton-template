@@ -18,6 +18,7 @@ const CovidNews: React.FC<CovidNewsProps> = ({onPress}) => {
       <Block
         padding={19}
         row
+        align="center"
         border={{width: 1, color: Colors.veryLightPink}}
         radius={10}>
         <Text

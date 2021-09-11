@@ -74,7 +74,7 @@ const Notification = ({}: NotificationProps) => {
         renderItem={_renderNotificationItem}
         keyExtractor={_keyExtractor}
         ListHeaderComponent={
-          <Block row align="center" justify="space-between">
+          <Block row align="center" justify="space-between" padding={{top: 16}}>
             <Text fontType="bold" size={23}>
               {t('notification')}
             </Text>
