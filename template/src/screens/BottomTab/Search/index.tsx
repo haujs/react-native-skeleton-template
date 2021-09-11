@@ -18,8 +18,8 @@ const Search = ({}: SearchProps) => {
   const _renderCateItem = (item: Category) => {
     const isSelected = item.id === currentCate;
     return (
-      <TouchableOpacity onPress={() => setCurrentCate(item.id)}>
-        <Block key={item.id} padding={{right: 23}}>
+      <TouchableOpacity key={item.id} onPress={() => setCurrentCate(item.id)}>
+        <Block padding={{right: 23}}>
           <Text
             fontType={isSelected ? 'bold' : 'demiBold'}
             color={isSelected ? 'oceanBlue' : 'secondaryText'}>
@@ -64,7 +64,7 @@ const Search = ({}: SearchProps) => {
   const _keyExtractor = (item: PostItemType) => item.id;
 
   return (
-    <Block flex inset="top">
+    <Block flex inset="top" backgroundColor="white">
       <FlatList
         data={formatData(categories, sampleNews)}
         renderItem={_renderPosts}

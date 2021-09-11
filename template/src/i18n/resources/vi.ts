@@ -22,4 +22,11 @@ export default {
     search: 'Search',
     readMore: 'Read more on {{category}}',
   },
+  Notification: {
+    notification: 'Notification',
+    articleForYou: 'ARTICLE FOR YOU',
+    today: 'TODAY',
+    seeAll: 'SEE ALL',
+    from: 'from {{pos}}',
+  },
 };

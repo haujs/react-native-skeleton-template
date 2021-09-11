@@ -7,7 +7,7 @@ import {NewsItemType} from './types';
 
 interface NewsItemProps {
   item: NewsItemType;
-  isFirst: boolean;
+  isFirst?: boolean;
   onPress?: () => void;
   onPressCategory?: () => void;
   style?: StyleProp<ViewStyle>;
