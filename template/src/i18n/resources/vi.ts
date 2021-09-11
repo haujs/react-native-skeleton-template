@@ -17,4 +17,9 @@ export default {
     newsForYouSubTitle: 'Top 5 News of the day',
     duration: '{{hour}} Hours',
   },
+  Search: {
+    headlines: 'Headlines',
+    search: 'Search',
+    readMore: 'Read more on {{category}}',
+  },
 };

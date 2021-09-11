@@ -14,4 +14,5 @@ export const Colors: ThemeColors = {
   disabled: '#a2ccf2',
   oceanBlue: '#0077b6',
   veryLightPink: '#bcbcbc',
+  lightBlue: '#96d3f2',
 };

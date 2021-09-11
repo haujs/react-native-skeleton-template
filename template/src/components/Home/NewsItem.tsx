@@ -2,7 +2,7 @@ import {Block, Image, Text} from '@components/base';
 import Helper from '@utils/helpers';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 import {NewsItemType} from './types';
 
 interface NewsItemProps {
@@ -10,6 +10,7 @@ interface NewsItemProps {
   isFirst: boolean;
   onPress?: () => void;
   onPressCategory?: () => void;
+  style?: StyleProp<ViewStyle>;
 }
 
 const NewsItem: React.FC<NewsItemProps> = ({
@@ -17,13 +18,14 @@ const NewsItem: React.FC<NewsItemProps> = ({
   isFirst,
   onPress,
   onPressCategory,
+  style,
 }) => {
   const {t} = useTranslation('Home');
   return (
     <TouchableOpacity
       activeOpacity={0.8}
       {...{onPress}}
-      style={{marginBottom: isFirst ? 49 : 30}}>
+      style={StyleSheet.flatten([{marginBottom: isFirst ? 49 : 30}, style])}>
       <Block style={{flexDirection: isFirst ? 'column' : 'row-reverse'}}>
         <Image
           source={item.image}
