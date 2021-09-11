@@ -8,11 +8,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Octicons from 'react-native-vector-icons/Octicons';
+import {createIconSetFromIcoMoon} from 'react-native-vector-icons';
 
-// export const ProjectNameIcon = createIconSetFromIcoMoon(
-//   require('./selection.json'),
-//   'projectname',
-// );
+export const CustomIcon = createIconSetFromIcoMoon(
+  require('./selection.json'),
+  'icomoon',
+);
 
 const Icons = {
   fontAwesome5: FontAwesome5,
@@ -25,6 +26,7 @@ const Icons = {
   fontisto: Fontisto,
   octicons: Octicons,
   ionicons: Ionicons,
+  custom: CustomIcon,
 };
 
 export type IconType = keyof typeof Icons;

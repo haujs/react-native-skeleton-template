@@ -27,20 +27,20 @@ export const alert = (
  * CallApi Wrapper
  * Example:
  * ```
- * const result: LoginResponse = yield callApi(
+ * const result: LoginCustomerResponse = yield callApi(
       api.post,
-      '/functions/login',
-      {...action.payload, uuidV4},
+      '/functions/loginCustomer',
+      {...action.payload, uuidv4},
     );
  * ```
  */
-export function* callApi<T1 extends Array<any>>(
-  fn: (...args: any[]) => any,
-  ...args: T1
+export function* callApi<Fn extends (...args: any[]) => any>(
+  fn: Fn,
+  ...args: Parameters<Fn>
 ): Generator<any, any, any> {
   const source = axios.CancelToken.source();
   try {
-    return yield call(fn, ...args, source.token);
+    return yield call<(...args: any[]) => string>(fn, ...args, source.token);
   } catch (error) {
     throw new ApiError(error);
   } finally {

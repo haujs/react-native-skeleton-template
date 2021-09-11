@@ -1,5 +1,5 @@
 import '@i18n';
-import {MainNavigation} from '@navigation';
+import MainNavigation from '@navigation';
 import {persistor, store} from '@store';
 import React from 'react';
 import 'react-native-gesture-handler';

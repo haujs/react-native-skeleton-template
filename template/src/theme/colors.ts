@@ -2,8 +2,8 @@ import {ThemeColors} from './types';
 
 //Color palette
 export const Colors: ThemeColors = {
-  primaryText: '#050505',
-  secondaryText: '#65676b',
+  primaryText: '#000000',
+  secondaryText: '#898989',
   error: '#f02849',
   inputBG: '#edf4f4',
   primary: '#1877f2',
@@ -12,4 +12,6 @@ export const Colors: ThemeColors = {
   border: '#e4e6eb',
   white: '#FFFFFF',
   disabled: '#a2ccf2',
+  oceanBlue: '#0077b6',
+  veryLightPink: '#bcbcbc',
 };

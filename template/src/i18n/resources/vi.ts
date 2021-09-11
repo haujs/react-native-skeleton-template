@@ -10,4 +10,11 @@ export default {
     confirm: 'Xác nhận',
     invalidSessionToken: 'Phiên đăng nhập hết hạn',
   },
+  Home: {
+    covidNews: 'Tin tức Covid-19: ',
+    covidSubtitle: 'Xem tin tức mới nhất về tình hình Covid 19',
+    newsForYou: 'News for you',
+    newsForYouSubTitle: 'Top 5 News of the day',
+    duration: '{{hour}} Hours',
+  },
 };

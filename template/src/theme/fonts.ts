@@ -3,10 +3,14 @@ import {ThemeFontWeight} from './types';
 export const Fonts: ThemeFontWeight = {
   regular: {
     fontWeight: 'normal',
-    fontFamily: 'System',
+    fontFamily: 'Bozon Regular',
+  },
+  demiBold: {
+    fontWeight: 'normal',
+    fontFamily: 'Bozon Demi Bold',
   },
   bold: {
-    fontWeight: 'bold',
-    fontFamily: 'System',
+    fontWeight: 'normal',
+    fontFamily: 'Bozon Bold',
   },
 };

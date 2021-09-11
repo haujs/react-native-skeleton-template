@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Colors} from '@theme/colors';
 import {Alert, Linking} from 'react-native';
 import InAppBrowser, {
@@ -8,12 +8,12 @@ import {INSTALLATION_ID} from './constants';
 
 const Helper = {
   generateUUID: (): string => {
-    const hexOctet: string = Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-    return `${
-      hexOctet + hexOctet
-    }-${hexOctet}-${hexOctet}-${hexOctet}-${hexOctet}${hexOctet}${hexOctet}`;
+    const template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+    return template.replace(/[xy]/g, function (c) {
+      let r = Math.trunc(Math.random() * 16),
+        v = c === 'x' ? r : (r && 0x3) || 0x8;
+      return v.toString(16);
+    });
   },
   getHitSlop: (hitSlop: number = 5) => ({
     left: hitSlop,

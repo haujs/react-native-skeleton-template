@@ -40,7 +40,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>プロフィール写真の撮影やQRコードの読取りに利用します。</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>プロフィール写真の選択に利用します。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -64,6 +64,13 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 		<string>projectname.ttf</string>
+		<string>icomoon.ttf</string>
+		<string>Bozon_Bold.otf</string>
+		<string>Bozon_Demi_Bold.otf</string>
+		<string>Bozon_Regular.otf</string>
+		<string>BR_Firma_Bold.otf</string>
+		<string>BR_Firma_Medium.otf</string>
+		<string>BR_Firma_Regular.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

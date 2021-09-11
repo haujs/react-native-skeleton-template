@@ -3,6 +3,7 @@ import {TextStyle} from 'react-native';
 export interface ThemeFontWeight {
   regular: FontBase;
   bold: FontBase;
+  demiBold: FontBase;
 }
 
 export type FontBase = {

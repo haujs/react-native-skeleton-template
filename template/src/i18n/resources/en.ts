@@ -10,4 +10,11 @@ export default {
     confirm: 'Confirm',
     invalidSessionToken: 'Invalid session token',
   },
+  Home: {
+    covidNews: 'Covid-19 News: ',
+    covidSubtitle: 'See the latest coverage about Covid-19',
+    newsForYou: 'News for you',
+    newsForYouSubTitle: 'Top 5 News of the day',
+    duration: '{{hour}} Hours',
+  },
 };
